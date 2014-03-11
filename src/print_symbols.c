@@ -1,0 +1,95 @@
+///@file
+///@brief	Pretty-print a dump of symbols that were parsed
+///@copyright	Copyright (C) 2014  Andre Colomb
+///
+/// This file is part of elf-mangle.
+///
+/// This file is free software: you can redistribute it and/or modify
+/// it under the terms of the GNU Lesser General Public License as
+/// published by the Free Software Foundation, either version 3 of the
+/// License, or (at your option) any later version.
+///
+/// elf-mangle is distributed in the hope that it will be useful, but
+/// WITHOUT ANY WARRANTY; without even the implied warranty of
+/// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+/// Lesser General Public License for more details.
+///
+/// You should have received a copy of the GNU Lesser General Public
+/// License along with this program.  If not, see
+/// <http://www.gnu.org/licenses/>.
+///
+///@author	Andre Colomb <andre.colomb@auteko.de>
+
+
+#include "config.h"
+
+#include "print_symbols.h"
+#include "field_print.h"
+#include "nvm_field.h"
+#include "symbol_list.h"
+#include "known_fields.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#ifdef DEBUG
+#undef DEBUG
+#endif
+
+
+
+/// Structure of data passed to iterator function
+struct print_symbols_config {
+    /// Options for symbol description display
+    enum show_field	field;
+    /// Options for content display
+    enum print_content	content;
+};
+
+
+
+///@brief Iterator function to print symbol content
+///@see symbol_list_iterator_f
+static const nvm_symbol*
+print_symbol_iterator(
+    const nvm_symbol *symbol,	///< [in] Symbol to process
+    const void *arg)		///< [in] Display configuration flags
+{
+    const struct print_symbols_config *conf = arg;
+    nvm_field field = *symbol->field;
+
+    if (conf->field & showAddress) printf("[%04zx]\t", symbol->offset);
+    if ((conf->field & showSymbol) ||
+	(! field.print_func)) printf("%s:", symbol->field->symbol);
+    else printf("%s:", symbol->field->description);
+    if (conf->field & showByteSize) printf(" %zu bytes", symbol->size);
+#ifdef DEBUG
+    printf(" %p", symbol->blob_address);
+#endif
+
+    switch (conf->content) {
+    case printHex:	field.print_func = print_hex_dump;	break;
+    case printNone:	field.print_func = NULL;		break;
+    case printPretty:	break;
+    default:		break;
+    }
+    print_field(&field, symbol->blob_address, symbol->size);
+
+    return NULL;	//continue iterating
+}
+
+
+
+void
+print_symbol_list(const nvm_symbol *list, int size,
+		  enum show_field field, enum print_content content)
+{
+    struct print_symbols_config conf = {
+	.field		= field,
+	.content	= content,
+    };
+
+    if (conf.field || conf.content) {
+	symbol_list_foreach(list, size, print_symbol_iterator, &conf);
+    }
+}
