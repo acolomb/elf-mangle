@@ -19,8 +19,7 @@
 # <http://www.gnu.org/licenses/>.
 
 
-SRC = elf-mangle.c		\
-	dummy_options.c		\
+elf_mangle_SRC = elf-mangle.c	\
 	options.c		\
 	override.c		\
 	transform.c		\
@@ -28,15 +27,17 @@ SRC = elf-mangle.c		\
 	nvm_image.c		\
 	symbol_map.c		\
 	symbol_list.c		\
-	dummy_known_fields.c	\
 	field_print.c		\
 	field_list.c		\
 	nvm_field.c
 
+dummy_SRC = dummy_options.c	\
+	dummy_known_fields.c
+
 override CFLAGS += -Wall -Wstrict-prototypes -Wextra -Werror -std=c99 -D_POSIX
 override LDLIBS += -lelf
 
-elf-mangle: $(SRC)
+elf-mangle: $(elf_mangle_SRC) $(dummy_SRC)
 
 clean:
 	rm -f elf-mangle
