@@ -48,7 +48,53 @@ struct print_symbols_config {
 
 
 
+///@brief Iterator function to print symbol data field description
+///@see symbol_list_iterator_f
+static const nvm_symbol*
+print_symbol_description_iterator(
+    const nvm_symbol *symbol,	///< [in] Symbol to process
+    const void *arg)		///< [in] Display configuration flags
+{
+    const enum show_field *conf = arg;
+
+    if (*conf & showAddress) printf("[%04zx]\t", symbol->offset);
+    if ((*conf & showSymbol) ||
+	(! symbol->field->print_func)) printf("%s:", symbol->field->symbol);
+    else printf("%s:", symbol->field->description);
+    if (*conf & showByteSize) printf(" %zu bytes", symbol->size);
+#ifdef DEBUG
+    printf(" %p", symbol->blob_address);
+#endif
+
+    return NULL;	//continue iterating
+}
+
+
+
 ///@brief Iterator function to print symbol content
+///@see symbol_list_iterator_f
+static const nvm_symbol*
+print_symbol_content_iterator(
+    const nvm_symbol *symbol,	///< [in] Symbol to process
+    const void *arg)		///< [in] Display configuration flags
+{
+    const enum print_content *conf = arg;
+    nvm_field field = *symbol->field;
+
+    switch (*conf) {
+    case printHex:	field.print_func = print_hex_dump;	break;
+    case printNone:	field.print_func = NULL;		break;
+    case printPretty:	break;
+    default:		break;
+    }
+    print_field(&field, symbol->blob_address, symbol->size);
+
+    return NULL;	//continue iterating
+}
+
+
+
+///@brief Iterator function to print symbol field description and content
 ///@see symbol_list_iterator_f
 static const nvm_symbol*
 print_symbol_iterator(
@@ -56,24 +102,9 @@ print_symbol_iterator(
     const void *arg)		///< [in] Display configuration flags
 {
     const struct print_symbols_config *conf = arg;
-    nvm_field field = *symbol->field;
 
-    if (conf->field & showAddress) printf("[%04zx]\t", symbol->offset);
-    if ((conf->field & showSymbol) ||
-	(! field.print_func)) printf("%s:", symbol->field->symbol);
-    else printf("%s:", symbol->field->description);
-    if (conf->field & showByteSize) printf(" %zu bytes", symbol->size);
-#ifdef DEBUG
-    printf(" %p", symbol->blob_address);
-#endif
-
-    switch (conf->content) {
-    case printHex:	field.print_func = print_hex_dump;	break;
-    case printNone:	field.print_func = NULL;		break;
-    case printPretty:	break;
-    default:		break;
-    }
-    print_field(&field, symbol->blob_address, symbol->size);
+    print_symbol_description_iterator(symbol, &conf->field);
+    print_symbol_content_iterator(symbol, &conf->content);
 
     return NULL;	//continue iterating
 }
