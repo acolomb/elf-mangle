@@ -24,6 +24,7 @@
 #include "config.h"
 
 #include "options.h"
+#include "override.h"
 #include "intl.h"
 
 #include <argp.h>
@@ -129,7 +130,7 @@ parse_opt(
 	break;
 
     case OPT_DEFINE:
-	tool->overrides = strdup(arg);
+	tool->overrides = override_append(tool->overrides, "%s", arg);
 	break;
 
     case OPT_PRINT:
