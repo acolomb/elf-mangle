@@ -37,6 +37,7 @@ char* override_append(
     ...) __attribute__((format (printf, 2, 3)));
 
 ///@brief Apply override specification string to the listed symbols' data
+///@return Number of overrides successfully parsed or negative number for parameter error
 int parse_overrides(
     char *overrides,		///< [in] Override specification string
     nvm_symbol *list,		///< [in] List of symbols to apply overrides

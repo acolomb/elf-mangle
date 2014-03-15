@@ -133,7 +133,7 @@ parse_overrides(char *overrides, const nvm_symbol *list, int entries)
     const char* symbols[entries + 1], *errmsg;
     int i, parsed = 0, length;
 
-    if (! overrides || ! list) return 0;
+    if (! overrides || ! list) return -1;
 #ifdef DEBUG
     printf(_("%s: \"%s\"\n"), __func__, overrides);
 #endif
@@ -141,7 +141,10 @@ parse_overrides(char *overrides, const nvm_symbol *list, int entries)
     // Mirror token list from known symbols
     for (i = 0; i < entries; ++i) {
 	if (list[i].field) symbols[i] = list[i].field->symbol;
-	else symbols[i] = "";//FIXME
+	else {
+	    fprintf(stderr, _("Missing symbol name in list member %d\n"), i);
+	    return -2;
+	}
     }
     symbols[i] = NULL;	//termination
 
