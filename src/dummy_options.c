@@ -24,6 +24,7 @@
 #include "config.h"
 
 #include "options.h"
+#include "override.h"
 #include "intl.h"
 
 #include <unistd.h>
@@ -78,33 +79,13 @@ dummy_parse_opt(
     char *arg,			///< [in,out] Value given as option argument
     struct argp_state *state)	///< [in,out] Parsing state for use by parser
 {
-/// Override directive template appended by OPT_SET_SERIAL
-#define SET_SERIAL_OVERRIDE	"nvm_unique=%04x"
-
     // Retreive the input argument from argp_parse
     struct tool_config *tool = state->input;
-    char *overrides = tool->overrides;
 
     switch (key) {
     case OPT_SET_SERIAL:
-	if (tool->overrides) {
-	    overrides = realloc(tool->overrides,//FIXME valgrind
-				strlen(tool->overrides)
-				+ sizeof("," SET_SERIAL_OVERRIDE));
-	    if (overrides) {
-		sprintf(overrides, "%s," SET_SERIAL_OVERRIDE,
-			tool->overrides, swap_endian(atoi(arg)));
-		tool->overrides = overrides;
-		break;
-	    }
-	} else {
-	    tool->overrides = malloc(sizeof(SET_SERIAL_OVERRIDE));
-	    if (tool->overrides) {
-		sprintf(tool->overrides, SET_SERIAL_OVERRIDE, swap_endian(atoi(arg)));
-		break;
-	    }
-	}
-	fprintf(stderr, _("Unable to FIXME"));
+	tool->overrides = override_append(tool->overrides, "nvm_unique=%04x",
+					  swap_endian(atoi(arg)));
 	break;
 
     default:
