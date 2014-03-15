@@ -98,7 +98,7 @@ print_version(const char *data, size_t size)
     if (size >= version_length_offset + sizeof(version_length)) {
 	version_length = *(uint8_t*) (data + version_length_offset);
     }
-    if (size >= version_string_offset + sizeof(const char)) {
+    if (size >= version_string_offset + sizeof(*version_string)) {
 	version_string = data + version_string_offset;
     }
 
