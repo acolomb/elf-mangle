@@ -21,8 +21,8 @@
 ///@author	Andre Colomb <andre.colomb@auteko.de>
 
 
-#ifndef NVM_IMAGE_H_
-#define NVM_IMAGE_H_
+#ifndef IMAGE_RAW_H_
+#define IMAGE_RAW_H_
 
 #include <stddef.h>
 
@@ -33,7 +33,7 @@ typedef struct nvm_symbol nvm_symbol;
 
 ///@brief Open image file and update each listed symbol's content
 ///@return Number of symbols successfully read or negative error code
-int nvm_image_merge_file(
+int image_raw_merge_file(
     const char *filename,	///< [in] Input file path to open
     const nvm_symbol *list,	///< [in] Symbol list start address
     int list_size,		///< [in] Number of symbols in list
@@ -41,10 +41,10 @@ int nvm_image_merge_file(
     );
 
 ///@brief Write blob data to image file
-void nvm_image_write_file(
+void image_raw_write_file(
     const char *filename,	///< [in] Output file path to open
     const char* blob,		///< [in] Binary data to write
     size_t blob_size		///< [in] Data size in bytes
 );
 
-#endif //NVM_IMAGE_H_
+#endif //IMAGE_RAW_H_

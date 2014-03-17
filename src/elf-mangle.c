@@ -27,7 +27,7 @@
 #include "options.h"
 #include "override.h"
 #include "transform.h"
-#include "nvm_image.h"
+#include "image_raw.h"
 #include "symbol_map.h"
 #include "symbol_list.h"
 #include "known_fields.h"
@@ -59,7 +59,7 @@ process_maps(const tool_config *config)
     num_in = symbol_map_parse(map_in, config->section, &symbols_in);
     if ((symbols_in && num_in > 0)		//input map loaded
 	&& (! config->image_in			//no input image
-	    || 0 < nvm_image_merge_file(	//input image loaded
+	    || 0 < image_raw_merge_file(	//input image loaded
 		config->image_in, symbols_in, num_in,
 		symbol_map_blob_size(map_in)))) {
 	// Scan for strings if requested
@@ -84,7 +84,7 @@ process_maps(const tool_config *config)
 	print_symbol_list(symbols_out, num_out,
 			  config->show_fields, config->print_content);
 	// Store output image to file
-	if (config->image_out) nvm_image_write_file(
+	if (config->image_out) image_raw_write_file(
 	    config->image_out, symbol_map_blob_address(map_write),
 	    symbol_map_blob_size(map_write));
     }

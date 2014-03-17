@@ -23,7 +23,7 @@
 
 #include "config.h"
 
-#include "nvm_image.h"
+#include "image_raw.h"
 #include "symbol_list.h"
 #include "nvm_field.h"
 #include "intl.h"
@@ -126,7 +126,7 @@ read_symbol_seek_iterator(
 
 
 int
-nvm_image_merge_file(const char *filename,
+image_raw_merge_file(const char *filename,
 		     const nvm_symbol list[], int list_size,
 		     size_t blob_size)
 {
@@ -179,7 +179,7 @@ nvm_image_merge_file(const char *filename,
 
 
 void
-nvm_image_write_file(const char *filename,
+image_raw_write_file(const char *filename,
 		     const char* blob, size_t blob_size)
 {
     int fd;

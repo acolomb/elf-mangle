@@ -24,7 +24,7 @@ elf_mangle_SRC = elf-mangle.c	\
 	override.c		\
 	transform.c		\
 	print_symbols.c		\
-	nvm_image.c		\
+	image_raw.c		\
 	symbol_map.c		\
 	symbol_list.c		\
 	field_print.c		\
