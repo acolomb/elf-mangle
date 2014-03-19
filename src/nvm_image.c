@@ -23,6 +23,7 @@
 
 #include "config.h"
 
+#include "nvm_image.h"
 #include "symbol_list.h"
 #include "nvm_field.h"
 #include "intl.h"
@@ -141,11 +142,11 @@ nvm_image_merge_file(const char *filename,
 	    if (blob_size - st.st_size > 0) {
 		fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
 			filename, blob_size - st.st_size, blob_size);
-		blob_size = st.st_size;
+		conf.size = st.st_size;
 	    }
 
 #if USE_MMAP
-	    mapped = mmap(NULL, blob_size, PROT_READ, MAP_PRIVATE, fd, 0);
+	    mapped = mmap(NULL, conf.size, PROT_READ, MAP_PRIVATE, fd, 0);
 	    if (mapped == MAP_FAILED) {
 		mapped = NULL;
 		fprintf(stderr, "%s: mmap() failed (%s)\n", __func__, strerror(errno));
@@ -155,7 +156,7 @@ nvm_image_merge_file(const char *filename,
 		conf.source.addr = mapped;
 		symbol_list_foreach(list, list_size, read_symbol_mem_iterator, &conf);
 #if USE_MMAP
-		munmap(mapped, blob_size);
+		munmap(mapped, conf.size);
 #endif
 	    } else {
 		conf.source.fd = fd;
