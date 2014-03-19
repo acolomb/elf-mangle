@@ -32,7 +32,8 @@ typedef struct nvm_symbol nvm_symbol;
 
 
 ///@brief Open image file and update each listed symbol's content
-void nvm_image_merge_file(
+///@return Number of symbols successfully read or negative error code
+int nvm_image_merge_file(
     const char *filename,	///< [in] Input file path to open
     const nvm_symbol *list,	///< [in] Symbol list start address
     int list_size,		///< [in] Number of symbols in list

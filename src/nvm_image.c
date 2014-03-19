@@ -80,11 +80,12 @@ read_symbol_mem_iterator(
 
     if (symbol->blob_address) {					//destination ok
 	// Calculate maximum size of available source data
-	available = conf->size - symbol->offset;
-	if (available > symbol->size) available = symbol->size;	//limit to symbol size
+	if (conf->size > symbol->offset + symbol->size) available = symbol->size;
+	else if (conf->size > symbol->offset) available = conf->size - symbol->offset;
+	else return symbol;	//no data, skip in count
 	memcpy(symbol->blob_address, conf->source.addr + symbol->offset, available);
     }
-    return NULL;	//continue iterating
+    return NULL;	//count success
 }
 
 
@@ -97,7 +98,7 @@ read_symbol_seek_iterator(
     const void *arg)		///< [in] Data source configuration
 {
     const struct read_symbols_config *conf = arg;
-    size_t bytes_read;
+    ssize_t bytes_read = 0;
 
     if (symbol->blob_address) {					//destination ok
 	if (symbol->offset == (size_t) lseek(conf->source.fd, symbol->offset, SEEK_SET)) {
@@ -106,30 +107,29 @@ read_symbol_seek_iterator(
 		    symbol->size, symbol->offset, symbol->blob_address);
 #endif
 	    bytes_read = read(conf->source.fd, symbol->blob_address, symbol->size);
-	    if (bytes_read != symbol->size) {
-		fprintf(stderr, _("Failed to read %s from file offset %zu to %p (%s)\n"),
-			symbol->field->symbol, symbol->offset, symbol->blob_address,
-			strerror(errno));
-		//FIXME return symbol;	//stops iterating
-	    }
+	    if (bytes_read == (ssize_t) symbol->size) return NULL;	//count success
 	}
+	fprintf(stderr, _("Failed to read %s (%zu bytes) from file offset %zu to %p (%s)\n"),
+		symbol->field->symbol, symbol->size, symbol->offset,
+		symbol->blob_address, strerror(errno));
+	return symbol;	//skip in count
     }
-    return NULL;	//continue iterating
+    return NULL;	//count success
 }
 
 
 
-void
+int
 nvm_image_merge_file(const char *filename,
 		     const nvm_symbol list[], int list_size,
 		     size_t blob_size)
 {
     struct read_symbols_config conf = { .size = blob_size };
     char *mapped = NULL;
-    int fd;
+    int fd, symbols = -2; //default error return value
     struct stat st;
 
-    if (! filename || ! blob_size) return;
+    if (! filename || ! blob_size) return -1;	//invalid parameters
 
     fd = open(filename, O_RDONLY);
     if (fd == -1) {		//file not opened
@@ -154,17 +154,20 @@ nvm_image_merge_file(const char *filename,
 #endif
 	    if (mapped) {
 		conf.source.addr = mapped;
-		symbol_list_foreach(list, list_size, read_symbol_mem_iterator, &conf);
+		symbols = symbol_list_foreach_count(list, list_size,
+						    read_symbol_mem_iterator, &conf);
 #if USE_MMAP
 		munmap(mapped, conf.size);
 #endif
 	    } else {
 		conf.source.fd = fd;
-		symbol_list_foreach(list, list_size, read_symbol_seek_iterator, &conf);
+		symbols = symbol_list_foreach_count(list, list_size,
+						    read_symbol_seek_iterator, &conf);
 	    }
 	}
 	close(fd);
     }
+    return symbols;
 }
 
 
