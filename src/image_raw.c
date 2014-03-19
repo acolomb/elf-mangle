@@ -55,7 +55,7 @@ struct read_symbols_config {
     /// Reference to the source of binary data
     union {
 	/// Base address of memory mapped data
-	const char*	addr;
+	const void*	addr;
 	/// File descriptor for file-based data
 	int		fd;
     }			source;
@@ -126,11 +126,40 @@ read_symbol_seek_iterator(
 
 
 int
+image_raw_merge_mem(const void *blob,
+		    const nvm_symbol list[], int list_size,
+		    size_t blob_size)
+{
+    struct read_symbols_config conf = {
+	.source.addr	= blob,
+	.size		= blob_size,
+    };
+
+    return symbol_list_foreach_count(list, list_size, read_symbol_mem_iterator, &conf);
+}
+
+
+
+int
+image_raw_merge_filedes(int fd,
+			const nvm_symbol list[], int list_size,
+			size_t blob_size)
+{
+    struct read_symbols_config conf = {
+	.source.fd	= fd,
+	.size		= blob_size,
+    };
+
+    return symbol_list_foreach_count(list, list_size, read_symbol_seek_iterator, &conf);
+}
+
+
+
+int
 image_raw_merge_file(const char *filename,
 		     const nvm_symbol list[], int list_size,
 		     size_t blob_size)
 {
-    struct read_symbols_config conf = { .size = blob_size };
     char *mapped = NULL;
     int fd, symbols = -2; //default error return value
     struct stat st;
@@ -148,27 +177,23 @@ image_raw_merge_file(const char *filename,
 	    if (blob_size > (size_t) st.st_size) {
 		fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
 			filename, blob_size - st.st_size, blob_size);
-		conf.size = st.st_size;
+		blob_size = st.st_size;
 	    }
 
 #if USE_MMAP
-	    mapped = mmap(NULL, conf.size, PROT_READ, MAP_PRIVATE, fd, 0);
+	    mapped = mmap(NULL, blob_size, PROT_READ, MAP_PRIVATE, fd, 0);
 	    if (mapped == MAP_FAILED) {
 		mapped = NULL;
 		fprintf(stderr, "%s: mmap() failed (%s)\n", __func__, strerror(errno));
 	    }
 #endif
 	    if (mapped) {
-		conf.source.addr = mapped;
-		symbols = symbol_list_foreach_count(list, list_size,
-						    read_symbol_mem_iterator, &conf);
+		symbols = image_raw_merge_mem(mapped, list, list_size, blob_size);
 #if USE_MMAP
-		munmap(mapped, conf.size);
+		munmap(mapped, blob_size);
 #endif
 	    } else {
-		conf.source.fd = fd;
-		symbols = symbol_list_foreach_count(list, list_size,
-						    read_symbol_seek_iterator, &conf);
+		symbols = image_raw_merge_filedes(fd, list, list_size, blob_size);
 	    }
 	}
 	close(fd);

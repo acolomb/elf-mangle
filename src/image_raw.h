@@ -31,6 +31,24 @@
 typedef struct nvm_symbol nvm_symbol;
 
 
+///@brief Update each listed symbol's content from memory region
+///@return Number of symbols successfully read or negative error code
+int image_raw_merge_mem(
+    const void *blob,		///< [in] Source memory image
+    const nvm_symbol *list,	///< [in] Symbol list start address
+    int list_size,		///< [in] Number of symbols in list
+    size_t blob_size		///< [in] Data size in the memory image
+    );
+
+///@brief Update each listed symbol's content from open binary file
+///@return Number of symbols successfully read or negative error code
+int image_raw_merge_filedes(
+    int fd,			///< [in] Source file descriptor
+    const nvm_symbol *list,	///< [in] Symbol list start address
+    int list_size,		///< [in] Number of symbols in list
+    size_t blob_size		///< [in] Data size in the memory image
+    );
+
 ///@brief Open image file and update each listed symbol's content
 ///@return Number of symbols successfully read or negative error code
 int image_raw_merge_file(
