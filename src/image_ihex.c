@@ -47,7 +47,7 @@
 
 
 
-void
+int
 image_ihex_merge_file(const char *filename,
 		      const nvm_symbol *list, int list_size,
 		      size_t blob_size)
@@ -55,8 +55,9 @@ image_ihex_merge_file(const char *filename,
     ihex_recordset_t *rs;
     ulong_t rs_size;
     char *blob;
+    int symbols = -2; //default error return value
 
-    if (! filename || ! blob_size) return;
+    if (! filename || ! blob_size) return -1;	//invalid parameters
 
     rs = ihex_rs_from_file(filename);
     if (rs == NULL || ihex_errno()) {		//file not opened
@@ -86,13 +87,14 @@ image_ihex_merge_file(const char *filename,
 		    fprintf(stderr, _("Could not copy data from Intel Hex file \"%s\" (%s)\n"),
 			    filename, ihex_error());
 		} else {
-		    image_raw_merge_mem(blob, list, list_size, blob_size);
+		    symbols = image_raw_merge_mem(blob, list, list_size, blob_size);
 		}
 		free(blob);
 	    }
 	}
 	//FIXME ihex_close(rs);
     }
+    return symbols;
 }
 
 
