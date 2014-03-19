@@ -44,11 +44,14 @@ typedef struct nvm_symbol {
 } nvm_symbol;
 
 ///@brief Function pointer to iterate through a list of symbols
-///@return Result found to end the iteration or NULL to continue
+///@return Interpreted differently by symbol_list_foreach() / symbol_list_foreach_count():
+/// - NULL to continue iteration / increase success count
+/// - Result found to end the iteration / skip in count
 typedef const nvm_symbol* (*symbol_list_iterator_f)(
     const nvm_symbol *symbol,		///< [in] Current symbol to process
     const void *arg			///< [in] Custom data to control iteration
     );
+
 
 ///@brief Append an element to the list
 ///@note All references to symbols in the list become invalid on success
