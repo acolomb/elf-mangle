@@ -24,6 +24,7 @@ elf_mangle_SRC = elf-mangle.c	\
 	override.c		\
 	transform.c		\
 	print_symbols.c		\
+	image_ihex.c		\
 	image_raw.c		\
 	symbol_map.c		\
 	symbol_list.c		\
@@ -36,7 +37,7 @@ dummy_SRC = dummy_options.c	\
 	dummy_known_fields.c
 
 override CFLAGS += -Wall -Wstrict-prototypes -Wextra -Werror -std=c99 -D_POSIX
-override LDLIBS += -lelf
+override LDLIBS += -lelf -lcintelhex
 
 elf-mangle: $(elf_mangle_SRC) $(dummy_SRC)
 
