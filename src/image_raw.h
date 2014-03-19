@@ -49,7 +49,7 @@ int image_raw_merge_filedes(
     size_t blob_size		///< [in] Data size in the memory image
     );
 
-///@brief Open image file and update each listed symbol's content
+///@brief Open raw binary image file and update each listed symbol's content
 ///@return Number of symbols successfully read or negative error code
 int image_raw_merge_file(
     const char *filename,	///< [in] Input file path to open
@@ -58,7 +58,7 @@ int image_raw_merge_file(
     size_t blob_size		///< [in] Expected data size in the image
     );
 
-///@brief Write blob data to image file
+///@brief Write blob data to raw binary image file
 void image_raw_write_file(
     const char *filename,	///< [in] Output file path to open
     const char* blob,		///< [in] Binary data to write
