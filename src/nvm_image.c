@@ -139,7 +139,7 @@ nvm_image_merge_file(const char *filename,
 	if (st.st_size == 0) {
 	    fprintf(stderr, _("Image file \"%s\" is empty\n"), filename);
 	} else {
-	    if (blob_size - st.st_size > 0) {
+	    if (blob_size > (size_t) st.st_size) {
 		fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
 			filename, blob_size - st.st_size, blob_size);
 		conf.size = st.st_size;
