@@ -68,6 +68,15 @@ const nvm_symbol* symbol_list_foreach(
     const void *arg			///< [in] Custom data passed to iterator function
     );
 
+///@brief Iterate through a list of symbols and call the given function
+///@return Number of iterations where the function returned a NULL value.
+int symbol_list_foreach_count(
+    const nvm_symbol list[],		///< [in] List of symbols to iterate through
+    int size,				///< [in] Number of symbols in the list
+    const symbol_list_iterator_f func,	///< [in] Iterator function to be called
+    const void *arg			///< [in] Custom data passed to iterator function
+    );
+
 ///@brief Find the first symbol with a given field descriptor
 ///@return Address of the first matching symbol or NULL on error
 const nvm_symbol* symbol_list_find_field(

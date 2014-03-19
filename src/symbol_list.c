@@ -65,6 +65,23 @@ symbol_list_foreach(const nvm_symbol list[], const int size,
 
 
 
+int
+symbol_list_foreach_count(const nvm_symbol list[], const int size,
+			  const symbol_list_iterator_f func, const void *arg)
+{
+    const nvm_symbol *sym;
+    int count;
+
+    if (! list || ! size) return 0;
+
+    for (sym = list; sym < list + size; ++sym) {
+	if (func(sym, arg) == NULL) ++count;
+    }
+    return count;
+}
+
+
+
 ///@brief Iterator function to compare field descriptor
 ///@see symbol_list_iterator_f
 static const nvm_symbol*
