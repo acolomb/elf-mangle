@@ -118,7 +118,7 @@ image_ihex_merge_file(const char *filename,
 	    free(blob);
 	}
     }
-    //FIXME ihex_close(rs);
+    ihex_rs_free(rs);
     return symbols;
 }
 
