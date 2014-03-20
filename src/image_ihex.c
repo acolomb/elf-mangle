@@ -41,7 +41,7 @@
 
 ///@name Intel Hex file format parameters
 ///@{
-#define IMAGE_IHEX_WIDTH	(IHEX_WIDTH_16BIT)
+#define IMAGE_IHEX_WIDTH	(IHEX_WIDTH_8BIT)
 #define IMAGE_IHEX_ENDIANNESS	(IHEX_ORDER_LITTLEENDIAN)
 ///@}
 
@@ -55,45 +55,70 @@ image_ihex_merge_file(const char *filename,
     ihex_recordset_t *rs;
     ulong_t rs_size;
     char *blob;
-    int symbols = -2; //default error return value
+    int symbols = 0;
 
     if (! filename || ! blob_size) return -1;	//invalid parameters
 
     rs = ihex_rs_from_file(filename);
-    if (rs == NULL || ihex_errno()) {		//file not opened
-	fprintf(stderr, _("Cannot open image \"%s\" (%s)\n"), filename, ihex_error());
-    } else {
-	rs_size = ihex_rs_get_size(rs);
-#ifdef DEBUG
-	printf("Data size: %lu\n", rs_size);
-#endif
-	if (rs_size == 0) {
-	    fprintf(stderr, _("Image file \"%s\" is empty\n"), filename);
-	} else {
-	    if (blob_size > rs_size) {
-		fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
-			filename, blob_size - rs_size, blob_size);
-		blob_size = rs_size;
-	    }
+    if (! rs) {
+	switch (ihex_errno()) {
+	case IHEX_ERR_INCORRECT_CHECKSUM:
+	case IHEX_ERR_NO_EOF:
+	case IHEX_ERR_PARSE_ERROR:
+	case IHEX_ERR_WRONG_RECORD_LENGTH:
+	case IHEX_ERR_UNKNOWN_RECORD_TYPE:
+	    // Parse error, not a well-formed Intel Hex file
+	    return 0;
 
-	    // Allocate memory for needed ihex content
-	    blob = malloc(blob_size);
-	    if (! blob) {
-		fprintf(stderr, _("Could not copy data from Intel Hex file \"%s\" (%s)\n"),
-			filename, strerror(errno));
-	    } else {
-		if (0 != ihex_mem_copy(rs, blob, blob_size,
-				       IMAGE_IHEX_WIDTH, IMAGE_IHEX_ENDIANNESS)) {
-		    fprintf(stderr, _("Could not copy data from Intel Hex file \"%s\" (%s)\n"),
-			    filename, ihex_error());
-		} else {
-		    symbols = image_raw_merge_mem(blob, list, list_size, blob_size);
-		}
-		free(blob);
-	    }
+	case IHEX_ERR_NO_INPUT:
+	case IHEX_ERR_MMAP_FAILED:
+	case IHEX_ERR_READ_FAILED:
+	    // File not accessible
+	    symbols = -2;
+	    break;
+
+	case IHEX_ERR_MALLOC_FAILED:
+	default:
+	    // System error
+	    symbols = -3;
+	    break;
 	}
-	//FIXME ihex_close(rs);
+	fprintf(stderr, _("Cannot open image \"%s\" (%s)\n"), filename, ihex_error());
+	return symbols;
     }
+
+    rs_size = ihex_rs_get_size(rs);
+#ifdef DEBUG
+    printf("%s: %s contains %lu bytes\n", __func__, filename, rs_size);
+#endif
+    if (rs->ihrs_count == 0 || rs_size == 0) {
+	fprintf(stderr, _("Image file \"%s\" is empty\n"), filename);
+    } else {
+	if (blob_size > rs_size) {
+	    fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
+		    filename, blob_size - rs_size, blob_size);
+	    blob_size = rs_size;
+	}
+
+	// Allocate memory for needed ihex content
+	blob = malloc(blob_size);
+	if (! blob) {
+	    fprintf(stderr, _("Could not copy data from Intel Hex file \"%s\" (%s)\n"),
+		    filename, strerror(errno));
+	    symbols = -3;
+	} else {
+	    if (0 != ihex_mem_copy(rs, blob, blob_size,
+				   IMAGE_IHEX_WIDTH, IMAGE_IHEX_ENDIANNESS)) {
+		fprintf(stderr, _("Could not copy data from Intel Hex file \"%s\" (%s)\n"),
+			filename, ihex_error());
+		symbols = -4;
+	    } else {
+		symbols = image_raw_merge_mem(blob, list, list_size, blob_size);
+	    }
+	    free(blob);
+	}
+    }
+    //FIXME ihex_close(rs);
     return symbols;
 }
 
