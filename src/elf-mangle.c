@@ -56,28 +56,32 @@ process_maps(const tool_config *config)
     // Read input symbol layout and associated image data
     map_in = symbol_map_open_file(config->map_files[0]);
     num_in = symbol_map_parse(map_in, config->section, &symbols_in);
-    if (symbols_in && num_in > 0 && config->image_in) nvm_image_merge_file(
-	config->image_in, symbols_in, num_in, symbol_map_blob_size(map_in));
-
-    // Translate data from input to output layout if supplied
-    map_out = symbol_map_open_file(config->map_files[1]);
-    num_out = symbol_map_parse(map_out, config->section, &symbols_out);
-    if (symbols_out && num_out > 0) {
-	map_write = map_out;
-	transfer_fields(symbols_in, num_in, symbols_out, num_out);
-    } else {	//no valid output map, use same as input
-	map_write = map_in;
-	symbols_out = symbols_in;
-	num_out = num_in;
+    if ((symbols_in && num_in > 0)		//input map loaded
+	&& (! config->image_in			//no input image
+	    || 0 < nvm_image_merge_file(	//input image loaded
+		config->image_in, symbols_in, num_in,
+		symbol_map_blob_size(map_in)))) {
+	// Translate data from input to output layout if supplied
+	map_out = symbol_map_open_file(config->map_files[1]);
+	num_out = symbol_map_parse(map_out, config->section, &symbols_out);
+	if (symbols_out && num_out > 0) {
+	    map_write = map_out;
+	    transfer_fields(symbols_in, num_in, symbols_out, num_out);
+	} else {	//no valid output map, use same as input
+	    map_write = map_in;
+	    symbols_out = symbols_in;
+	    num_out = num_in;
+	}
+	// Incorporate symbol overrides
+	parse_overrides(config->overrides, symbols_out, num_out);	//FIXME
+	// Print out information if requested
+	print_symbol_list(symbols_out, num_out,
+			  config->show_fields, config->print_content);
+	// Store output image to file
+	if (config->image_out) nvm_image_write_file(
+	    config->image_out, symbol_map_blob_address(map_write),
+	    symbol_map_blob_size(map_write));
     }
-    // Incorporate symbol overrides
-    parse_overrides(config->overrides, symbols_out, num_out);	//FIXME
-    // Print out information if requested
-    print_symbol_list(symbols_out, num_out,
-		      config->show_fields, config->print_content);
-    // Store output image to file
-    if (config->image_out) nvm_image_write_file(
-	config->image_out, symbol_map_blob_address(map_write), symbol_map_blob_size(map_write));
 
     free(symbols_in);
     if (symbols_in != symbols_out) free(symbols_out);
