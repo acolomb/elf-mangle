@@ -50,6 +50,28 @@ static const size_t version_string_offset		= 1;
 
 
 
+/// Convert 8-bit unsigned value from binary data
+static inline uint8_t
+convert_uint8(const char *sle)
+{
+    const unsigned char *ule = (const unsigned char*) sle;
+    return (uint8_t) *ule;
+}
+
+
+
+/// Convert 16-bit unsigned little-endian value from binary data to host representation
+static inline uint16_t
+convert_uint16(const char *sle)
+{
+    const unsigned char *ule = (const unsigned char*) sle;
+    return
+	((uint16_t) ule[0] << 0) |
+	((uint16_t) ule[1] << 8);
+}
+
+
+
 ///@brief Translate hardware type specifier to descriptive string
 ///@return Descriptive string for hardware type
 static inline const char*
@@ -74,10 +96,10 @@ print_unique(const char *data, size_t size)
     const char *hardware;
 
     if (size >= unique_serial_offset + sizeof(serial_number)) {
-	serial_number = *(uint16_t*) (data + unique_serial_offset);
+	serial_number = convert_uint16(data + unique_serial_offset);
     }
     if (size >= unique_hardware_offset + sizeof(hardware_type)) {
-	hardware_type = *(uint8_t*) (data + unique_hardware_offset);
+	hardware_type = convert_uint8(data + unique_hardware_offset);
     }
 
     hardware = get_unique_hardware_type(hardware_type);
@@ -96,7 +118,7 @@ print_version(const char *data, size_t size)
     const char *version_string = NULL;
 
     if (size >= version_length_offset + sizeof(version_length)) {
-	version_length = *(uint8_t*) (data + version_length_offset);
+	version_length = convert_uint8(data + version_length_offset);
     }
     if (size >= version_string_offset + sizeof(*version_string)) {
 	version_string = data + version_string_offset;
@@ -133,12 +155,13 @@ print_version(const char *data, size_t size)
 static size_t
 resize_version(const char *src, size_t initial __attribute((unused)))
 {
-    return sizeof(uint8_t) + src[version_length_offset];
+    return sizeof(uint8_t) + convert_uint8(src + version_length_offset);
 }
 
 
 
 ///@brief Copy unique system identification data intelligently
+///@details Keep system hardware type field intact in target data
 ///@see field_copy_f
 static size_t
 copy_unique(const nvm_field *field,
@@ -147,18 +170,19 @@ copy_unique(const nvm_field *field,
 {
     uint8_t target_hwtype = hwInvalid;
 
-    if (max_size >= unique_hardware_offset) target_hwtype = dst[unique_hardware_offset];
+    if (max_size >= unique_hardware_offset) target_hwtype = convert_uint8(
+	dst + unique_hardware_offset);
     memcpy(dst, src, max_size);
 
-    if (src[unique_hardware_offset] != target_hwtype) {
+    if (convert_uint8(src + unique_hardware_offset) != target_hwtype) {
 	fprintf(stderr,
 		_("WARNING: %s changed to match target hardware type!\n"
 		  "\t\t%02u (%s) in target map\n"
 		  "\t\t%02u (%s) provided from image\n"),
 		field->description,
 		target_hwtype, get_unique_hardware_type(target_hwtype),
-		src[unique_hardware_offset],
-		get_unique_hardware_type(src[unique_hardware_offset]));
+		convert_uint8(src + unique_hardware_offset),
+		get_unique_hardware_type(convert_uint8(src + unique_hardware_offset)));
 	dst[unique_hardware_offset] = target_hwtype;
 	return max_size - sizeof(target_hwtype);
     }
