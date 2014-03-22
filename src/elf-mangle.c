@@ -99,7 +99,8 @@ main(int argc, char **argv)
     int ret_code = 0;
     tool_config config = {
 	.section		= DEFAULT_SECTION,
-	.print_content		= showDefault,
+	.show_fields		= showNone,
+	.print_content		= printNone,
     };
 
     // Initialize message translation
