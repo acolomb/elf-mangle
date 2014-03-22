@@ -34,16 +34,8 @@
 #include <errno.h>
 
 #ifdef DEBUG
-//#undef DEBUG
+#undef DEBUG
 #endif
-
-
-
-///@name Intel Hex file format parameters
-///@{
-#define IMAGE_IHEX_WIDTH	(IHEX_WIDTH_8BIT)
-#define IMAGE_IHEX_ENDIANNESS	(IHEX_ORDER_LITTLEENDIAN)
-///@}
 
 
 
@@ -107,8 +99,7 @@ image_ihex_merge_file(const char *filename,
 		    filename, strerror(errno));
 	    symbols = -3;
 	} else {
-	    if (0 != ihex_mem_copy(rs, blob, blob_size,
-				   IMAGE_IHEX_WIDTH, IMAGE_IHEX_ENDIANNESS)) {
+	    if (0 != ihex_byte_copy(rs, (void*) blob, blob_size)) {
 		fprintf(stderr, _("Could not copy data from Intel Hex file \"%s\" (%s)\n"),
 			filename, ihex_error());
 		symbols = -4;
