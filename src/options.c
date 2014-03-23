@@ -71,9 +71,9 @@ static const struct argp_option options[] = {
       N_("Write binary data to output image FILE"),		0 },
     { "output-image",	OPT_OUTPUT,	NULL,			OPTION_ALIAS | OPTION_HIDDEN,
       NULL, 0 },
-    { "output-format",	OPT_OUT_FORMAT,	N_("FORMAT"),		0,
-      N_("Format of output image file.  FORMAT can be either"
-	 " \"raw\" or \"ihex\" (default)"),			0 },
+//FIXME    { "output-format",	OPT_OUT_FORMAT,	N_("FORMAT"),		0,
+//FIXME      N_("Format of output image file.  FORMAT can be either"
+//FIXME	 " \"raw\" or \"ihex\" (default)"),			0 },
     { "define",		OPT_DEFINE,	N_("FIELD=BYTES,..."),	0,
       N_("Override the given fields' values (comma-separated pairs).\n"
 	 "Each FIELD symbol name must be followed by an equal sign and the data"
