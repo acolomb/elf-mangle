@@ -40,7 +40,7 @@ char* override_append(
 ///@return Number of overrides successfully parsed or negative number for parameter error
 int parse_overrides(
     char *overrides,		///< [in] Override specification string
-    nvm_symbol *list,		///< [in] List of symbols to apply overrides
+    const nvm_symbol *list,	///< [in] List of symbols to apply overrides
     int size			///< [in] Number of symbols in the list
     );
 

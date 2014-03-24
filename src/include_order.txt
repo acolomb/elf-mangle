@@ -1,0 +1,34 @@
+#include "config.h"
+
+#include "options.h"
+#include "override.h"
+#include "print_symbols.h"
+#include "transform.h"
+#include "image_formats.h"
+#include "image_ihex.h"
+#include "image_raw.h"
+#include "symbol_map.h"
+#include "symbol_list.h"
+#include "known_fields.h"
+#include "field_print.h"
+#include "field_list.h"
+#include "nvm_field.h"
+#include "intl.h"
+
+#include <gelf.h>
+#include <cintelhex.h>
+#include <argp.h>
+#include <libintl.h>
+
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <stddef.h>
+#include <stdint.h>

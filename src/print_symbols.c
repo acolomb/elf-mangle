@@ -24,10 +24,10 @@
 #include "config.h"
 
 #include "print_symbols.h"
-#include "field_print.h"
-#include "nvm_field.h"
 #include "symbol_list.h"
 #include "known_fields.h"
+#include "field_print.h"
+#include "nvm_field.h"
 
 #include <stdio.h>
 #include <stdlib.h>

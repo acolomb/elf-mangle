@@ -24,6 +24,7 @@
 #include "config.h"
 
 #include "field_list.h"
+#include "nvm_field.h"
 
 #include <stdio.h>
 #include <string.h>

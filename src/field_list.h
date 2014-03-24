@@ -24,7 +24,11 @@
 #ifndef FIELD_LIST_H_
 #define FIELD_LIST_H_
 
-#include "nvm_field.h"
+#include <stddef.h>
+
+
+// Forward declarations
+typedef struct nvm_field nvm_field;
 
 
 /// Opaque type for a list entry

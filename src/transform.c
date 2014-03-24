@@ -23,6 +23,7 @@
 
 #include "config.h"
 
+#include "transform.h"
 #include "symbol_list.h"
 #include "nvm_field.h"
 #include "intl.h"
