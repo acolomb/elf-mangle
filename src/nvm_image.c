@@ -99,6 +99,7 @@ read_symbol_seek_iterator(
 {
     const struct read_symbols_config *conf = arg;
     ssize_t bytes_read = 0;
+    size_t rest = symbol->size;
 
     if (symbol->blob_address) {					//destination ok
 	if (symbol->offset == (size_t) lseek(conf->source.fd, symbol->offset, SEEK_SET)) {
@@ -106,8 +107,13 @@ read_symbol_seek_iterator(
 	    fprintf(stderr, _("%s: copy %zu bytes from file offset %zu to %p\n"), __func__,
 		    symbol->size, symbol->offset, symbol->blob_address);
 #endif
-	    bytes_read = read(conf->source.fd, symbol->blob_address, symbol->size);
-	    if (bytes_read == (ssize_t) symbol->size) return NULL;	//count success
+	    while (rest > 0) {
+		bytes_read = read(conf->source.fd,
+				  symbol->blob_address + (symbol->size - rest), rest);
+		if (bytes_read > 0) rest -= bytes_read;
+		else break;	//error or end of file
+	    }
+	    if (rest == 0) return NULL;	//count success
 	}
 	fprintf(stderr, _("Failed to read %s (%zu bytes) from file offset %zu to %p (%s)\n"),
 		symbol->field->symbol, symbol->size, symbol->offset,
