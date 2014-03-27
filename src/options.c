@@ -151,8 +151,8 @@ parse_opt(
 
     case OPT_OUT_FORMAT:
 	if (arg == NULL) return EINVAL;
-	else if (strcmp(arg, "raw") == 0) tool->format_in = formatRawBinary;
-	else if (strcmp(arg, "ihex") == 0) tool->format_in = formatIntelHex;
+	else if (strcmp(arg, "raw") == 0) tool->format_out = formatRawBinary;
+	else if (strcmp(arg, "ihex") == 0) tool->format_out = formatIntelHex;
 	else argp_error(state, _("Invalid binary image format `%s' specified."), arg);
 	break;
 
