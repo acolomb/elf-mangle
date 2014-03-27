@@ -47,7 +47,7 @@ print_hex_dump(const char *data, size_t size)
     for (offset = 0; offset < size; ++offset) {
 	// Prefix each row with hex offset
 	if (offset % row_length == 0) printf("\n\t0x%02zx:\t", offset);
-	printf(" %02X", (unsigned char) data[offset]);
+	printf(" %02hhX", (unsigned char) data[offset]);
     }
 
 }

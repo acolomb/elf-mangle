@@ -29,7 +29,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <stdint.h>
+#include <inttypes.h>
 
 
 
@@ -103,7 +103,7 @@ print_unique(const char *data, size_t size)
     }
 
     hardware = get_unique_hardware_type(hardware_type);
-    printf("S/N %02u-%05u (%s)", hardware_type, serial_number, hardware);
+    printf("S/N %02" PRIu8 "-%05" PRIu16 " (%s)", hardware_type, serial_number, hardware);
 }
 
 
@@ -134,17 +134,17 @@ print_version(const char *data, size_t size)
 	    ++version_string;
 	}
 	if (size < version_string_offset + version_length) {
-	    printf(_(" (%zu of %u bytes missing)"),
+	    printf(_(" (%zu of %" PRIu8 " bytes missing)"),
 		   version_string_offset + version_length - size, version_length);
 	} else {
-	    printf(_(" (%u bytes)"), version_length);
+	    printf(_(" (%" PRIu8 " bytes)"), version_length);
 	}
 	if (version_string >= data + version_string_offset + version_length
 	    || *version_string != '\0') {
 	    printf(_(" missing NUL termination!"));
 	}
     } else {						//no valid data
-	printf(_("<unknown version> (%u bytes)"), version_length);
+	printf(_("<unknown version> (%" PRIu8 " bytes)"), version_length);
     }
 }
 
@@ -177,8 +177,8 @@ copy_unique(const nvm_field *field,
     if (convert_uint8(src + unique_hardware_offset) != target_hwtype) {
 	fprintf(stderr,
 		_("WARNING: %s changed to match target hardware type!\n"
-		  "\t\t%02u (%s) in target map\n"
-		  "\t\t%02u (%s) provided from image\n"),
+		  "\t\t%02" PRIu8 " (%s) in target map\n"
+		  "\t\t%02" PRIu8 " (%s) provided from image\n"),
 		field->description,
 		target_hwtype, get_unique_hardware_type(target_hwtype),
 		convert_uint8(src + unique_hardware_offset),

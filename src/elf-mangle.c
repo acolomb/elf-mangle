@@ -37,6 +37,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <inttypes.h>
 
 
 
@@ -149,7 +150,7 @@ main(void)
 
     version_data[0] = sizeof(version_data) - 1;
 //    version_data[sizeof(version_data) - 1] = 'X';
-    printf("data size: %zu length: %u strlen: %zu\n",
+    printf("data size: %zu length: %" PRIu8 " strlen: %zu\n",
 	   sizeof(version_data), *version_data, strlen(version_data + 1));
 
     test[0].field = find_known_field("nvm_version");

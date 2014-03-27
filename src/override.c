@@ -112,7 +112,7 @@ parse_hex_bytes(
 	if (1 == sscanf(start, " %2hhx%n", &value, &converted)) {
 	    output[parsed++] = value;
 #ifdef DEBUG
-	    printf("%.*s=%02x,\t", converted, start, value);
+	    printf("%.*s=%02hhx,\t", converted, start, value);
 #endif
 	    start += converted;
 	} else {
