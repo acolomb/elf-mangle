@@ -77,13 +77,16 @@ image_write_file(const char *filename,
 {
     if (! filename || ! blob || ! blob_size) return;
 
+#ifdef DEBUG
+    printf("%s: Output file \"%s\" format %d\n", __func__, filename, format);
+#endif
     switch (format) {
     case formatRawBinary:
 	image_raw_write_file(filename, blob, blob_size);
 	break;
 
     case formatIntelHex:
-	//FIXME image_ihex_write_file(filename, blob, blob_size);
+	image_ihex_write_file(filename, blob, blob_size);
 	break;
 
     case formatNone:
