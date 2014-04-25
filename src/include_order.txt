@@ -13,6 +13,7 @@
 #include "field_print.h"
 #include "field_list.h"
 #include "nvm_field.h"
+#include "find_string.h"
 #include "intl.h"
 
 #include <gelf.h>
