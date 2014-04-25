@@ -62,6 +62,11 @@ process_maps(const tool_config *config)
 	    || 0 < nvm_image_merge_file(	//input image loaded
 		config->image_in, symbols_in, num_in,
 		symbol_map_blob_size(map_in)))) {
+	// Scan for strings if requested
+	if (config->locate_strings >= 0) nvm_string_list(
+	    symbol_map_blob_address(map_in), symbol_map_blob_size(map_in),
+	    config->locate_strings);
+
 	// Translate data from input to output layout if supplied
 	map_out = symbol_map_open_file(config->map_files[1]);
 	num_out = symbol_map_parse(map_out, config->section, &symbols_out);
@@ -100,6 +105,7 @@ main(int argc, char **argv)
     int ret_code = 0;
     tool_config config = {
 	.section		= DEFAULT_SECTION,
+	.locate_strings		= -1,
 	.show_fields		= showNone,
 	.print_content		= printNone,
     };

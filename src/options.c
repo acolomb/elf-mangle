@@ -29,6 +29,7 @@
 
 #include <argp.h>
 #include <string.h>
+#include <stdlib.h>
 
 #ifdef DEBUG
 #undef DEBUG
@@ -42,6 +43,7 @@
 #define OPT_INPUT		'i'
 #define OPT_OUTPUT		'o'
 #define OPT_DEFINE		'D'
+#define OPT_STRINGS		'l'
 #define OPT_PRINT		'p'
 #define OPT_ADDRESSES		'a'
 #define OPT_SYMBOLS		'S'
@@ -69,6 +71,8 @@ static const struct argp_option options[] = {
 	 "Each FIELD symbol name must be followed by an equal sign and the data"
 	 " BYTES encoded in hexadecimal.  Missing bytes are left unchanged,"
 	 " extra data generates an error."),	0 },
+    { "strings",	OPT_STRINGS,	N_("MIN-LEN"),		OPTION_ARG_OPTIONAL,
+      N_("Locate strings of at least MIN-LEN bytes in input"),	0 },
 
     { NULL,		0,		NULL,			0,
       N_("Display information from parsed files"),		0 },
@@ -131,6 +135,16 @@ parse_opt(
 
     case OPT_DEFINE:
 	tool->overrides = override_append(tool->overrides, "%s", arg);
+	break;
+
+    case OPT_STRINGS:
+	if (arg == NULL) tool->locate_strings = 0;
+	else tool->locate_strings = atoi(arg);
+	if (tool->locate_strings < 0 || tool->locate_strings > UINT8_MAX) {
+	    argp_error(state, _("Minimum string length %d out of range."),
+		       tool->locate_strings);
+	    tool->locate_strings = -1;
+	}
 	break;
 
     case OPT_PRINT:
