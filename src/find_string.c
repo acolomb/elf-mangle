@@ -41,6 +41,17 @@
 
 
 
+/// The structure of strings searched consists of:
+/// - a single byte whose unsigned value specifies the length
+/// - followed by only printable characters (see isprint())
+/// - terminated by a NUL character which is included in the
+///   byte count for the length field
+///
+/// Strings not matching this structure or which have less than the
+/// specified minimum number of printable characters are ignored.  The
+/// returned address points to the first character of the first string
+/// found.  To find more strings, call this function again with
+/// adjusted start address and size.
 const char*
 nvm_string_find(const char* blob, size_t size, uint8_t min_length)
 {
