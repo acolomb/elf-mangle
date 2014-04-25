@@ -36,11 +36,18 @@
 
 
 
+/// Default minimum length of strings to locate
+#define MIN_LENGTH_DEFAULT	(4)
+
+
+
 const char*
-nvm_string_find(const char* blob, size_t size)
+nvm_string_find(const char* blob, size_t size, uint8_t min_length)
 {
     const char *c;
     uint8_t printable = 0;
+
+    if (min_length == 0) min_length = MIN_LENGTH_DEFAULT;
 
     for (c = blob + 1; c < blob + size; ++c) {
 #ifdef DEBUG
@@ -50,7 +57,7 @@ nvm_string_find(const char* blob, size_t size)
 #ifdef DEBUG
 	    puts("NUL");
 #endif
-	    while (printable > 1) {
+	    while (printable >= min_length) {
 #ifdef DEBUG
 		printf("\tprintable=%u length=%hhu\n", printable, c[-printable - 1]);
 #endif
@@ -118,7 +125,7 @@ main(void)
     size_t size = sizeof(data);
 
     while (size) {
-	next = nvm_string_find(start, size);
+	next = nvm_string_find(start, size, 1);
 	if (! next) break;
 	printf("String at offset 0x%zx (%zu bytes + NUL):\n\t"
 	       "\"%s\"\n", next - start, strlen(next), next);

@@ -25,13 +25,15 @@
 #define FIND_STRING_H_
 
 #include <stddef.h>
+#include <stdint.h>
 
 
 ///@brief Find strings prefixed with single-byte length specification
 ///@return Start of string or NULL if none found
 const char* nvm_string_find(
     const char* blob,		///< [in] Binary data to search in
-    size_t size			///< [in] Size of binary data
+    size_t size,		///< [in] Size of binary data
+    uint8_t min_length		///< [in] Minimum length of string to find (zero for default=4)
     );
 
 #endif //FIND_STRING_H_
