@@ -29,7 +29,8 @@ elf_mangle_SRC = elf-mangle.c	\
 	symbol_list.c		\
 	field_print.c		\
 	field_list.c		\
-	nvm_field.c
+	nvm_field.c		\
+	find_string.c
 
 dummy_SRC = dummy_options.c	\
 	dummy_known_fields.c
