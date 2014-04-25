@@ -36,4 +36,11 @@ const char* nvm_string_find(
     uint8_t min_length		///< [in] Minimum length of string to find (zero for default=4)
     );
 
+///@brief Find and print all suitable strings in given binary data
+void nvm_string_list(
+    const char* blob,		///< [in] Binary data to search in
+    size_t size,		///< [in] Size of binary data
+    uint8_t min_length		///< [in] Minimum string length passed to nvm_string_find()
+    );
+
 #endif //FIND_STRING_H_
