@@ -76,7 +76,7 @@ nvm_string_find(const char* blob, size_t size, uint8_t min_length)
 		--printable;
 	    }
 	    printable = 0;
-	} else if (isprint(*c)) {	//printable character, might be part of string
+	} else if (isprint((int) *c)) {	//printable character, might be part of string
 	    if (printable < UINT8_MAX) ++printable;
 #ifdef DEBUG
 	    printf("'%c'", *c);
