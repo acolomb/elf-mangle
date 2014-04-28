@@ -39,7 +39,7 @@ dummy_SRC = dummy_options.c	\
 
 override CFLAGS += -Wall -Wstrict-prototypes -Wextra -Werror -std=c99 -D_POSIX
 override CFLAGS += -I../libcintelhex/include
-LDFLAGS = -L../libcintelhex/bin
+LDFLAGS = -L../libcintelhex/bin -static
 override LDLIBS += -lelf -lcintelhex
 
 elf-mangle: $(elf_mangle_SRC) $(dummy_SRC)
