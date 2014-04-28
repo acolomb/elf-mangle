@@ -32,18 +32,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <inttypes.h>
 
 #ifdef DEBUG
-//#undef DEBUG
+#undef DEBUG
 #endif
-
-
-
-///@name Intel Hex file format parameters
-///@{
-#define IMAGE_IHEX_WIDTH	(IHEX_WIDTH_8BIT)
-#define IMAGE_IHEX_ENDIANNESS	(IHEX_ORDER_LITTLEENDIAN)
-///@}
 
 
 
@@ -53,7 +46,7 @@ image_ihex_merge_file(const char *filename,
 		      size_t blob_size)
 {
     ihex_recordset_t *rs;
-    ulong_t rs_size;
+    uint32_t start, end;
     char *blob;
     int symbols = 0;
 
@@ -87,28 +80,31 @@ image_ihex_merge_file(const char *filename,
 	return symbols;
     }
 
-    rs_size = ihex_rs_get_size(rs);
-#ifdef DEBUG
-    printf("%s: %s contains %lu bytes\n", __func__, filename, rs_size);
-#endif
-    if (rs->ihrs_count == 0 || rs_size == 0) {
+    if (0 != ihex_rs_get_address_range(rs, &start, &end)) {
+	fprintf(stderr, _("Could not determine data range in Intel Hex file \"%s\" (%s)\n"),
+		filename, ihex_error());
+	symbols = -4;
+    } else if (rs->ihrs_count == 0 || start >= end) {
 	fprintf(stderr, _("Image file \"%s\" is empty\n"), filename);
     } else {
-	if (blob_size > rs_size) {
+#ifdef DEBUG
+	printf("%s: %s contains range 0x%04" PRIx32 " to 0x%04" PRIx32 "\n",
+	       __func__, filename, start, end > 0 ? end - 1 : 0);
+#endif
+	if (blob_size > end) {
 	    fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
-		    filename, blob_size - rs_size, blob_size);
-	    blob_size = rs_size;
+		    filename, blob_size - end, blob_size);
+	    blob_size = end;
 	}
 
-	// Allocate memory for needed ihex content
-	blob = malloc(blob_size);
+	// Allocate and initialize memory for needed ihex content
+	blob = calloc(1, blob_size);
 	if (! blob) {
 	    fprintf(stderr, _("Could not copy data from Intel Hex file \"%s\" (%s)\n"),
 		    filename, strerror(errno));
 	    symbols = -3;
 	} else {
-	    if (0 != ihex_mem_copy(rs, blob, blob_size,
-				   IMAGE_IHEX_WIDTH, IMAGE_IHEX_ENDIANNESS)) {
+	    if (0 != ihex_byte_copy(rs, (void*) blob, blob_size, 0)) {
 		fprintf(stderr, _("Could not copy data from Intel Hex file \"%s\" (%s)\n"),
 			filename, ihex_error());
 		symbols = -4;
