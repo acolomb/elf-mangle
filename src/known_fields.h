@@ -25,6 +25,10 @@
 #define KNOWN_FIELDS_H_
 
 
+// Forward declarations
+struct nvm_field;
+
+
 ///@brief Estimate number of fields to be parsed
 ///@return Number of known field descriptors
 int known_fields_expected(void);

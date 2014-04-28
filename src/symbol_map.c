@@ -27,6 +27,7 @@
 #include "symbol_list.h"
 #include "known_fields.h"
 #include "field_list.h"
+#include "nvm_field.h"
 #include "intl.h"
 
 #include <gelf.h>

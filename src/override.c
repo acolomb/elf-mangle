@@ -23,10 +23,10 @@
 
 #include "config.h"
 
-#include "known_fields.h"
+#include "override.h"
 #include "symbol_list.h"
+#include "known_fields.h"
 #include "nvm_field.h"
-#include "intl.h"
 #include "intl.h"
 
 #include <stdio.h>
@@ -34,8 +34,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <errno.h>
+#include <stdint.h>
 
 #ifdef DEBUG
 #undef DEBUG

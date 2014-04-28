@@ -27,8 +27,8 @@
 #include "override.h"
 #include "intl.h"
 
-#include <unistd.h>
 #include <argp.h>
+#include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
 
