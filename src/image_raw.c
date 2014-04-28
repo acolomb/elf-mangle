@@ -23,7 +23,7 @@
 
 #include "config.h"
 
-#include "nvm_image.h"
+#include "image_raw.h"
 #include "symbol_list.h"
 #include "nvm_field.h"
 #include "intl.h"
@@ -55,7 +55,7 @@ struct read_symbols_config {
     /// Reference to the source of binary data
     union {
 	/// Base address of memory mapped data
-	const char*	addr;
+	const void*	addr;
 	/// File descriptor for file-based data
 	int		fd;
     }			source;
@@ -126,60 +126,86 @@ read_symbol_seek_iterator(
 
 
 int
-nvm_image_merge_file(const char *filename,
+image_raw_merge_mem(const void *blob,
+		    const nvm_symbol list[], int list_size,
+		    size_t blob_size)
+{
+    struct read_symbols_config conf = {
+	.source.addr	= blob,
+	.size		= blob_size,
+    };
+
+    return symbol_list_foreach_count(list, list_size, read_symbol_mem_iterator, &conf);
+}
+
+
+
+int
+image_raw_merge_filedes(int fd,
+			const nvm_symbol list[], int list_size,
+			size_t blob_size)
+{
+    struct read_symbols_config conf = {
+	.source.fd	= fd,
+	.size		= blob_size,
+    };
+
+    return symbol_list_foreach_count(list, list_size, read_symbol_seek_iterator, &conf);
+}
+
+
+
+int
+image_raw_merge_file(const char *filename,
 		     const nvm_symbol list[], int list_size,
 		     size_t blob_size)
 {
-    struct read_symbols_config conf = { .size = blob_size };
     char *mapped = NULL;
-    int fd, symbols = -2; //default error return value
+    int fd, symbols = 0;
     struct stat st;
 
     if (! filename || ! blob_size) return -1;	//invalid parameters
 
     fd = open(filename, O_RDONLY);
-    if (fd == -1) {		//file not opened
+    if (fd == -1 || 0 != fstat(fd, &st)) {	//file not accessible
 	fprintf(stderr, _("Cannot open image \"%s\" (%s)\n"), filename, strerror(errno));
+	return -2;
+    }
+
+    if (st.st_size == 0) {
+	fprintf(stderr, _("Image file \"%s\" is empty\n"), filename);
     } else {
-	fstat(fd, &st);
-	if (st.st_size == 0) {
-	    fprintf(stderr, _("Image file \"%s\" is empty\n"), filename);
-	} else {
-	    if (blob_size > (size_t) st.st_size) {
-		fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
-			filename, blob_size - st.st_size, blob_size);
-		conf.size = st.st_size;
-	    }
+	if (blob_size > (size_t) st.st_size) {
+	    fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
+		    filename, blob_size - st.st_size, blob_size);
+	    blob_size = st.st_size;
+	}
 
 #if USE_MMAP
-	    mapped = mmap(NULL, conf.size, PROT_READ, MAP_PRIVATE, fd, 0);
-	    if (mapped == MAP_FAILED) {
-		mapped = NULL;
-		fprintf(stderr, "%s: mmap() failed (%s)\n", __func__, strerror(errno));
-	    }
-#endif
-	    if (mapped) {
-		conf.source.addr = mapped;
-		symbols = symbol_list_foreach_count(list, list_size,
-						    read_symbol_mem_iterator, &conf);
-#if USE_MMAP
-		munmap(mapped, conf.size);
-#endif
-	    } else {
-		conf.source.fd = fd;
-		symbols = symbol_list_foreach_count(list, list_size,
-						    read_symbol_seek_iterator, &conf);
-	    }
+	mapped = mmap(NULL, blob_size, PROT_READ, MAP_PRIVATE, fd, 0);
+	if (mapped == MAP_FAILED) {
+	    mapped = NULL;
+	    fprintf(stderr, "%s: mmap() failed (%s)\n", __func__, strerror(errno));
 	}
-	close(fd);
+#endif
+	if (mapped) {
+	    symbols = image_raw_merge_mem(mapped, list, list_size, blob_size);
+#if USE_MMAP
+	    munmap(mapped, blob_size);
+#endif
+	} else {
+	    symbols = image_raw_merge_filedes(fd, list, list_size, blob_size);
+	}
     }
+    close(fd);
+
     return symbols;
 }
 
 
 
 void
-nvm_image_write_file(const char *filename,
+image_raw_write_file(const char *filename,
 		     const char* blob, size_t blob_size)
 {
     int fd;

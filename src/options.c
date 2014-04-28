@@ -42,6 +42,8 @@
 #define OPT_SECTION		'j'
 #define OPT_INPUT		'i'
 #define OPT_OUTPUT		'o'
+#define OPT_IN_FORMAT		'I'
+#define OPT_OUT_FORMAT		'O'
 #define OPT_DEFINE		'D'
 #define OPT_STRINGS		'l'
 #define OPT_PRINT		'p'
@@ -62,10 +64,16 @@ static const struct argp_option options[] = {
       N_("Read binary input data from image FILE"),		0 },
     { "input-image",	OPT_INPUT,	NULL,			OPTION_ALIAS | OPTION_HIDDEN,
       NULL, 0 },
+    { "input-format",	OPT_IN_FORMAT,	N_("FORMAT"),		0,
+      N_("Format of input image file.  FORMAT can be either"
+	 " \"raw\", \"ihex\" or \"auto\" (default)"),		0 },
     { "output",		OPT_OUTPUT,	N_("FILE"),		0,
       N_("Write binary data to output image FILE"),		0 },
     { "output-image",	OPT_OUTPUT,	NULL,			OPTION_ALIAS | OPTION_HIDDEN,
       NULL, 0 },
+//FIXME    { "output-format",	OPT_OUT_FORMAT,	N_("FORMAT"),		0,
+//FIXME      N_("Format of output image file.  FORMAT can be either"
+//FIXME	 " \"raw\" or \"ihex\" (default)"),			0 },
     { "define",		OPT_DEFINE,	N_("FIELD=BYTES,..."),	0,
       N_("Override the given fields' values (comma-separated pairs).\n"
 	 "Each FIELD symbol name must be followed by an equal sign and the data"
@@ -131,6 +139,21 @@ parse_opt(
 
     case OPT_OUTPUT:
 	tool->image_out = arg;
+	break;
+
+    case OPT_IN_FORMAT:
+	if (arg == NULL) return EINVAL;
+	else if (strcmp(arg, "auto") == 0) tool->format_in = formatNone;
+	else if (strcmp(arg, "raw") == 0) tool->format_in = formatRawBinary;
+	else if (strcmp(arg, "ihex") == 0) tool->format_in = formatIntelHex;
+	else argp_error(state, _("Invalid binary image format `%s' specified."), arg);
+	break;
+
+    case OPT_OUT_FORMAT:
+	if (arg == NULL) return EINVAL;
+	else if (strcmp(arg, "raw") == 0) tool->format_out = formatRawBinary;
+	else if (strcmp(arg, "ihex") == 0) tool->format_out = formatIntelHex;
+	else argp_error(state, _("Invalid binary image format `%s' specified."), arg);
 	break;
 
     case OPT_DEFINE:

@@ -1,5 +1,5 @@
 ///@file
-///@brief	Handle input and output of blob data to raw binary files
+///@brief	Handle input and output of blob data to Intel Hex files
 ///@copyright	Copyright (C) 2014  Andre Colomb
 ///
 /// This file is part of elf-mangle.
@@ -21,8 +21,8 @@
 ///@author	Andre Colomb <andre.colomb@auteko.de>
 
 
-#ifndef NVM_IMAGE_H_
-#define NVM_IMAGE_H_
+#ifndef IMAGE_IHEX_H_
+#define IMAGE_IHEX_H_
 
 #include <stddef.h>
 
@@ -31,20 +31,20 @@
 typedef struct nvm_symbol nvm_symbol;
 
 
-///@brief Open image file and update each listed symbol's content
+///@brief Open Intel Hex image file and update each listed symbol's content
 ///@return Number of symbols successfully read or negative error code
-int nvm_image_merge_file(
+int image_ihex_merge_file(
     const char *filename,	///< [in] Input file path to open
     const nvm_symbol *list,	///< [in] Symbol list start address
     int list_size,		///< [in] Number of symbols in list
     size_t blob_size		///< [in] Expected data size in the image
     );
 
-///@brief Write blob data to image file
-void nvm_image_write_file(
+///@brief Write blob data to Intel Hex image file
+void image_ihex_write_file(
     const char *filename,	///< [in] Output file path to open
     const char* blob,		///< [in] Binary data to write
     size_t blob_size		///< [in] Data size in bytes
 );
 
-#endif //NVM_IMAGE_H_
+#endif //IMAGE_IHEX_H_

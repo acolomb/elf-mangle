@@ -25,6 +25,7 @@
 #define OPTIONS_H_
 
 #include "print_symbols.h"
+#include "image_formats.h"
 #include "find_string.h"
 
 
@@ -38,6 +39,10 @@ typedef struct tool_config {
     const char*		image_in;
     /// Name of the output image file
     const char*		image_out;
+    /// Format of the input image file
+    enum image_format	format_in;
+    /// Format of the output image file
+    enum image_format	format_out;
     /// Locate strings of this minimum length within image
     int			locate_strings;
     /// Configuration flags for dumping symbol descriptions
