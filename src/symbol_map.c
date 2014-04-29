@@ -220,7 +220,7 @@ symbol_map_open_file(const char *filename)
 
 	if (source->fd != -1) {
 	    elf_version(EV_CURRENT);
-	    source->elf = elf_begin(source->fd, ELF_C_READ_MMAP, NULL);
+	    source->elf = elf_begin(source->fd, ELF_C_READ, NULL);
 	    if (source->elf) {
 		if (elf_kind(source->elf) == ELF_K_ELF) {
 		    // Skip any clean-up code below if successful
