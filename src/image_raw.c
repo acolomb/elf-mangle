@@ -177,7 +177,7 @@ image_raw_merge_file(const char *filename,
     } else {
 	if (blob_size > (size_t) st.st_size) {
 	    fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
-		    filename, blob_size - st.st_size, blob_size);
+		    filename, blob_size - (size_t) st.st_size, blob_size);
 	    blob_size = st.st_size;
 	}
 
