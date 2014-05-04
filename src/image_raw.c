@@ -209,6 +209,8 @@ image_raw_write_file(const char *filename,
 		     const char* blob, size_t blob_size)
 {
     int fd;
+    ssize_t bytes_written;
+    size_t rest = blob_size;
 
     if (! filename || ! blob || ! blob_size) return;
 
@@ -220,7 +222,13 @@ image_raw_write_file(const char *filename,
 	    fprintf(stderr, _("Cannot resize image file \"%s\" to %zu bytes (%s)\n"),
 		    filename, blob_size, strerror(errno));
 	} else {
-	    write(fd, blob, blob_size);
+	    while (rest > 0) {
+		bytes_written = write(fd, blob + (blob_size - rest), rest);
+		if (bytes_written >= 0) rest -= bytes_written;
+		else break;	//error
+	    }
+	    if (rest != 0) fprintf(stderr, _("Cannot write image file \"%s\" (%s)\n"),
+				   filename, strerror(errno));
 	}
 	close(fd);
     }
