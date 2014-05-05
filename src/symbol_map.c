@@ -245,9 +245,9 @@ symbol_map_parse(nvm_symbol_map_source *source,
 		 const char *section_name,
 		 nvm_symbol **symbol_list)
 {
-    size_t string_index;
+    size_t string_index = 0;
     Elf_Scn *symtab, *section;
-    GElf_Shdr header;
+    GElf_Shdr header = { 0 };
 
     if (! source) return -1;
 
