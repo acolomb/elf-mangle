@@ -24,9 +24,6 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-/// Make use of strdup(), getsubopt()
-#define _XOPEN_SOURCE 500
-
 /// Use memory mapping to access binary image
 #define USE_MMAP 1
 //#undef USE_MMAP

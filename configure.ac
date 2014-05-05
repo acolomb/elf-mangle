@@ -23,6 +23,7 @@ AC_CONFIG_SRCDIR([src/elf-mangle.c])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 AC_PROG_CC
 
+AC_USE_SYSTEM_EXTENSIONS
 AC_CHECK_LIB([elf], [elf_version])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile src/Makefile])
