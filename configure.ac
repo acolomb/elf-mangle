@@ -21,10 +21,13 @@ AC_INIT([elf-mangle], [0.1], [andre.colomb@auteko.de])
 AC_CONFIG_AUX_DIR([.])
 AC_CONFIG_SRCDIR([src/elf-mangle.c])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
-AC_PROG_CC
+AC_PROG_CC_C99
 
 AC_USE_SYSTEM_EXTENSIONS
+AC_TYPE_SIZE_T
+AC_TYPE_SSIZE_T
 AC_CHECK_LIB([elf], [elf_version])
+
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_CONFIG_SUBDIRS([libcintelhex])
