@@ -19,12 +19,15 @@
 # <http://www.gnu.org/licenses/>.
 
 
-SUBDIRS = po $(SUBDIRS_INTELHEX) src
+SUBDIRS = po $(SUBDIRS_INTELHEX) $(SUBDIRS_GNULIB) src
 
 if HAVE_INTELHEX_INTERNAL
 SUBDIRS_INTELHEX = libcintelhex
 endif
 
+SUBDIRS_GNULIB = gnulib
+
 ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = ./config.rpath
+EXTRA_DIST += m4/gnulib-cache.m4

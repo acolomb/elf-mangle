@@ -19,7 +19,7 @@
 # <http://www.gnu.org/licenses/>.
 
 
-AM_CPPFLAGS = -D_POSIX $(CPPFLAGS_INTELHEX_INTERNAL)
+AM_CPPFLAGS = -D_POSIX $(CPPFLAGS_INTELHEX_INTERNAL) $(CPPFLAGS_GNULIB)
 AM_CFLAGS = -Wall -Wstrict-prototypes -Wextra -fgnu89-inline
 AM_LDFLAGS = $(LDFLAGS_INTELHEX_INTERNAL)
 
@@ -27,6 +27,8 @@ if HAVE_INTELHEX_INTERNAL
 CPPFLAGS_INTELHEX_INTERNAL = -I$(top_srcdir)/libcintelhex/include
 LDFLAGS_INTELHEX_INTERNAL = -L$(top_builddir)/libcintelhex/bin -static
 endif
+
+CPPFLAGS_GNULIB = -I$(top_builddir)/gnulib -I$(top_srcdir)/gnulib
 
 
 noinst_LIBRARIES = libfallback.a
@@ -68,5 +70,7 @@ elf_mangle_SOURCES +=		\
 	custom_known_fields.c
 endif
 
-elf_mangle_LDADD = $(LIBS_CINTELHEX)
+LIBS_GNULIB = $(top_builddir)/gnulib/libgnu.a
+
+elf_mangle_LDADD = $(LIBS_CINTELHEX) $(LIBS_GNULIB)
 elf_mangle_LDADD += libfallback.a

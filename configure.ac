@@ -25,10 +25,12 @@ AC_USE_SYSTEM_EXTENSIONS
 AC_PROG_CC_C99
 AC_PROG_RANLIB
 AM_PROG_AR
+gl_EARLY
 
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
 AC_FUNC_MMAP
+gl_INIT
 AC_CHECK_LIB([elf], [elf_version])
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_NEED([need-formatstring-macros])
@@ -112,4 +114,5 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile Doxyfile src/Makefile po/Makefile.in])
 AS_IF([test "x$cintelhex_internal" = x1],
       [AC_CONFIG_SUBDIRS([libcintelhex])])
+AC_CONFIG_FILES([gnulib/Makefile])
 AC_OUTPUT
