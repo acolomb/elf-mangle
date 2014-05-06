@@ -24,10 +24,6 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-/// Use memory mapping to access binary image
-#define USE_MMAP 1
-//#undef USE_MMAP
-
 /// Compile debugging code if defined
 #define DEBUG
 //#undef DEBUG

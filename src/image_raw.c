@@ -28,7 +28,7 @@
 #include "nvm_field.h"
 #include "intl.h"
 
-#ifdef USE_MMAP
+#ifdef HAVE_MMAP
 #include <sys/mman.h>
 #endif
 #include <sys/stat.h>
@@ -44,8 +44,8 @@
 #endif
 
 // Default to seek-based implementation
-#ifndef USE_MMAP
-#define USE_MMAP 0
+#ifndef HAVE_MMAP
+#define HAVE_MMAP 0
 #endif
 
 
@@ -181,7 +181,7 @@ image_raw_merge_file(const char *filename,
 	    blob_size = st.st_size;
 	}
 
-#if USE_MMAP
+#if HAVE_MMAP
 	mapped = mmap(NULL, blob_size, PROT_READ, MAP_PRIVATE, fd, 0);
 	if (mapped == MAP_FAILED) {
 	    mapped = NULL;
@@ -190,7 +190,7 @@ image_raw_merge_file(const char *filename,
 #endif
 	if (mapped) {
 	    symbols = image_raw_merge_mem(mapped, list, list_size, blob_size);
-#if USE_MMAP
+#if HAVE_MMAP
 	    munmap(mapped, blob_size);
 #endif
 	} else {
