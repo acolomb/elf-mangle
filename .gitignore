@@ -15,6 +15,7 @@
 # configuration output
 /stamp-*
 /config.*
+/*.cache
 Makefile
 
 # Compilation output
