@@ -1,0 +1,12 @@
+# List of source files which contain translatable strings.
+src/custom_known_fields.c
+src/custom_options.c
+src/field_print.c
+src/image_formats.c
+src/image_ihex.c
+src/image_raw.c
+src/nvm_field.c
+src/options.c
+src/override.c
+src/symbol_map.c
+src/transform.c
