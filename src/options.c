@@ -228,7 +228,7 @@ check_opts(int argc, char **argv, tool_config *config)
     };
     int ret_code;
 
-    ret_code = argp_parse (&argp, argc, argv, 0/* ARGP_NO_EXIT */, 0, config);
+    ret_code = argp_parse(&argp, argc, argv, 0, 0, config);
 
     return ret_code;
 }

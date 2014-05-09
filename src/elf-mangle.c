@@ -116,7 +116,7 @@ main(int argc, char **argv)
 
     // Parse command line options
     ret_code = check_opts(argc, argv, &config) != 0;
-    if (ret_code != 0) return ret_code;//FIXME
+    if (ret_code != 0) return ret_code;
 
     // Process specified actions
     process_maps(&config);
