@@ -30,6 +30,9 @@ AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
 AC_FUNC_MMAP
 AC_CHECK_LIB([elf], [elf_version])
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_NEED([need-formatstring-macros])
+AM_GNU_GETTEXT_VERSION(0.18.2)
 
 AC_MSG_CHECKING([whether extension module for custom options should be built])
 AC_ARG_ENABLE([custom-options],
@@ -60,6 +63,6 @@ AM_CONDITIONAL([CUSTOM_FIELDS], [test "x$custom_fields" = xtrue])
 
 
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile src/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile po/Makefile.in])
 AC_CONFIG_SUBDIRS([libcintelhex])
 AC_OUTPUT

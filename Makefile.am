@@ -19,4 +19,8 @@
 # <http://www.gnu.org/licenses/>.
 
 
-SUBDIRS = libcintelhex src
+SUBDIRS = po libcintelhex src
+
+ACLOCAL_AMFLAGS = -I m4
+
+EXTRA_DIST = ./config.rpath
