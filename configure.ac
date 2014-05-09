@@ -32,7 +32,7 @@ AC_FUNC_MMAP
 AC_CHECK_LIB([elf], [elf_version])
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_NEED([need-formatstring-macros])
-AM_GNU_GETTEXT_VERSION(0.18.2)
+AM_GNU_GETTEXT_VERSION([0.18.3])
 
 AC_MSG_CHECKING([whether extension module for custom options should be built])
 AC_ARG_ENABLE([custom-options],
