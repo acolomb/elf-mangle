@@ -32,6 +32,7 @@
 #include "known_fields.h"
 #include "field_print.h"
 #include "nvm_field.h"
+#include "gettext.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -111,8 +112,8 @@ main(int argc, char **argv)
     };
 
     // Initialize message translation
-//FIXME  setlocale (LC_ALL, "");
-//FIXME  textdomain (PACKAGE_TARNAME);
+    setlocale (LC_ALL, "");
+    textdomain (PACKAGE_TARNAME);
 
     // Parse command line options
     ret_code = check_opts(argc, argv, &config) != 0;
