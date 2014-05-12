@@ -103,9 +103,10 @@ static const char args_doc[] = N_("IN_MAP [OUT_MAP]");
 
 /// Program short description
 static const char doc[] =
-    N_("Analyze, transform and manipulate binary data based on ELF symbol tables.")
-    "\v"
-    N_("FIXME");
+    N_("Analyze, transform and manipulate binary data based on ELF symbol tables.");
+
+/// Version information for Argp
+const char *argp_program_version = PACKAGE_VERSION;
 
 
 
