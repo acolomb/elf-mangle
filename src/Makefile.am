@@ -23,7 +23,7 @@ AM_CPPFLAGS =					\
 	-I$(top_builddir)/libcintelhex/include	\
 	-I$(top_srcdir)/libcintelhex/include	\
 	-D_POSIX
-AM_CFLAGS = -Wall -Wstrict-prototypes -Wextra -Werror -fgnu89-inline
+AM_CFLAGS = -Wall -Wstrict-prototypes -Wextra -fgnu89-inline
 AM_LDFLAGS = -L$(top_builddir)/libcintelhex/bin -static
 
 
