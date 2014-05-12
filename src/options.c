@@ -124,8 +124,9 @@ parse_opt(
 
     switch (key) {
     case ARGP_KEY_INIT:
+	if (! state->child_inputs) break;
 	// Copy tool config address to be used by parser children
-	for (child = state->root_argp->children; child->argp; ++child) {
+	for (child = state->root_argp->children; child && child->argp; ++child) {
 	    state->child_inputs[child - state->root_argp->children] = state->input;
 	}
 	break;
