@@ -32,7 +32,8 @@ bin_PROGRAMS = elf-mangle
 
 
 libfallback_a_SOURCES =		\
-	fallback.c
+	fallback_options.c	\
+	fallback_known_fields.c
 
 dummy_SRC =			\
 	dummy_options.c		\

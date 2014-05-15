@@ -1,5 +1,5 @@
 ///@file
-///@brief	Fall-back for use without system-specific extensions
+///@brief	Fall-back for use without custom option handling
 ///@copyright	Copyright (C) 2014  Andre Colomb
 ///
 /// This file is part of elf-mangle.
@@ -24,8 +24,6 @@
 #include "config.h"
 
 #include "options.h"
-#include "known_fields.h"
-#include "nvm_field.h"
 
 #include <argp.h>
 
@@ -34,22 +32,6 @@
 /// Implementation of generic prototype in options module
 const struct argp_child*
 get_custom_options(void)
-{
-    return NULL;
-}
-
-
-
-int
-known_fields_expected(void)
-{
-    return 0;
-}
-
-
-
-const nvm_field*
-find_known_field(const char *symbol __attribute__((unused)))
 {
     return NULL;
 }
