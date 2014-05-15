@@ -37,14 +37,18 @@ elf_mangle_SRC = elf-mangle.c	\
 dummy_SRC = dummy_options.c	\
 	dummy_known_fields.c
 
-override CPPFLAGS += -D_POSIX
+override CPPFLAGS += -D_POSIX -D_XOPEN_SOURCE=500
+override CPPFLAGS += -DPACKAGE_VERSION=\"\"
 override CPPFLAGS += -I../libcintelhex/include
 override CFLAGS += -Wall -Wstrict-prototypes -Wextra -std=c99
 LDFLAGS = -static
 override LDFLAGS += -L../libcintelhex/bin
 override LDLIBS := -lelf -lcintelhex $(LDLIBS)
 
-elf-mangle: $(elf_mangle_SRC) $(dummy_SRC)
+elf-mangle: $(elf_mangle_SRC) $(dummy_SRC) config.h
+
+config.h:
+	touch $@
 
 clean:
-	rm -f elf-mangle
+	rm -f elf-mangle *.o
