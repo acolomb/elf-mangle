@@ -35,10 +35,6 @@ libfallback_a_SOURCES =		\
 	fallback_options.c	\
 	fallback_known_fields.c
 
-custom_SRC =			\
-	custom_options.c	\
-	custom_known_fields.c
-
 elf_mangle_SOURCES =		\
 	elf-mangle.c		\
 	options.c		\
@@ -53,8 +49,16 @@ elf_mangle_SOURCES =		\
 	field_print.c		\
 	field_list.c		\
 	nvm_field.c		\
-	find_string.c		\
-	$(custom_SRC)
+	find_string.c
+
+if CUSTOM_OPTIONS
+elf_mangle_SOURCES +=		\
+	custom_options.c
+endif
+if CUSTOM_FIELDS
+elf_mangle_SOURCES +=		\
+	custom_known_fields.c
+endif
 
 elf_mangle_LDADD = -lcintelhex
 elf_mangle_LDADD += libfallback.a

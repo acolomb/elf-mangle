@@ -31,6 +31,34 @@ AC_TYPE_SSIZE_T
 AC_FUNC_MMAP
 AC_CHECK_LIB([elf], [elf_version])
 
+AC_MSG_CHECKING([whether extension module for custom options should be built])
+AC_ARG_ENABLE([custom-options],
+  [AS_HELP_STRING([--enable-custom-options],
+                  [Build extension module with custom options])],
+  [case "${enableval}" in
+     yes) custom_options=true ;;
+     no)  custom_options=false ;;
+     *)   AC_MSG_ERROR([bad value ${enableval} for --enable-custom-options]) ;;
+   esac],
+  [custom_options=false])
+AC_MSG_RESULT([${enable_custom-options}])
+AM_CONDITIONAL([CUSTOM_OPTIONS], [test "x$custom_options" = xtrue])
+
+
+AC_MSG_CHECKING([whether extension module for custom known fields should be built])
+AC_ARG_ENABLE([custom-fields],
+  [AS_HELP_STRING([--enable-custom-fields],
+                  [Build extension module with custom known fields])],
+  [case "${enableval}" in
+     yes) custom_fields=true ;;
+     no)  custom_fields=false ;;
+     *)   AC_MSG_ERROR([bad value ${enableval} for --enable-custom-fields]) ;;
+   esac],
+  [custom_fields=false])
+AC_MSG_RESULT([${enable_custom-fields}])
+AM_CONDITIONAL([CUSTOM_FIELDS], [test "x$custom_fields" = xtrue])
+
+
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_CONFIG_SUBDIRS([libcintelhex])
