@@ -6,6 +6,7 @@
 /missing
 /install-sh
 /depcomp
+/ar-lib
 
 # autotools generated files
 /aclocal.m4
@@ -21,4 +22,5 @@ Makefile
 # Compilation output
 *.o
 *.Po
+*.a
 /doxygen

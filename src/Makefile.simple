@@ -19,7 +19,8 @@
 # <http://www.gnu.org/licenses/>.
 
 
-elf_mangle_SRC = elf-mangle.c	\
+elf_mangle_SRC =		\
+	elf-mangle.c		\
 	options.c		\
 	override.c		\
 	print_symbols.c		\
@@ -34,8 +35,9 @@ elf_mangle_SRC = elf-mangle.c	\
 	nvm_field.c		\
 	find_string.c
 
-dummy_SRC = dummy_options.c	\
-	dummy_known_fields.c
+custom_SRC =			\
+	custom_options.c	\
+	custom_known_fields.c
 
 override CPPFLAGS += -D_POSIX -D_XOPEN_SOURCE=500
 override CPPFLAGS += -DPACKAGE_VERSION=\"\"
@@ -45,7 +47,7 @@ LDFLAGS = -static
 override LDFLAGS += -L../libcintelhex/bin
 override LDLIBS := -lelf -lcintelhex $(LDLIBS)
 
-elf-mangle: $(elf_mangle_SRC) $(dummy_SRC) config.h
+elf-mangle: $(elf_mangle_SRC) $(custom_SRC) config.h
 
 config.h:
 	touch $@

@@ -27,10 +27,13 @@ AM_CFLAGS = -Wall -Wstrict-prototypes -Wextra -fgnu89-inline
 AM_LDFLAGS = -L$(top_builddir)/libcintelhex/bin -static
 
 
+noinst_LIBRARIES = libfallback.a
 bin_PROGRAMS = elf-mangle
-dummy_SRC =			\
-	dummy_options.c		\
-	dummy_known_fields.c
+
+
+libfallback_a_SOURCES =		\
+	fallback_options.c	\
+	fallback_known_fields.c
 
 elf_mangle_SOURCES =		\
 	elf-mangle.c		\
@@ -46,6 +49,16 @@ elf_mangle_SOURCES =		\
 	field_print.c		\
 	field_list.c		\
 	nvm_field.c		\
-	find_string.c		\
-	$(dummy_SRC)
+	find_string.c
+
+if CUSTOM_OPTIONS
+elf_mangle_SOURCES +=		\
+	custom_options.c
+endif
+if CUSTOM_FIELDS
+elf_mangle_SOURCES +=		\
+	custom_known_fields.c
+endif
+
 elf_mangle_LDADD = -lcintelhex
+elf_mangle_LDADD += libfallback.a
