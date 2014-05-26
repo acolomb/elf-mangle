@@ -19,12 +19,14 @@
 # <http://www.gnu.org/licenses/>.
 
 
-AM_CPPFLAGS =					\
-	-I$(top_builddir)/libcintelhex/include	\
-	-I$(top_srcdir)/libcintelhex/include	\
-	-D_POSIX
+AM_CPPFLAGS = -D_POSIX $(CPPFLAGS_INTELHEX_INTERNAL)
 AM_CFLAGS = -Wall -Wstrict-prototypes -Wextra -fgnu89-inline
-AM_LDFLAGS = -L$(top_builddir)/libcintelhex/bin -static
+AM_LDFLAGS = $(LDFLAGS_INTELHEX_INTERNAL)
+
+if HAVE_INTELHEX_INTERNAL
+CPPFLAGS_INTELHEX_INTERNAL = -I$(top_srcdir)/libcintelhex/include
+LDFLAGS_INTELHEX_INTERNAL = -L$(top_builddir)/libcintelhex/bin -static
+endif
 
 
 noinst_LIBRARIES = libfallback.a

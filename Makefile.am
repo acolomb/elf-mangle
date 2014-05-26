@@ -19,4 +19,8 @@
 # <http://www.gnu.org/licenses/>.
 
 
-SUBDIRS = libcintelhex src
+SUBDIRS = $(SUBDIRS_INTELHEX) src
+
+if HAVE_INTELHEX_INTERNAL
+SUBDIRS_INTELHEX = libcintelhex
+endif
