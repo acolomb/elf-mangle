@@ -48,6 +48,7 @@ image_merge_file(const char *filename,
 
     if (format == formatNone ||
 	format == formatIntelHex) {
+#if HAVE_INTELHEX
 	symbols = image_ihex_merge_file(filename, list, list_size, blob_size);
 	if (symbols != 0) return symbols;
 	// Retry with raw binary on failure
@@ -57,6 +58,9 @@ image_merge_file(const char *filename,
 		    filename);
 	    format = formatRawBinary;
 	}
+#else // !HAVE_INTELHEX
+	format = formatRawBinary;
+#endif
     }
 
     if (format == formatRawBinary) {
@@ -85,9 +89,11 @@ image_write_file(const char *filename,
 	image_raw_write_file(filename, blob, blob_size);
 	break;
 
+#if HAVE_INTELHEX
     case formatIntelHex:
 	image_ihex_write_file(filename, blob, blob_size);
 	break;
+#endif
 
     case formatNone:
     default:
