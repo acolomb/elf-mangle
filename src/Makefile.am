@@ -44,7 +44,7 @@ elf_mangle_SOURCES =		\
 	print_symbols.c		\
 	transform.c		\
 	image_formats.c		\
-	image_ihex.c		\
+	$(IMAGE_IHEX)		\
 	image_raw.c		\
 	symbol_map.c		\
 	symbol_list.c		\
@@ -52,6 +52,12 @@ elf_mangle_SOURCES =		\
 	field_list.c		\
 	nvm_field.c		\
 	find_string.c
+
+
+if HAVE_INTELHEX
+IMAGE_IHEX = image_ihex.c
+LIBS_CINTELHEX = -lcintelhex
+endif
 
 if CUSTOM_OPTIONS
 elf_mangle_SOURCES +=		\
@@ -62,5 +68,5 @@ elf_mangle_SOURCES +=		\
 	custom_known_fields.c
 endif
 
-elf_mangle_LDADD = -lcintelhex
+elf_mangle_LDADD = $(LIBS_CINTELHEX)
 elf_mangle_LDADD += libfallback.a
