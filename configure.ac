@@ -36,13 +36,13 @@ AC_ARG_ENABLE([custom-options],
   [AS_HELP_STRING([--enable-custom-options],
                   [Build extension module with custom options])],
   [case "${enableval}" in
-     yes) custom_options=true ;;
-     no)  custom_options=false ;;
+     yes) custom_options=yes ;;
+     no)  custom_options=no ;;
      *)   AC_MSG_ERROR([bad value ${enableval} for --enable-custom-options]) ;;
    esac],
-  [custom_options=false])
-AC_MSG_RESULT([${enable_custom-options}])
-AM_CONDITIONAL([CUSTOM_OPTIONS], [test "x$custom_options" = xtrue])
+  [custom_options=no])
+AC_MSG_RESULT([${custom_options}])
+AM_CONDITIONAL([CUSTOM_OPTIONS], [test "x$custom_options" = xyes])
 
 
 AC_MSG_CHECKING([whether extension module for custom known fields should be built])
@@ -50,13 +50,13 @@ AC_ARG_ENABLE([custom-fields],
   [AS_HELP_STRING([--enable-custom-fields],
                   [Build extension module with custom known fields])],
   [case "${enableval}" in
-     yes) custom_fields=true ;;
-     no)  custom_fields=false ;;
+     yes) custom_fields=yes ;;
+     no)  custom_fields=no ;;
      *)   AC_MSG_ERROR([bad value ${enableval} for --enable-custom-fields]) ;;
    esac],
-  [custom_fields=false])
-AC_MSG_RESULT([${enable_custom-fields}])
-AM_CONDITIONAL([CUSTOM_FIELDS], [test "x$custom_fields" = xtrue])
+  [custom_fields=no])
+AC_MSG_RESULT([${custom_fields}])
+AM_CONDITIONAL([CUSTOM_FIELDS], [test "x$custom_fields" = xyes])
 
 
 AC_CONFIG_HEADERS([config.h])
