@@ -1,2 +1,4 @@
 *.elf
 *.bin
+*.eep
+/elf-mangle

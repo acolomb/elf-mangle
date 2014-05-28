@@ -1,3 +1,27 @@
+# backup files
 *~
+
+# auxiliary scripts
+/compile
+/missing
+/install-sh
+/depcomp
+/ar-lib
+
+# autotools generated files
+/aclocal.m4
+*.in
+/configure
+
+# configuration output
+/stamp-*
+/config.*
+/*.cache
+Makefile
+Doxyfile
+
+# Compilation output
 *.o
+*.Po
+*.a
 /doxygen
