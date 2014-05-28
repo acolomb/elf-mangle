@@ -18,6 +18,7 @@
 /config.*
 /*.cache
 Makefile
+Doxyfile
 
 # Compilation output
 *.o

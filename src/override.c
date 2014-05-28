@@ -128,10 +128,10 @@ parse_hex_bytes(
 
 
 int
-parse_overrides(char *overrides, const nvm_symbol *list, int entries)
+parse_overrides(char *overrides, const nvm_symbol *list, int size)
 {
     char *substart, *subopt, *value;
-    const char* symbols[entries + 1], *errmsg;
+    const char* symbols[size + 1], *errmsg;
     int i, parsed = 0, length;
 
     if (! overrides || ! list) return -1;
@@ -140,7 +140,7 @@ parse_overrides(char *overrides, const nvm_symbol *list, int entries)
 #endif
 
     // Mirror token list from known symbols
-    for (i = 0; i < entries; ++i) {
+    for (i = 0; i < size; ++i) {
 	if (list[i].field) symbols[i] = list[i].field->symbol;
 	else {
 	    fprintf(stderr, _("Missing symbol name in list member %d\n"), i);
@@ -153,7 +153,7 @@ parse_overrides(char *overrides, const nvm_symbol *list, int entries)
     while (*subopt != '\0') {
 	substart = subopt;
 	i = getsubopt(&subopt, (char**) symbols, &value);
-	if (i >= 0 && i < entries) {
+	if (i >= 0 && i < size) {
 	    length = parse_hex_bytes(value, list[i].blob_address, list[i].size);
 #ifdef DEBUG
 	    printf(_("Parsed %d bytes for field %s\n"), length, symbols[i]);

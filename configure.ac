@@ -109,7 +109,7 @@ AM_CONDITIONAL([CUSTOM_FIELDS], [test "x$custom_fields" = xyes])
 
 
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile src/Makefile po/Makefile.in])
+AC_CONFIG_FILES([Makefile Doxyfile src/Makefile po/Makefile.in])
 AS_IF([test "x$cintelhex_internal" = x1],
       [AC_CONFIG_SUBDIRS([libcintelhex])])
 AC_OUTPUT
