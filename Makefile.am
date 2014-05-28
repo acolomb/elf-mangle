@@ -19,8 +19,12 @@
 # <http://www.gnu.org/licenses/>.
 
 
-SUBDIRS = $(SUBDIRS_INTELHEX) src
+SUBDIRS = po $(SUBDIRS_INTELHEX) src
 
 if HAVE_INTELHEX_INTERNAL
 SUBDIRS_INTELHEX = libcintelhex
 endif
+
+ACLOCAL_AMFLAGS = -I m4
+
+EXTRA_DIST = ./config.rpath

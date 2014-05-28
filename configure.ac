@@ -30,6 +30,9 @@ AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
 AC_FUNC_MMAP
 AC_CHECK_LIB([elf], [elf_version])
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_NEED([need-formatstring-macros])
+AM_GNU_GETTEXT_VERSION([0.18.3])
 
 
 # Use installed libcintelhex or fall back to embedded copy
@@ -106,7 +109,7 @@ AM_CONDITIONAL([CUSTOM_FIELDS], [test "x$custom_fields" = xyes])
 
 
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile src/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile po/Makefile.in])
 AS_IF([test "x$cintelhex_internal" = x1],
       [AC_CONFIG_SUBDIRS([libcintelhex])])
 AC_OUTPUT

@@ -15,11 +15,11 @@
 #include "nvm_field.h"
 #include "find_string.h"
 #include "intl.h"
+#include "gettext.h"
 
 #include <gelf.h>
 #include <cintelhex.h>
 #include <argp.h>
-#include <libintl.h>
 
 #include <sys/mman.h>
 #include <sys/stat.h>
