@@ -1,0 +1,373 @@
+# German translations for elf-mangle package.
+# Copyright (C) 2014 Andre Colomb
+# This file is distributed under the same license as the elf-mangle package.
+# AndrÃ© Colomb <src@andre.colomb.de>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: elf-mangle 0.1\n"
+"Report-Msgid-Bugs-To: src@andre.colomb.de\n"
+"POT-Creation-Date: 2014-05-28 15:47+0200\n"
+"PO-Revision-Date: 2014-05-28 17:05+0200\n"
+"Last-Translator: André Colomb <src@andre.colomb.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: src/custom_known_fields.c:94
+msgid "Prototype system"
+msgstr "Protoypsystem"
+
+#: src/custom_known_fields.c:95
+msgid "Production system"
+msgstr "Produktionssystem"
+
+#: src/custom_known_fields.c:96
+msgid "invalid hardware"
+msgstr "ungültige Hardware"
+
+#: src/custom_known_fields.c:97
+msgid "unknown hardware"
+msgstr "unbekannte Hardware"
+
+#: src/custom_known_fields.c:150
+#, c-format
+msgid " (%zu of %<PRIu8> bytes missing)"
+msgstr " (%zu von %<PRIu8> Byte fehlen)"
+
+#: src/custom_known_fields.c:153
+#, c-format
+msgid " (%<PRIu8> bytes)"
+msgstr " (%<PRIu8> Byte)"
+
+#: src/custom_known_fields.c:157
+#, c-format
+msgid " missing NUL termination!"
+msgstr " kein NUL-Terminator!"
+
+#: src/custom_known_fields.c:160
+#, c-format
+msgid "<unknown version> (%<PRIu8> bytes)"
+msgstr "<unbekannte Version> (%<PRIu8> Byte)"
+
+#: src/custom_known_fields.c:192
+#, c-format
+msgid ""
+"WARNING: %s changed to match target hardware type!\n"
+"\t\t%02<PRIu8> (%s) in target map\n"
+"\t\t%02<PRIu8> (%s) provided from image\n"
+msgstr ""
+"ACHTUNG: Feld %s auf Hardwaretyp angepasst!\n"
+"\t\t%02<PRIu8> (%s) in Zielobjekt\n"
+"\t\t%02<PRIu8> (%s) aus Abbild gelesen\n"
+
+#: src/custom_known_fields.c:209
+msgid "Unique system identification"
+msgstr "Eindeutige Systemkennung"
+
+#: src/custom_known_fields.c:211
+msgid "System firmware version"
+msgstr "Firmwareversion des Systems"
+
+#: src/custom_options.c:62
+msgid "NUMBER"
+msgstr "NUMMER"
+
+#: src/custom_options.c:63
+msgid "Override system serial number in output"
+msgstr "System-Seriennummer in Ausgabe überschreiben"
+
+#: src/custom_options.c:121
+msgid "Example-specific options:"
+msgstr "Optionen spezifisch für Beispiel:"
+
+#: src/field_print.c:62
+#, c-format
+msgid "\tMissing %zu of %zu data bytes!"
+msgstr "\t%zu von %zu Datenbytes fehlen!"
+
+#: src/image_formats.c:57
+#, c-format
+msgid "Image file \"%s\" is not in Intel Hex format, trying raw binary.\n"
+msgstr ""
+"Abbilddatei \"%s\" ist nicht im Intel-Hex-Format, versuche Binärformat.\n"
+
+#: src/image_formats.c:71
+#, c-format
+msgid "Invalid input image file format.\n"
+msgstr "Ungültiges Format für Binärabbild.\n"
+
+#: src/image_formats.c:100
+#, c-format
+msgid "Invalid output image file format specified.\n"
+msgstr "Ungültiges Ausgabeformat für Binärabbild.\n"
+
+#: src/image_ihex.c:81 src/image_raw.c:171 src/image_raw.c:219
+#, c-format
+msgid "Cannot open image \"%s\" (%s)\n"
+msgstr "Abbilddatei \"%s\" kann nicht geöffnet werden (%s)\n"
+
+#: src/image_ihex.c:86
+#, c-format
+msgid "Could not determine data range in Intel Hex file \"%s\" (%s)\n"
+msgstr ""
+"Konnte Datenbereich in der Intel-Hex-Datei \"%s\" nicht ermitteln (%s)\n"
+
+#: src/image_ihex.c:90 src/image_raw.c:176
+#, c-format
+msgid "Image file \"%s\" is empty\n"
+msgstr "Abbilddatei \"%s\" ist leer\n"
+
+#: src/image_ihex.c:97 src/image_raw.c:179
+#, c-format
+msgid "Image file \"%s\" is too small, %zu of %zu bytes missing\n"
+msgstr "Abbilddatei \"%s\" ist zu klein, %zu von %zu Byte fehlen\n"
+
+#: src/image_ihex.c:105 src/image_ihex.c:110
+#, c-format
+msgid "Could not copy data from Intel Hex file \"%s\" (%s)\n"
+msgstr "Konnte keine Daten aus der Intel-Hex-Datei \"%s\" kopieren (%s)\n"
+
+#: src/image_ihex.c:234
+#, c-format
+msgid "Cannot open output image \"%s\" (%s)\n"
+msgstr "Abbilddatei \"%s\" für Ausgabe kann nicht geöffnet werden (%s)\n"
+
+#: src/image_raw.c:107
+#, c-format
+msgid "%s: copy %zu bytes from file offset %zu to %p\n"
+msgstr "%s: Kopiere %zu Byte von Dateiposition %zu nach %p\n"
+
+#: src/image_raw.c:118
+#, c-format
+msgid "Failed to read %s (%zu bytes) from file offset %zu to %p (%s)\n"
+msgstr ""
+"Fehler beim Lesen von %s (%zu Byte) von Dateiposition %zu nach %p (%s)\n"
+
+#: src/image_raw.c:222
+#, c-format
+msgid "Cannot resize image file \"%s\" to %zu bytes (%s)\n"
+msgstr "Abbilddatei \"%s\" kann nicht auf %zu Bytes vergrößert werden (%s)\n"
+
+#: src/image_raw.c:230
+#, c-format
+msgid "Cannot write image file \"%s\" (%s)\n"
+msgstr "Abbilddatei \"%s\" kann nicht geschrieben werden (%s)\n"
+
+#: src/options.c:60
+msgid "Input / output options:"
+msgstr "Ein- / Ausgabeoptionen:"
+
+#: src/options.c:61
+msgid "SECTION"
+msgstr "SEKTION"
+
+#: src/options.c:62
+msgid "Use SECTION from ELF file instead of default"
+msgstr "Benutze SEKTION aus der ELF-Datei"
+
+#: src/options.c:63 src/options.c:70
+msgid "FILE"
+msgstr "DATEI"
+
+#: src/options.c:64
+msgid "Read binary input data from image FILE"
+msgstr "Lese Eingabe-Binärdaten aus der Abbild-DATEI"
+
+#: src/options.c:67 src/options.c:74 src/options.c:87
+msgid "FORMAT"
+msgstr "FORMAT"
+
+#: src/options.c:68
+msgid ""
+"Format of input image file.  FORMAT can be either \"raw\", \"ihex\" or \"auto"
+"\" (default)"
+msgstr ""
+"Format der Eingabe-Abbilddatei.  Unterstützte FORMATe: \"raw\", \"ihex\" "
+"oder \"auto\" (standard)"
+
+#: src/options.c:71
+msgid "Write binary data to output image FILE"
+msgstr "Binärdaten in Ausgabe-Abbilddatei DATEI schreiben"
+
+#: src/options.c:75
+msgid ""
+"Format of output image file.  FORMAT can be either \"raw\" or \"ihex"
+"\" (default)"
+msgstr ""
+"Format der Ausgabe-Abbilddatei.  Unterstützte FORMATe: \"raw\" oder \"ihex"
+"\" (standard)"
+
+#: src/options.c:77
+msgid "FIELD=BYTES,..."
+msgstr "FELD=BYTES,..."
+
+#: src/options.c:78
+msgid ""
+"Override the given fields' values (comma-separated pairs).\n"
+"Each FIELD symbol name must be followed by an equal sign and the data BYTES "
+"encoded in hexadecimal.  Missing bytes are left unchanged, extra data "
+"generates an error."
+msgstr ""
+"Werte der angegebenen Felder überschreiben (Paare durch Komma getrennt).\n"
+"Nach jedem Symbolnamen FELD muss ein Gleichzeichen und die Daten-BYTES in "
+"Hexadezimal-Kodierung stehen.  Nicht spezifizierte Bytes bleiben "
+"unverändert, zu viele führen zum Fehler."
+
+#: src/options.c:82
+msgid "MIN-LEN"
+msgstr "ANZAHL"
+
+#: src/options.c:83
+msgid "Locate strings of at least MIN-LEN bytes in input"
+msgstr "Zeichenketten mit mindestens ANZAHL Byte in Eingabe suchen"
+
+#: src/options.c:86
+msgid "Display information from parsed files"
+msgstr "Information aus analysierten Dateien auflisten"
+
+#: src/options.c:88
+msgid ""
+"Print field values.  FORMAT can be either \"pretty\" (default) or \"hex\""
+msgstr ""
+"Werte der Felder ausgeben.  Unterstützte FORMATe: \"pretty\" (standard) oder "
+"\"hex\""
+
+#: src/options.c:91
+msgid "Print symbol address for each field"
+msgstr "Symboladresse für jedes Feld ausgeben"
+
+#: src/options.c:93
+msgid "Show object symbol names instead of field decriptions"
+msgstr "Symbolnamen anstatt Feldbeschreibungen anzeigen"
+
+#: src/options.c:95
+msgid "Print size in bytes for each field"
+msgstr "Größe in Byte für jedes Feld ausgeben"
+
+#: src/options.c:102
+msgid "IN_MAP [OUT_MAP]"
+msgstr "EINGABE_ELF [AUSGABE_ELF]"
+
+#: src/options.c:106
+msgid ""
+"Analyze, transform and manipulate binary data based on ELF symbol tables."
+msgstr ""
+"Analyse, Umwandlung und Manipulation von Binärdaten anhand von ELF-"
+"Symboltabellen."
+
+#: src/options.c:151 src/options.c:158
+#, c-format
+msgid "Invalid binary image format `%s' specified."
+msgstr "Ungültiges Format '%s' für Binärabbild angegeben."
+
+#: src/options.c:169
+#, c-format
+msgid "Minimum string length %d out of range."
+msgstr "Minimale Zeichenkettenlänge %d außerhalb des gültigen Bereichs."
+
+#: src/options.c:178
+#, c-format
+msgid "Unknown print format `%s' specified."
+msgstr "Unbekanntes Ausgabeformat '%s' angegeben."
+
+#: src/options.c:196
+msgid "Too many map file arguments."
+msgstr "Zu viele Dateien für Symbolzuordnung."
+
+#: src/options.c:201
+msgid "Missing file name."
+msgstr "Dateiname fehlt."
+
+#: src/override.c:77
+#, c-format
+msgid "%s: Override directive truncated during append.\n"
+msgstr "%s: Zuweisungsliste beim Anhängen abgeschnitten.\n"
+
+#: src/override.c:85
+#, c-format
+msgid "Could not append override directive \""
+msgstr "Konnte Zuweisungsliste \""
+
+#: src/override.c:87
+#, c-format
+msgid "\".\n"
+msgstr "\" nicht anhängen.\n"
+
+#: src/override.c:120
+#, c-format
+msgid "Failed after parsing %d hex bytes with \"%s\" remaining (%s)\n"
+msgstr "Fehler nach %d verarbeiteten Hex-Byte, Restdaten: \"%s\" (%s)\n"
+
+#: src/override.c:139
+#, c-format
+msgid "%s: \"%s\"\n"
+msgstr "%s: \"%s\"\n"
+
+#: src/override.c:146
+#, c-format
+msgid "Missing symbol name in list member %d\n"
+msgstr "Symbolname fehlt im Listeneintrag %d\n"
+
+#: src/override.c:159
+#, c-format
+msgid "Parsed %d bytes for field %s\n"
+msgstr "%d Byte für Feld %s geparsed\n"
+
+#: src/override.c:164
+msgid "Could not parse byte data"
+msgstr "Konnte Byte-Inhalte nicht parsen"
+
+#: src/override.c:165
+msgid "Field not found"
+msgstr "Feld nicht gefunden"
+
+#: src/override.c:166
+#, c-format
+msgid "Unable to parse override `%.*s' (%s)\n"
+msgstr "Kann Zuweisung '%.*s' nicht parsen (%s)\n"
+
+#: src/symbol_map.c:86
+#, c-format
+msgid "Could not access section header string table: %s\n"
+msgstr "Kann nicht auf Sektions-Header-Stringtabelle zugreifen: %s\n"
+
+#: src/symbol_map.c:96
+#, c-format
+msgid "%s: [%zu] %s\n"
+msgstr "%s: [%zu] %s\n"
+
+#: src/symbol_map.c:109
+#, c-format
+msgid "Header of ELF section %zu inaccessible: %s\n"
+msgstr "Header der ELF-Sektion %zu unlesbar: %s\n"
+
+#: src/symbol_map.c:129
+#, c-format
+msgid "Could not allocate image data: %s\n"
+msgstr "Konnte keinen Speicher für Abbilddaten zuweisen: %s\n"
+
+#: src/symbol_map.c:228
+msgid "Not an ELF object"
+msgstr "Kein ELF-Objekt"
+
+#: src/symbol_map.c:237
+#, c-format
+msgid "Cannot open symbol map \"%s\" (%s)\n"
+msgstr "Symbolzuordnung \"%s\" kann nicht geöffnet werden (%s)\n"
+
+#: src/transform.c:66
+#, c-format
+msgid "%s: Target `%s' (%p) matches source symbol %p\n"
+msgstr "%s: Ziel '%s' (%p) entspricht Symbol %p in Quelle\n"
+
+#: src/transform.c:74
+#, c-format
+msgid "%s: %zu of %zu bytes copied\n"
+msgstr "%s: %zu von %zu Byte kopiert\n"
