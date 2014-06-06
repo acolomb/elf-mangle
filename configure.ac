@@ -26,6 +26,7 @@ AC_PROG_CC_C99
 AC_PROG_RANLIB
 AM_PROG_AR
 
+# Use GNU Gnulib if required macros are present
 m4_ifdef([gl_EARLY],
    [gl_EARLY
     gnulib=1], [gnulib=0])
