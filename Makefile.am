@@ -25,7 +25,9 @@ if HAVE_INTELHEX_INTERNAL
 SUBDIRS_INTELHEX = libcintelhex
 endif
 
+if USE_GNULIB
 SUBDIRS_GNULIB = gnulib
+endif
 
 ACLOCAL_AMFLAGS = -I m4
 
