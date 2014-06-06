@@ -17,7 +17,7 @@
 # <http://www.gnu.org/licenses/>.
 
 
-AC_INIT([elf-mangle], [0.1], [src@andre.colomb.de])
+AC_INIT([elf-mangle], [0.2], [src@andre.colomb.de])
 AC_CONFIG_AUX_DIR([.])
 AC_CONFIG_SRCDIR([src/elf-mangle.c])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
@@ -26,10 +26,20 @@ AC_PROG_CC_C99
 AC_PROG_RANLIB
 AM_PROG_AR
 
+# Use GNU Gnulib if required macros are present
+m4_ifdef([gl_EARLY],
+   [gl_EARLY
+    gnulib=1], [gnulib=0])
+AM_CONDITIONAL([USE_GNULIB], [test "x$gnulib" = x1])
+
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
+m4_ifdef([gl_INIT], [gl_INIT])
 AC_FUNC_MMAP
 AC_CHECK_LIB([elf], [elf_version])
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_NEED([need-formatstring-macros])
+AM_GNU_GETTEXT_VERSION([0.18.3])
 
 
 # Use installed libcintelhex or fall back to embedded copy
@@ -106,7 +116,9 @@ AM_CONDITIONAL([CUSTOM_FIELDS], [test "x$custom_fields" = xyes])
 
 
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile Doxyfile src/Makefile])
+AC_CONFIG_FILES([Makefile Doxyfile src/Makefile po/Makefile.in])
 AS_IF([test "x$cintelhex_internal" = x1],
       [AC_CONFIG_SUBDIRS([libcintelhex])])
+m4_ifdef([gl_INIT],
+         [AC_CONFIG_FILES([gnulib/Makefile])])
 AC_OUTPUT

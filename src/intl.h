@@ -24,13 +24,11 @@
 #ifndef INTL_H_
 #define INTL_H_
 
-#ifdef USE_Libintl
-#include <libintl.h>
-#else
-#define _(Str) Str
-#endif
+#include "gettext.h"
 
+/// Short-hand macro for i18n strings
+#define _(Str) gettext(Str)
 /// No-op macro serving only as marker for i18n
-#define N_(Str) Str
+#define N_(Str) gettext_noop(Str)
 
 #endif //INTL_H_

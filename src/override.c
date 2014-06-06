@@ -29,7 +29,6 @@
 #include "nvm_field.h"
 #include "intl.h"
 
-#define _XOPEN_SOURCE	500
 #undef __STRICT_ANSI__	//required on Cygwin for getsubopt()
 #include <stdio.h>
 #include <stdarg.h>

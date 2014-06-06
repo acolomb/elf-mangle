@@ -206,9 +206,9 @@ copy_unique(const nvm_field *field,
 
 /// Description of known data fields for example image
 static const nvm_field known_fields[] = {
-    { 3,	"nvm_unique",			_("Unique system identification"),
+    { 3,	"nvm_unique",			N_("Unique system identification"),
       NULL,			copy_unique,			print_unique },
-    { 0,	"nvm_version",			_("System firmware version"),
+    { 0,	"nvm_version",			N_("System firmware version"),
       resize_version,		copy_field_noop,		print_version }
 };
 /// Highest possible index in known field table
