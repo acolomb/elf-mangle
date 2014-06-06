@@ -1,0 +1,14 @@
+2014-06-06  André Colomb  <src@andre.colomb.de>
+
+	* Add support for GNU Gettext and Gnulib packages.  To use Gnulib,
+	it must be installed on the packager's machine, who runs
+	`gnulib-tool --update` in the top-level package directory.  The
+	resulting distribution archive will include all necessary gnulib
+	checks to work around problematic user platforms during
+	compilation.
+
+	* Release version 0.2.
+
+2014-05-28  André Colomb  <src@andre.colomb.de>
+
+	* Release version 0.1.
