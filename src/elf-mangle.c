@@ -114,7 +114,8 @@ main(int argc, char **argv)
 
     // Initialize message translation
     setlocale(LC_ALL, "");
-    textdomain(PACKAGE_TARNAME);
+    bindtextdomain(PACKAGE, LOCALEDIR);
+    textdomain(PACKAGE);
 
     // Parse command line options
     ret_code = check_opts(argc, argv, &config) != 0;
