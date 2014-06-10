@@ -36,7 +36,12 @@ AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
 m4_ifdef([gl_INIT], [gl_INIT])
 AC_FUNC_MMAP
-AC_CHECK_LIB([elf], [elf_version])
+AC_CHECK_LIB([elf], [elf_version], [],
+   [AC_MSG_ERROR([Libelf is needed to compile this software.
+                  Specify LDFLAGS if necessary.])])
+AC_CHECK_HEADERS([gelf.h], [],
+   [AC_MSG_ERROR([Libelf is needed to compile this software.
+                  Specify CPPFLAGS if necessary.])])
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_NEED([need-formatstring-macros])
 AM_GNU_GETTEXT_VERSION([0.18.3])
@@ -74,7 +79,7 @@ AC_ARG_WITH([cintelhex],
    ])
 
 AS_IF([test "x$cintelhex_internal" = x1],
-      [AC_MSG_NOTICE([Using embedded internal copy of libcintelhex])
+      [AC_MSG_NOTICE([Trying embedded internal copy of libcintelhex])
        LDFLAGS="-Llibcintelhex/lib -Llibcintelhex/bin $LDFLAGS"
        CPPFLAGS="-Ilibcintelhex/include $CPPFLAGS"
        AS_UNSET([ac_cv_header_cintelhex_h])
@@ -84,6 +89,9 @@ AS_IF([test "x$cintelhex_internal" = x1],
 AM_CONDITIONAL([HAVE_INTELHEX], [test x$cintelhex = x1])
 AM_CONDITIONAL([HAVE_INTELHEX_INTERNAL], [test x$cintelhex_internal = x1])
 AC_DEFINE_UNQUOTED([HAVE_INTELHEX], [$cintelhex], [Define if you have libcintelhex])
+AS_IF([test "x$cintelhex" = x1],
+      [AC_MSG_NOTICE([Including support for Intel Hex format files.])],
+      [AC_MSG_WARN([Intel Hex format files will not be supported.])])
 
 
 
