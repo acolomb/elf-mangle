@@ -11,3 +11,5 @@ POTFILES
 elf-mangle.pot
 remove-potcdate.sed
 stamp-po
+
+*.gmo

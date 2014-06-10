@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: elf-mangle 0.1\n"
 "Report-Msgid-Bugs-To: src@andre.colomb.de\n"
-"POT-Creation-Date: 2014-05-28 15:47+0200\n"
+"POT-Creation-Date: 2014-06-10 11:29+0200\n"
 "PO-Revision-Date: 2014-05-28 17:05+0200\n"
 "Last-Translator: André Colomb <src@andre.colomb.de>\n"
 "Language-Team: German\n"
@@ -333,31 +333,31 @@ msgstr "Feld nicht gefunden"
 msgid "Unable to parse override `%.*s' (%s)\n"
 msgstr "Kann Zuweisung '%.*s' nicht parsen (%s)\n"
 
-#: src/symbol_map.c:86
+#: src/symbol_map.c:93
 #, c-format
 msgid "Could not access section header string table: %s\n"
 msgstr "Kann nicht auf Sektions-Header-Stringtabelle zugreifen: %s\n"
 
-#: src/symbol_map.c:96
+#: src/symbol_map.c:103
 #, c-format
 msgid "%s: [%zu] %s\n"
 msgstr "%s: [%zu] %s\n"
 
-#: src/symbol_map.c:109
+#: src/symbol_map.c:116
 #, c-format
 msgid "Header of ELF section %zu inaccessible: %s\n"
 msgstr "Header der ELF-Sektion %zu unlesbar: %s\n"
 
-#: src/symbol_map.c:129
+#: src/symbol_map.c:136
 #, c-format
 msgid "Could not allocate image data: %s\n"
 msgstr "Konnte keinen Speicher für Abbilddaten zuweisen: %s\n"
 
-#: src/symbol_map.c:228
+#: src/symbol_map.c:235
 msgid "Not an ELF object"
 msgstr "Kein ELF-Objekt"
 
-#: src/symbol_map.c:237
+#: src/symbol_map.c:244
 #, c-format
 msgid "Cannot open symbol map \"%s\" (%s)\n"
 msgstr "Symbolzuordnung \"%s\" kann nicht geöffnet werden (%s)\n"
