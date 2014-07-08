@@ -109,7 +109,7 @@ main(int argc, char **argv)
 	.locate_strings		= -1,
 	.show_fields		= showNone,
 	.print_content		= printNone,
-	.format_out		= formatRawBinary,
+	.format_out		= formatIntelHex,
     };
 
     // Initialize message translation
