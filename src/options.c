@@ -79,8 +79,6 @@ static const struct argp_option options[] = {
 	 "Each FIELD symbol name must be followed by an equal sign and the data"
 	 " BYTES encoded in hexadecimal.  Missing bytes are left unchanged,"
 	 " extra data generates an error."),	0 },
-    { "strings",	OPT_STRINGS,	N_("MIN-LEN"),		OPTION_ARG_OPTIONAL,
-      N_("Locate strings of at least MIN-LEN bytes in input"),	0 },
 
     { NULL,		0,		NULL,			0,
       N_("Display information from parsed files"),		0 },
@@ -93,6 +91,8 @@ static const struct argp_option options[] = {
       N_("Show object symbol names instead of field decriptions"), 0 },
     { "byte-size",	OPT_BYTE_SIZE,	NULL,			0,
       N_("Print size in bytes for each field"),			0 },
+    { "strings",	OPT_STRINGS,	N_("MIN-LEN"),		OPTION_ARG_OPTIONAL,
+      N_("Locate strings of at least MIN-LEN bytes in input"),	0 },
     { 0 }
 };
 
