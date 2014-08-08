@@ -1,3 +1,17 @@
+2014-08-08  André Colomb  <src@andre.colomb.de>
+
+	* Clean up build system for more stability and better user
+	interaction.
+	* Fix some portability problems to enable building on MinGW.
+	* Switch default output image format to Intel Hex, as the help
+	string already stated.
+	* Fix help output to list --strings option in the right group.
+	* Include German translation.
+	* Include a README document with detailed setup and usage
+	instructions.
+
+	* Release version 0.3.
+
 2014-06-06  André Colomb  <src@andre.colomb.de>
 
 	* Add support for GNU Gettext and Gnulib packages.  To use Gnulib,
