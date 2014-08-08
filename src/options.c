@@ -81,7 +81,7 @@ static const struct argp_option options[] = {
 	 " extra data generates an error."),	0 },
 
     { NULL,		0,		NULL,			0,
-      N_("Display information from parsed files"),		0 },
+      N_("Display information from parsed files:"),		0 },
     { "print",		OPT_PRINT,	N_("FORMAT"),		OPTION_ARG_OPTIONAL,
       N_("Print field values.  FORMAT can be either"
 	 " \"pretty\" (default) or \"hex\""),			0 },
