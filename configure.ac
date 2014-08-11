@@ -17,7 +17,7 @@
 # <http://www.gnu.org/licenses/>.
 
 
-AC_INIT([elf-mangle], [0.2], [src@andre.colomb.de])
+AC_INIT([elf-mangle], [0.3], [src@andre.colomb.de])
 AC_CONFIG_AUX_DIR([.])
 AC_CONFIG_SRCDIR([src/elf-mangle.c])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])

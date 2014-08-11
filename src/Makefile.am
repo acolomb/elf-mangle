@@ -77,5 +77,5 @@ if USE_GNULIB
 LIBS_GNULIB = $(top_builddir)/gnulib/libgnu.a
 endif
 
-elf_mangle_LDADD = $(LIBS_CINTELHEX) $(LIBS_GNULIB)
+elf_mangle_LDADD = $(LIBS_CINTELHEX) $(LIBS_GNULIB) @LIBINTL@
 elf_mangle_LDADD += libfallback.a

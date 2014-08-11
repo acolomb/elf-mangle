@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: elf-mangle 0.1\n"
 "Report-Msgid-Bugs-To: src@andre.colomb.de\n"
-"POT-Creation-Date: 2014-06-10 11:29+0200\n"
-"PO-Revision-Date: 2014-05-28 17:05+0200\n"
+"POT-Creation-Date: 2014-08-08 11:11+0200\n"
+"PO-Revision-Date: 2014-08-08 11:13+0200\n"
 "Last-Translator: André Colomb <src@andre.colomb.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -180,7 +180,7 @@ msgstr "DATEI"
 msgid "Read binary input data from image FILE"
 msgstr "Lese Eingabe-Binärdaten aus der Abbild-DATEI"
 
-#: src/options.c:67 src/options.c:74 src/options.c:87
+#: src/options.c:67 src/options.c:74 src/options.c:85
 msgid "FORMAT"
 msgstr "FORMAT"
 
@@ -220,36 +220,36 @@ msgstr ""
 "Hexadezimal-Kodierung stehen.  Nicht spezifizierte Bytes bleiben "
 "unverändert, zu viele führen zum Fehler."
 
-#: src/options.c:82
-msgid "MIN-LEN"
-msgstr "ANZAHL"
-
-#: src/options.c:83
-msgid "Locate strings of at least MIN-LEN bytes in input"
-msgstr "Zeichenketten mit mindestens ANZAHL Byte in Eingabe suchen"
+#: src/options.c:84
+msgid "Display information from parsed files:"
+msgstr "Information aus analysierten Dateien auflisten:"
 
 #: src/options.c:86
-msgid "Display information from parsed files"
-msgstr "Information aus analysierten Dateien auflisten"
-
-#: src/options.c:88
 msgid ""
 "Print field values.  FORMAT can be either \"pretty\" (default) or \"hex\""
 msgstr ""
 "Werte der Felder ausgeben.  Unterstützte FORMATe: \"pretty\" (standard) oder "
 "\"hex\""
 
-#: src/options.c:91
+#: src/options.c:89
 msgid "Print symbol address for each field"
 msgstr "Symboladresse für jedes Feld ausgeben"
 
-#: src/options.c:93
+#: src/options.c:91
 msgid "Show object symbol names instead of field decriptions"
 msgstr "Symbolnamen anstatt Feldbeschreibungen anzeigen"
 
-#: src/options.c:95
+#: src/options.c:93
 msgid "Print size in bytes for each field"
 msgstr "Größe in Byte für jedes Feld ausgeben"
+
+#: src/options.c:94
+msgid "MIN-LEN"
+msgstr "ANZAHL"
+
+#: src/options.c:95
+msgid "Locate strings of at least MIN-LEN bytes in input"
+msgstr "Zeichenketten mit mindestens ANZAHL Byte in Eingabe suchen"
 
 #: src/options.c:102
 msgid "IN_MAP [OUT_MAP]"
