@@ -7,6 +7,7 @@ based on ELF symbol tables.
 
 Author: André Colomb <src@andre.colomb.de>
 
+
 License
 -------
 
@@ -58,7 +59,7 @@ storage layout, and written back to an image file ready for flashing.
   * Specified on the command line
   * Loaded from an existing binary data image (blob)
 + Modular support for different input / output image formats:
-  * Intel Hex encoding (requires [libcintelhex][4])
+  * Intel Hex encoding (requires [libcintelhex][ihex-fork])
   * Raw binary data
 + Load a second ELF object to transcribe matching symbols between
   input and output layout.
