@@ -34,6 +34,7 @@
 #include "nvm_field.h"
 #include "gettext.h"
 
+#include <locale.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -108,12 +109,13 @@ main(int argc, char **argv)
 	.locate_strings		= -1,
 	.show_fields		= showNone,
 	.print_content		= printNone,
-	.format_out		= formatRawBinary,
+	.format_out		= formatIntelHex,
     };
 
     // Initialize message translation
-    setlocale (LC_ALL, "");
-    textdomain (PACKAGE_TARNAME);
+    setlocale(LC_ALL, "");
+    bindtextdomain(PACKAGE, LOCALEDIR);
+    textdomain(PACKAGE);
 
     // Parse command line options
     ret_code = check_opts(argc, argv, &config) != 0;

@@ -43,6 +43,13 @@
 #undef DEBUG
 #endif
 
+/// Flags for open() system call
+#define OPEN_FLAGS	(O_RDONLY | O_BINARY)
+#ifndef O_BINARY
+#define O_BINARY	0
+#endif
+
+
 
 
 /// Internal state of a symbol map
@@ -213,7 +220,7 @@ symbol_map_open_file(const char *filename)
 
     source = malloc(sizeof(*source));
     if (source) {
-	source->fd = open(filename, O_RDONLY);
+	source->fd = open(filename, OPEN_FLAGS);
 	source->elf = NULL;
 	source->blob = NULL;
 	source->blob_size = 0;
