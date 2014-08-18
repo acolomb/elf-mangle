@@ -63,11 +63,15 @@ AC_ARG_WITH([cintelhex],
                            [cintelhex=1], [cintelhex_internal=1])],
                        [cintelhex_internal=1])],
        [internal], [cintelhex_internal=1],
-       [LDFLAGS="-L$with_cintelhex/lib $LDFLAGS"
+       [saved_CPPFLAGS="$CPPFLAGS"
         CPPFLAGS="-I$with_cintelhex/include $CPPFLAGS"
         AC_CHECK_HEADERS([cintelhex.h],
-           [AC_CHECK_LIB([cintelhex], [ihex_byte_copy],
-               [cintelhex=1])])
+           [saved_LDFLAGS="$LDFLAGS"
+            LDFLAGS="-L$with_cintelhex/lib $LDFLAGS"
+            AC_CHECK_LIB([cintelhex], [ihex_byte_copy],
+               [cintelhex=1],
+               [LDFLAGS="$saved_LDFLAGS"])],
+           [CPPFLAGS="$saved_CPPFLAGS"])
        ])
    ],
    [AC_MSG_RESULT([--with-cintelhex not specified])
@@ -79,11 +83,13 @@ AC_ARG_WITH([cintelhex],
 
 AS_IF([test "x$cintelhex_internal" = x1],
    [AC_MSG_NOTICE([Trying embedded internal copy of libcintelhex])
-    LDFLAGS="-Llibcintelhex/lib -Llibcintelhex/bin $LDFLAGS"
-    CPPFLAGS="-Ilibcintelhex/include $CPPFLAGS"
     AS_UNSET([ac_cv_header_cintelhex_h])
+    CPPFLAGS="-Ilibcintelhex/include $CPPFLAGS"
     AC_CHECK_HEADERS([cintelhex.h],
-       [cintelhex=1], [cintelhex_internal=0])
+       [cintelhex=1
+        LDFLAGS="-Llibcintelhex/lib -Llibcintelhex/bin $LDFLAGS"],
+       [cintelhex_internal=0
+        CPPFLAGS="$saved_CPPFLAGS"])
    ])
 AM_CONDITIONAL([HAVE_INTELHEX], [test x$cintelhex = x1])
 AM_CONDITIONAL([HAVE_INTELHEX_INTERNAL], [test x$cintelhex_internal = x1])
