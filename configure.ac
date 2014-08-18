@@ -67,8 +67,7 @@ AC_ARG_WITH([cintelhex],
         CPPFLAGS="-I$with_cintelhex/include $CPPFLAGS"
         AC_CHECK_HEADERS([cintelhex.h],
            [AC_CHECK_LIB([cintelhex], [ihex_byte_copy],
-               [EXT_LIB_PATH="-L$with_cintelhex/lib $EXT_LIB_PATH"
-                cintelhex=1])])
+               [cintelhex=1])])
        ])
    ],
    [AC_MSG_RESULT([--with-cintelhex not specified])
