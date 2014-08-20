@@ -36,6 +36,7 @@ endif
 
 noinst_LIBRARIES = libfallback.a
 bin_PROGRAMS = elf-mangle
+EXTRA_DIST = include_order.txt
 
 
 libfallback_a_SOURCES =		\
@@ -45,22 +46,39 @@ libfallback_a_SOURCES =		\
 elf_mangle_SOURCES =		\
 	elf-mangle.c		\
 	options.c		\
+	options.h		\
 	override.c		\
+	override.h		\
 	print_symbols.c		\
+	print_symbols.h		\
 	transform.c		\
+	transform.h		\
 	image_formats.c		\
+	image_formats.h		\
 	$(IMAGE_IHEX)		\
 	image_raw.c		\
+	image_raw.h		\
 	symbol_map.c		\
+	symbol_map.h		\
 	symbol_list.c		\
+	symbol_list.h		\
+	known_fields.h		\
 	field_print.c		\
+	field_print.h		\
 	field_list.c		\
+	field_list.h		\
 	nvm_field.c		\
-	find_string.c
+	nvm_field.h		\
+	find_string.c		\
+	find_string.h		\
+	intl.h			\
+	gettext.h
 
 
 if HAVE_INTELHEX
-IMAGE_IHEX = image_ihex.c
+IMAGE_IHEX = 			\
+	image_ihex.c		\
+	image_ihex.h
 LIBS_CINTELHEX = -lcintelhex
 endif
 
