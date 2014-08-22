@@ -26,7 +26,7 @@ DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 if HAVE_INTELHEX_INTERNAL
 CPPFLAGS_INTELHEX_INTERNAL = -I$(top_srcdir)/libcintelhex/include
-LDFLAGS_INTELHEX_INTERNAL = -L$(top_builddir)/libcintelhex/bin -static
+LDFLAGS_INTELHEX_INTERNAL = -L$(top_builddir)/libcintelhex/src/.libs -static
 endif
 
 if USE_GNULIB
