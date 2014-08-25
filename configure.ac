@@ -59,7 +59,7 @@ AC_ARG_WITH([cintelhex],
     AS_CASE([$with_cintelhex],
        [no],       [],
        [yes],      [AC_CHECK_HEADERS([cintelhex.h],
-                       [AC_CHECK_LIB([cintelhex], [ihex_byte_copy],
+                       [AC_SEARCH_LIBS([ihex_byte_copy], [cintelhex],
                            [cintelhex=1], [cintelhex_internal=1])],
                        [cintelhex_internal=1])],
        [internal], [cintelhex_internal=1],
@@ -68,7 +68,7 @@ AC_ARG_WITH([cintelhex],
         AC_CHECK_HEADERS([cintelhex.h],
            [saved_LDFLAGS="$LDFLAGS"
             LDFLAGS="-L$with_cintelhex/lib $LDFLAGS"
-            AC_CHECK_LIB([cintelhex], [ihex_byte_copy],
+            AC_SEARCH_LIBS([ihex_byte_copy], [cintelhex],
                [cintelhex=1],
                [LDFLAGS="$saved_LDFLAGS"])],
            [CPPFLAGS="$saved_CPPFLAGS"])
@@ -76,7 +76,7 @@ AC_ARG_WITH([cintelhex],
    ],
    [AC_MSG_RESULT([--with-cintelhex not specified])
     AC_CHECK_HEADERS([cintelhex.h],
-       [AC_CHECK_LIB([cintelhex], [ihex_byte_copy],
+       [AC_SEARCH_LIBS([ihex_byte_copy], [cintelhex],
            [cintelhex=1], [cintelhex_internal=1])],
        [cintelhex_internal=1])
    ])

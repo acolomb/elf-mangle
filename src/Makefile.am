@@ -21,12 +21,11 @@
 
 AM_CPPFLAGS = -D_POSIX $(CPPFLAGS_INTELHEX_INTERNAL) $(CPPFLAGS_GNULIB)
 AM_CFLAGS = -Wall -Wstrict-prototypes -Wextra -fgnu89-inline
-AM_LDFLAGS = $(LDFLAGS_INTELHEX_INTERNAL)
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 if HAVE_INTELHEX_INTERNAL
 CPPFLAGS_INTELHEX_INTERNAL = -I$(top_srcdir)/libcintelhex/include
-LDFLAGS_INTELHEX_INTERNAL = -L$(top_builddir)/libcintelhex/src/.libs -static
+LIBS_CINTELHEX = $(top_builddir)/libcintelhex/src/.libs/libcintelhex.a
 endif
 
 if USE_GNULIB
@@ -79,7 +78,6 @@ if HAVE_INTELHEX
 IMAGE_IHEX = 			\
 	image_ihex.c		\
 	image_ihex.h
-LIBS_CINTELHEX = -lcintelhex
 endif
 
 if CUSTOM_OPTIONS
