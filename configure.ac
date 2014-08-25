@@ -93,7 +93,7 @@ AS_IF([test "x$cintelhex_internal" = x1],
 AM_CONDITIONAL([HAVE_INTELHEX], [test x$cintelhex = x1])
 AM_CONDITIONAL([HAVE_INTELHEX_INTERNAL], [test x$cintelhex_internal = x1])
 AC_DEFINE_UNQUOTED([HAVE_INTELHEX], [$cintelhex], [Define if you have libcintelhex])
-AS_IF([test "x$cintelhex" = x1],
+AM_COND_IF([HAVE_INTELHEX],
    [AC_MSG_NOTICE([Including support for Intel Hex format files.])],
    [AC_MSG_WARN([Intel Hex format files will not be supported.])])
 
@@ -129,7 +129,7 @@ AM_CONDITIONAL([CUSTOM_FIELDS], [test "x$custom_fields" = xyes])
 
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile Doxyfile src/Makefile po/Makefile.in])
-AS_IF([test "x$cintelhex_internal" = x1],
+AM_COND_IF([HAVE_INTELHEX_INTERNAL],
    [AC_CONFIG_SUBDIRS([libcintelhex])])
 m4_ifdef([gl_INIT],
    [AC_CONFIG_FILES([gnulib/Makefile])])
