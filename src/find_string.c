@@ -24,6 +24,7 @@
 #include "config.h"
 
 #include "find_string.h"
+#include "intl.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -106,8 +107,8 @@ nvm_string_list(const char* blob, size_t size, uint8_t min_length)
     while (size) {
 	next = nvm_string_find(blob, size, min_length);
 	if (! next) break;
-	printf("String at offset [%04zx] (%zu bytes + NUL):\n\t"
-	       "\"%s\"\n", next - blob, strlen(next), next);
+	printf(_("String at offset [%04zx] (%zu bytes + NUL):\n\t"
+		 "\"%s\"\n"), next - blob, strlen(next), next);
 	next += strlen(next) + 1;
 	size -= next - blob;
 	blob = next;
