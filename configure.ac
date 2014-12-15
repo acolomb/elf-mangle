@@ -18,9 +18,13 @@
 
 
 AC_INIT([elf-mangle], [0.3], [src@andre.colomb.de])
-AC_CONFIG_AUX_DIR([.])
+AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src/elf-mangle.c])
+AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
+
+
+# Checks for programs.
 AC_USE_SYSTEM_EXTENSIONS
 AC_PROG_CC_C99
 AC_PROG_RANLIB
@@ -32,10 +36,9 @@ m4_ifdef([gl_EARLY],
     gnulib=1], [gnulib=0])
 AM_CONDITIONAL([USE_GNULIB], [test "x$gnulib" = x1])
 
-AC_TYPE_SIZE_T
-AC_TYPE_SSIZE_T
+
+# Checks for libraries.
 m4_ifdef([gl_INIT], [gl_INIT])
-AC_FUNC_MMAP
 AC_CHECK_LIB([elf], [elf_version], [],
    [AC_MSG_ERROR([Libelf is needed to compile this software.
                   Specify LDFLAGS if necessary.])])
@@ -45,7 +48,6 @@ AC_CHECK_HEADERS([gelf.h], [],
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_NEED([need-formatstring-macros])
 AM_GNU_GETTEXT_VERSION([0.18.3])
-
 
 # Use installed libcintelhex or fall back to embedded copy
 cintelhex=0
@@ -98,7 +100,20 @@ AM_COND_IF([HAVE_INTELHEX],
    [AC_MSG_WARN([Intel Hex format files will not be supported.])])
 
 
+# Checks for header files.
 
+
+# Checks for typedefs
+AC_TYPE_SIZE_T
+AC_TYPE_SSIZE_T
+
+
+# Checks for library functions.
+AC_FUNC_MMAP
+
+
+
+# Checks for optional feature requests
 AC_MSG_CHECKING([whether extension module for custom options should be built])
 AC_ARG_ENABLE([custom-options],
    [AS_HELP_STRING([--enable-custom-options],
@@ -127,6 +142,7 @@ AC_MSG_RESULT([${custom_fields}])
 AM_CONDITIONAL([CUSTOM_FIELDS], [test "x$custom_fields" = xyes])
 
 
+# Ouput definitions
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile Doxyfile src/Makefile po/Makefile.in])
 AM_COND_IF([HAVE_INTELHEX_INTERNAL],
