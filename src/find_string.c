@@ -61,7 +61,7 @@ nvm_string_find(const char* blob, size_t size, uint8_t min_length)
 
     if (min_length == 0) min_length = MIN_LENGTH_DEFAULT;
 
-    for (c = blob + 1; c < blob + size; ++c) {
+    for (c = blob + 1; c < blob + size; ++c) {	//skip first possible length byte
 #ifdef DEBUG
 	printf("[%04zx] ", c - blob);
 #endif
@@ -73,7 +73,9 @@ nvm_string_find(const char* blob, size_t size, uint8_t min_length)
 #ifdef DEBUG
 		printf("\tprintable=%u length=%hhu\n", printable, c[-printable - 1]);
 #endif
-		if (printable + 1 == (uint8_t) c[-printable - 1]) return c - printable;
+		if (printable + 1			//number of printable characters plus NUL
+		    == (uint8_t) c[-printable - 1])	//matches length byte value
+		    return c - printable;
 		--printable;
 	    }
 	    printable = 0;
@@ -108,7 +110,7 @@ nvm_string_list(const char* blob, size_t size, uint8_t min_length)
 	next = nvm_string_find(blob, size, min_length);
 	if (! next) break;
 	printf(_("String at offset [%04zx] (%zu bytes + NUL):\n\t"
-		 "\"%s\"\n"), next - blob, strlen(next), next);
+		 "\"%s\"\n"), next - 1 - blob, strlen(next), next);
 	next += strlen(next) + 1;
 	size -= next - blob;
 	blob = next;
