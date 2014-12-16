@@ -241,9 +241,13 @@ no symbol has a known special meaning, only the symbol names are
 listed.  Use `--print=hex` to generate a hex dump of the data content
 for each symbol.
 
-The options `--addresses` and `--byte-size` may be used to show
+The options `--addresses` and `--field-size` may be used to show
 additional information about the data offset within the section and
-the size in bytes for each symbol.
+the size in bytes for each symbol.  Add the `--section-size` option to
+print out the byte size of all data in the examined section.  The
+`--symbols` option causes the symbol names to be displayed, even for
+known symbols with a description.  It also sets the `--section-size`
+output prefix to simply `total: ` (not localized).
 
 
 ### Input Blob ###
@@ -282,7 +286,7 @@ data as contained in the ELF object specified as `OUT_MAP`.  By use of
 the `--print` option, the transformed contents can be examined.  Note
 that the displayed symbol list now concerns the **output** file, in
 contrast to the previous use-case when the `OUT_MAP` argument was
-omitted.
+omitted.  This applies to the `--section-size` option as well.
 
 In general, *elf-mangle* without an `OUT_MAP` argument behaves just as
 if the same file was given for `IN_MAP` and `OUT_MAP`.
