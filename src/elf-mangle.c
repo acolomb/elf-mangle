@@ -82,6 +82,7 @@ process_maps(const tool_config *config)
 	// Incorporate symbol overrides
 	parse_overrides(config->overrides, symbols_out, num_out);	//FIXME
 	// Print out information if requested
+	if (config->show_size) symbol_map_print_size(map_write, config->show_fields & showSymbol);
 	print_symbol_list(symbols_out, num_out,
 			  config->show_fields, config->print_content);
 	// Store output image to file
@@ -107,6 +108,7 @@ main(int argc, char **argv)
     tool_config config = {
 	.section		= DEFAULT_SECTION,
 	.locate_strings		= -1,
+	.show_size		= 0,
 	.show_fields		= showNone,
 	.print_content		= printNone,
 	.format_out		= formatIntelHex,

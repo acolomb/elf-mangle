@@ -50,6 +50,7 @@
 #define OPT_ADDRESSES		'a'
 #define OPT_SYMBOLS		'S'
 #define OPT_FIELD_SIZE		'F'
+#define OPT_SECTION_SIZE	's'
 ///@}
 
 
@@ -91,6 +92,8 @@ static const struct argp_option options[] = {
       N_("Show object symbol names instead of field decriptions"), 0 },
     { "field-size",	OPT_FIELD_SIZE,	NULL,			0,
       N_("Print size in bytes for each field"),			0 },
+    { "section-size",	OPT_SECTION_SIZE,	NULL,		0,
+      N_("Print size in bytes for the whole image"),		0 },
     { "strings",	OPT_STRINGS,	N_("MIN-LEN"),		OPTION_ARG_OPTIONAL,
       N_("Locate strings of at least MIN-LEN bytes in input"),	0 },
     { 0 }
@@ -188,6 +191,10 @@ parse_opt(
 
     case OPT_FIELD_SIZE:
 	tool->show_fields |= showByteSize;
+	break;
+
+    case OPT_SECTION_SIZE:
+	tool->show_size = 1;
 	break;
 
     case ARGP_KEY_ARG:	/* non-option -> input / output file name */
