@@ -102,15 +102,19 @@ nvm_string_find(const char* blob, size_t size, uint8_t min_length)
 /// Strings are located by repeatedly calling nvm_string_find(),
 /// skipping over any previous match.
 void
-nvm_string_list(const char* blob, size_t size, uint8_t min_length)
+nvm_string_list(const char* blob, size_t size, uint8_t min_length, int parseable)
 {
     const char *next;
 
     while (size) {
 	next = nvm_string_find(blob, size, min_length);
 	if (! next) break;
-	printf(_("String at offset [%04zx] (%zu bytes + NUL):\n\t"
-		 "\"%s\"\n"), next - 1 - blob, strlen(next), next);
+	printf(parseable
+	       ? ("lpstring [%04zx] (%zu bytes + NUL):\n\t"
+		  "\"%s\"\n")
+	       : _("Length prefixed string at offset [%04zx] (%zu bytes + NUL):\n\t"
+		   "\"%s\"\n"),
+	       next - 1 - blob, strlen(next), next);
 	next += strlen(next) + 1;
 	size -= next - blob;
 	blob = next;

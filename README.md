@@ -384,7 +384,9 @@ constructed strings within the input blob data.  It may be followed by
 a byte count specifying the minimum string length to look out for.
 Only strings matching the above description with a length greater than
 or equal to the given minimum will be listed, including their offset
-within the image and actual length.
+within the image and actual length.  The `--symbols` option, as a side
+effect, forces a consistent output format starting with `lpstring`,
+which is not localized and thus suitable for further processing.
 
 The string searching algorithm is similar to the standard UNIX
 `strings` utility.  The latter however does not handle the special
