@@ -241,7 +241,7 @@ no symbol has a known special meaning, only the symbol names are
 listed.  Use `--print=hex` to generate a hex dump of the data content
 for each symbol.
 
-The options `--addresses` and `--byte-size` may be used to show
+The options `--addresses` and `--field-size` may be used to show
 additional information about the data offset within the section and
 the size in bytes for each symbol.
 

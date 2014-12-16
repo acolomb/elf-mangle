@@ -49,7 +49,7 @@
 #define OPT_PRINT		'p'
 #define OPT_ADDRESSES		'a'
 #define OPT_SYMBOLS		'S'
-#define OPT_BYTE_SIZE		'b'
+#define OPT_FIELD_SIZE		'F'
 ///@}
 
 
@@ -89,7 +89,7 @@ static const struct argp_option options[] = {
       N_("Print symbol address for each field"),		0 },
     { "symbols",	OPT_SYMBOLS,	NULL,			0,
       N_("Show object symbol names instead of field decriptions"), 0 },
-    { "byte-size",	OPT_BYTE_SIZE,	NULL,			0,
+    { "field-size",	OPT_FIELD_SIZE,	NULL,			0,
       N_("Print size in bytes for each field"),			0 },
     { "strings",	OPT_STRINGS,	N_("MIN-LEN"),		OPTION_ARG_OPTIONAL,
       N_("Locate strings of at least MIN-LEN bytes in input"),	0 },
@@ -186,7 +186,7 @@ parse_opt(
 	tool->show_fields |= showSymbol;
 	break;
 
-    case OPT_BYTE_SIZE:
+    case OPT_FIELD_SIZE:
 	tool->show_fields |= showByteSize;
 	break;
 
