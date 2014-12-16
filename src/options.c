@@ -25,6 +25,7 @@
 
 #include "options.h"
 #include "override.h"
+#include "find_string.h"
 #include "intl.h"
 
 #include <argp.h>
@@ -52,6 +53,10 @@
 #define OPT_FIELD_SIZE		'F'
 #define OPT_SECTION_SIZE	's'
 ///@}
+
+/// Helper macro to show number literals in option help
+#define _STR_MACRO(x)	_STR(x)
+#define _STR(x)		#x
 
 
 
@@ -95,7 +100,9 @@ static const struct argp_option options[] = {
     { "section-size",	OPT_SECTION_SIZE,	NULL,		0,
       N_("Print size in bytes for the whole image"),		0 },
     { "strings",	OPT_STRINGS,	N_("MIN-LEN"),		OPTION_ARG_OPTIONAL,
-      N_("Locate strings of at least MIN-LEN bytes in input"),	0 },
+      N_("Locate strings of at least MIN-LEN bytes in input"
+	 " (argument defaults to " _STR_MACRO(FIND_STRING_DEFAULT_LENGTH)
+	 " if omitted)"),					0 },
     { 0 }
 };
 

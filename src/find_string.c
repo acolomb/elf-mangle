@@ -37,11 +37,6 @@
 
 
 
-/// Default minimum length of strings to locate
-#define MIN_LENGTH_DEFAULT	(4)
-
-
-
 /// The structure of strings searched consists of:
 /// - a single byte whose unsigned value specifies the length
 /// - followed by only printable characters (see isprint())
@@ -59,7 +54,7 @@ nvm_string_find(const char* blob, size_t size, uint8_t min_length)
     const char *c;
     uint8_t printable = 0;
 
-    if (min_length == 0) min_length = MIN_LENGTH_DEFAULT;
+    if (min_length == 0) min_length = FIND_STRING_DEFAULT_LENGTH;
 
     for (c = blob + 1; c < blob + size; ++c) {	//skip first possible length byte
 #ifdef DEBUG
