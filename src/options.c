@@ -63,13 +63,13 @@
 /// Supported command-line arguments definition
 static const struct argp_option options[] = {
     { NULL,		0,		NULL,			0,
-      N_("Input / output options:"),	0 },
+      N_("Input / output options:"),				0 },
     { "section",	OPT_SECTION,	N_("SECTION"),		0,
       N_("Use SECTION from ELF file instead of default"),	0 },
     { "input",		OPT_INPUT,	N_("FILE"),		0,
       N_("Read binary input data from image FILE"),		0 },
     { "input-image",	OPT_INPUT,	NULL,			OPTION_ALIAS | OPTION_HIDDEN,
-      NULL, 0 },
+      NULL,							0 },
     { "input-format",	OPT_IN_FORMAT,	N_("FORMAT"),		0,
       N_("Format of input image file.  FORMAT can be either"
 	 " \"raw\""
@@ -80,7 +80,7 @@ static const struct argp_option options[] = {
     { "output",		OPT_OUTPUT,	N_("FILE"),		0,
       N_("Write binary data to output image FILE"),		0 },
     { "output-image",	OPT_OUTPUT,	NULL,			OPTION_ALIAS | OPTION_HIDDEN,
-      NULL, 0 },
+      NULL,							0 },
     { "output-format",	OPT_OUT_FORMAT,	N_("FORMAT"),		0,
       N_("Format of output image file.  FORMAT can be either"
 	 " \"raw\" or \"ihex\" (default)"),			0 },
@@ -88,7 +88,7 @@ static const struct argp_option options[] = {
       N_("Override the given fields' values (comma-separated pairs).\n"
 	 "Each FIELD symbol name must be followed by an equal sign and the data"
 	 " BYTES encoded in hexadecimal.  Missing bytes are left unchanged,"
-	 " extra data generates an error."),	0 },
+	 " extra data generates an error."),			0 },
 
     { NULL,		0,		NULL,			0,
       N_("Display information from parsed files:"),		0 },
