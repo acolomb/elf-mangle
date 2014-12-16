@@ -72,7 +72,11 @@ static const struct argp_option options[] = {
       NULL, 0 },
     { "input-format",	OPT_IN_FORMAT,	N_("FORMAT"),		0,
       N_("Format of input image file.  FORMAT can be either"
-	 " \"raw\", \"ihex\" or \"auto\" (default)"),		0 },
+	 " \"raw\""
+#if HAVE_INTELHEX
+	 ", \"ihex\""
+#endif
+	 " or \"auto\" (default)"),				0 },
     { "output",		OPT_OUTPUT,	N_("FILE"),		0,
       N_("Write binary data to output image FILE"),		0 },
     { "output-image",	OPT_OUTPUT,	NULL,			OPTION_ALIAS | OPTION_HIDDEN,
@@ -157,7 +161,9 @@ parse_opt(
 	if (arg == NULL) return EINVAL;
 	else if (strcmp(arg, "auto") == 0) tool->format_in = formatNone;
 	else if (strcmp(arg, "raw") == 0) tool->format_in = formatRawBinary;
+#if HAVE_INTELHEX
 	else if (strcmp(arg, "ihex") == 0) tool->format_in = formatIntelHex;
+#endif
 	else argp_error(state, _("Invalid binary image format `%s' specified."), arg);
 	break;
 
