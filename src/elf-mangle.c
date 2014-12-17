@@ -43,12 +43,13 @@
 
 
 ///@brief Process symbol maps and binary data according to application arguments
-static void
+///@return Zero for success or no symbols, negative on error
+static int
 process_maps(const tool_config *config)
 {
     nvm_symbol_map_source *map_in = NULL, *map_out = NULL, *map_write = NULL;
     nvm_symbol *symbols_in = NULL, *symbols_out = NULL;
-    int num_in, num_out;
+    int num_in, num_out, ret_code = 0;
 
     // Read input symbol layout and associated image data
     map_in = symbol_map_open_file(config->map_files[0]);
@@ -84,6 +85,8 @@ process_maps(const tool_config *config)
 	if (config->image_out) image_write_file(
 	    config->image_out, symbol_map_blob_address(map_write),
 	    symbol_map_blob_size(map_write), config->format_out);
+    } else {
+	ret_code = num_in;	//propagate error code or no symbols
     }
 
     free(symbols_in);
@@ -91,6 +94,7 @@ process_maps(const tool_config *config)
 
     symbol_map_close(map_in);
     symbol_map_close(map_out);
+    return ret_code;
 }
 
 
@@ -99,7 +103,7 @@ process_maps(const tool_config *config)
 int
 main(int argc, char **argv)
 {
-    int ret_code = 0;
+    int ret_code;
     tool_config config = {
 	.section		= DEFAULT_SECTION,
 	.locate_strings		= -1,
@@ -119,7 +123,7 @@ main(int argc, char **argv)
     if (ret_code != 0) return ret_code;
 
     // Process specified actions
-    process_maps(&config);
+    ret_code = -process_maps(&config);
 
     free(config.overrides);
 
