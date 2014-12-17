@@ -28,6 +28,10 @@
 #include <stdint.h>
 
 
+/// Default minimum length of strings to locate
+#define FIND_STRING_DEFAULT_LENGTH	4
+
+
 ///@brief Find strings prefixed with single-byte length specification
 ///@return Start of string or NULL if none found
 const char* nvm_string_find(

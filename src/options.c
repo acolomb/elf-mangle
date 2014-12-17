@@ -25,6 +25,7 @@
 
 #include "options.h"
 #include "override.h"
+#include "find_string.h"
 #include "intl.h"
 
 #include <argp.h>
@@ -53,25 +54,34 @@
 #define OPT_SECTION_SIZE	's'
 ///@}
 
+/// Helper macro to show number literals in option help
+#define _STR_MACRO(x)	_STR(x)
+#define _STR(x)		#x
+
 
 
 /// Supported command-line arguments definition
 static const struct argp_option options[] = {
     { NULL,		0,		NULL,			0,
-      N_("Input / output options:"),	0 },
+      N_("Input / output options:"),				0 },
     { "section",	OPT_SECTION,	N_("SECTION"),		0,
-      N_("Use SECTION from ELF file instead of default"),	0 },
+      N_("Use SECTION from ELF file instead of the default ("
+	 DEFAULT_SECTION ")"),					0 },
     { "input",		OPT_INPUT,	N_("FILE"),		0,
       N_("Read binary input data from image FILE"),		0 },
     { "input-image",	OPT_INPUT,	NULL,			OPTION_ALIAS | OPTION_HIDDEN,
-      NULL, 0 },
+      NULL,							0 },
     { "input-format",	OPT_IN_FORMAT,	N_("FORMAT"),		0,
       N_("Format of input image file.  FORMAT can be either"
-	 " \"raw\", \"ihex\" or \"auto\" (default)"),		0 },
+	 " \"raw\""
+#if HAVE_INTELHEX
+	 ", \"ihex\""
+#endif
+	 " or \"auto\" (default)"),				0 },
     { "output",		OPT_OUTPUT,	N_("FILE"),		0,
       N_("Write binary data to output image FILE"),		0 },
     { "output-image",	OPT_OUTPUT,	NULL,			OPTION_ALIAS | OPTION_HIDDEN,
-      NULL, 0 },
+      NULL,							0 },
     { "output-format",	OPT_OUT_FORMAT,	N_("FORMAT"),		0,
       N_("Format of output image file.  FORMAT can be either"
 	 " \"raw\" or \"ihex\" (default)"),			0 },
@@ -79,7 +89,7 @@ static const struct argp_option options[] = {
       N_("Override the given fields' values (comma-separated pairs).\n"
 	 "Each FIELD symbol name must be followed by an equal sign and the data"
 	 " BYTES encoded in hexadecimal.  Missing bytes are left unchanged,"
-	 " extra data generates an error."),	0 },
+	 " extra data generates an error."),			0 },
 
     { NULL,		0,		NULL,			0,
       N_("Display information from parsed files:"),		0 },
@@ -95,7 +105,9 @@ static const struct argp_option options[] = {
     { "section-size",	OPT_SECTION_SIZE,	NULL,		0,
       N_("Print size in bytes for the whole image"),		0 },
     { "strings",	OPT_STRINGS,	N_("MIN-LEN"),		OPTION_ARG_OPTIONAL,
-      N_("Locate strings of at least MIN-LEN bytes in input"),	0 },
+      N_("Locate strings of at least MIN-LEN bytes in input"
+	 " (argument defaults to " _STR_MACRO(FIND_STRING_DEFAULT_LENGTH)
+	 " if omitted)"),					0 },
     { 0 }
 };
 
@@ -150,7 +162,9 @@ parse_opt(
 	if (arg == NULL) return EINVAL;
 	else if (strcmp(arg, "auto") == 0) tool->format_in = formatNone;
 	else if (strcmp(arg, "raw") == 0) tool->format_in = formatRawBinary;
+#if HAVE_INTELHEX
 	else if (strcmp(arg, "ihex") == 0) tool->format_in = formatIntelHex;
+#endif
 	else argp_error(state, _("Invalid binary image format `%s' specified."), arg);
 	break;
 
