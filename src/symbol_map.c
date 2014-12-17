@@ -117,6 +117,9 @@ find_symtab_and_section(
 		    elf_ndxscn(scn), elf_errmsg(elf_errno()));
 	}
     }
+    if (! *symtab) fprintf(stderr, _("No ELF symbol table found\n"));
+    if (! *section) fprintf(stderr, _("No ELF section named '%s' found\n"),
+			    section_name);
 }
 
 
