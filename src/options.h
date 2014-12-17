@@ -29,6 +29,10 @@
 #include "find_string.h"
 
 
+/// Default ELF section to use
+#define DEFAULT_SECTION		".eeprom"
+
+
 /// Application options
 typedef struct tool_config {
     /// Names of input and output map files

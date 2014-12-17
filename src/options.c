@@ -65,7 +65,8 @@ static const struct argp_option options[] = {
     { NULL,		0,		NULL,			0,
       N_("Input / output options:"),				0 },
     { "section",	OPT_SECTION,	N_("SECTION"),		0,
-      N_("Use SECTION from ELF file instead of default"),	0 },
+      N_("Use SECTION from ELF file instead of the default ("
+	 DEFAULT_SECTION ")"),					0 },
     { "input",		OPT_INPUT,	N_("FILE"),		0,
       N_("Read binary input data from image FILE"),		0 },
     { "input-image",	OPT_INPUT,	NULL,			OPTION_ALIAS | OPTION_HIDDEN,

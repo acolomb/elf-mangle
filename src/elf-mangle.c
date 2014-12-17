@@ -42,11 +42,6 @@
 
 
 
-/// Default ELF section to use
-#define DEFAULT_SECTION		".eeprom"
-
-
-
 ///@brief Process symbol maps and binary data according to application arguments
 static void
 process_maps(const tool_config *config)
