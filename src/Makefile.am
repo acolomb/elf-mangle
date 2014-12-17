@@ -54,7 +54,9 @@ elf_mangle_SOURCES =		\
 	transform.h		\
 	image_formats.c		\
 	image_formats.h		\
-	$(IMAGE_IHEX)		\
+	$(IMAGE_IHEX_INPUT)	\
+	image_ihex_output.c	\
+	image_ihex.h		\
 	image_raw.c		\
 	image_raw.h		\
 	symbol_map.c		\
@@ -75,9 +77,8 @@ elf_mangle_SOURCES =		\
 
 
 if HAVE_INTELHEX
-IMAGE_IHEX = 			\
-	image_ihex.c		\
-	image_ihex.h
+IMAGE_IHEX_INPUT = 			\
+	image_ihex_input.c
 endif
 
 if CUSTOM_OPTIONS

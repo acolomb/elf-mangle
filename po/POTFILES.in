@@ -4,7 +4,8 @@ src/custom_options.c
 src/field_print.c
 src/find_string.c
 src/image_formats.c
-src/image_ihex.c
+src/image_ihex_input.c
+src/image_ihex_output.c
 src/image_raw.c
 src/nvm_field.c
 src/options.c

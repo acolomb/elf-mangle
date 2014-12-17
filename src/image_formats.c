@@ -89,11 +89,9 @@ image_write_file(const char *filename,
 	image_raw_write_file(filename, blob, blob_size);
 	break;
 
-#if HAVE_INTELHEX
     case formatIntelHex:
 	image_ihex_write_file(filename, blob, blob_size);
 	break;
-#endif
 
     case formatNone:
     default:
