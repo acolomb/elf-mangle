@@ -42,6 +42,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include <inttypes.h>
 
 
@@ -127,8 +128,8 @@ static void
 print_version(const char *data, size_t size)
 {
     /// Length of the version string field including the NUL terminator
-    uint8_t version_length = 0;
-    const char *version_string = NULL;
+    uint8_t version_length = 0, unprintable = 0;
+    const char *version_string = NULL, placeholder = '.';
 
     if (size >= version_length_offset + sizeof(version_length)) {
 	version_length = convert_uint8(data + version_length_offset);
@@ -143,7 +144,12 @@ print_version(const char *data, size_t size)
 	    // Abort when given string length is reached or string is NUL-terminated
 	    if (version_string >= data + version_string_offset + version_length
 		|| *version_string == '\0') break;
-	    putchar(*version_string);
+	    if (isprint((int) *version_string)) {
+		putchar(*version_string);
+	    } else {
+		putchar(placeholder);
+		++unprintable;
+	    }
 	    ++version_string;
 	}
 	if (size < version_string_offset + version_length) {
@@ -155,6 +161,10 @@ print_version(const char *data, size_t size)
 	if (version_string >= data + version_string_offset + version_length
 	    || *version_string != '\0') {
 	    printf(_(" missing NUL termination!"));
+	}
+	if (unprintable > 0) {
+	    printf(_(" (%" PRIu8 " unprintable bytes replaced by %c)"),
+		   unprintable, placeholder);
 	}
     } else {						//no valid data
 	printf(_("<unknown version> (%" PRIu8 " bytes)"), version_length);
