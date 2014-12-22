@@ -34,12 +34,12 @@ LIBS_GNULIB = $(top_builddir)/gnulib/libgnu.la
 endif
 
 
-noinst_LIBRARIES = libfallback.a
+noinst_LTLIBRARIES = libfallback.la
 bin_PROGRAMS = elf-mangle
 EXTRA_DIST = include_order.txt
 
 
-libfallback_a_SOURCES =		\
+libfallback_la_SOURCES =	\
 	fallback_options.c	\
 	fallback_known_fields.c
 
@@ -92,4 +92,4 @@ elf_mangle_SOURCES +=		\
 endif
 
 elf_mangle_LDADD = $(LIBS_CINTELHEX) $(LIBS_GNULIB) $(LIBS_ELF) $(LTLIBINTL)
-elf_mangle_LDADD += libfallback.a
+elf_mangle_LDADD += libfallback.la
