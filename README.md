@@ -494,7 +494,7 @@ Generate blob `out.bin` from `in_map.elf` with default contents:
 Copy values from blob `in.hex` to `out.hex` with layout of
 `out_map.elf`, but override `nvm_unique` field with given hex data:
 
-	elf-mangle in_map.elf out_map.elf -i in.hex -s nvm_unique=1a0002 -o out.hex
+	elf-mangle in_map.elf out_map.elf -i in.hex -D nvm_unique=1a0002 -o out.hex
 
 Print field values from blob `in.hex` according to layout of
 `in_map.elf`:
@@ -509,4 +509,4 @@ Print default field values from `in_map.elf` converted to
 Look for string structures with a minimum length of 12 bytes within
 `in_map.elf`, looking at the `.data` section:
 
-	elf-mangle in_map.elf -l12 -j .text
+	elf-mangle in_map.elf -l12 -j .data
