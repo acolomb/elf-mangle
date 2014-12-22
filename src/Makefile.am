@@ -30,7 +30,7 @@ endif
 
 if USE_GNULIB
 CPPFLAGS_GNULIB = -I$(top_builddir)/gnulib -I$(top_srcdir)/gnulib
-LIBS_GNULIB = $(top_builddir)/gnulib/libgnu.a
+LIBS_GNULIB = $(top_builddir)/gnulib/libgnu.la
 endif
 
 
