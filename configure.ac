@@ -39,7 +39,8 @@ AM_CONDITIONAL([USE_GNULIB], [test "x$gnulib" = x1])
 
 # Checks for libraries.
 m4_ifdef([gl_INIT], [gl_INIT])
-AC_CHECK_LIB([elf], [elf_version], [],
+AC_CHECK_LIB([elf], [elf_version],
+   [AC_SUBST([LIBS_ELF], [-lelf])],
    [AC_MSG_ERROR([Libelf is needed to compile this software.
                   Specify LDFLAGS if necessary.])])
 AC_CHECK_HEADERS([gelf.h], [],
@@ -61,7 +62,7 @@ AC_ARG_WITH([cintelhex],
     AS_CASE([$with_cintelhex],
        [no],       [],
        [yes],      [AC_CHECK_HEADERS([cintelhex.h],
-                       [AC_SEARCH_LIBS([ihex_byte_copy], [cintelhex],
+                       [AC_CHECK_LIB([cintelhex], [ihex_byte_copy],
                            [cintelhex=1], [cintelhex_internal=1])],
                        [cintelhex_internal=1])],
        [internal], [cintelhex_internal=1],
@@ -70,7 +71,7 @@ AC_ARG_WITH([cintelhex],
         AC_CHECK_HEADERS([cintelhex.h],
            [saved_LDFLAGS="$LDFLAGS"
             LDFLAGS="-L$with_cintelhex/lib $LDFLAGS"
-            AC_SEARCH_LIBS([ihex_byte_copy], [cintelhex],
+            AC_CHECK_LIB([cintelhex], [ihex_byte_copy],
                [cintelhex=1],
                [LDFLAGS="$saved_LDFLAGS"])],
            [CPPFLAGS="$saved_CPPFLAGS"])
@@ -78,7 +79,7 @@ AC_ARG_WITH([cintelhex],
    ],
    [AC_MSG_RESULT([--with-cintelhex not specified])
     AC_CHECK_HEADERS([cintelhex.h],
-       [AC_SEARCH_LIBS([ihex_byte_copy], [cintelhex],
+       [AC_CHECK_LIB([cintelhex], [ihex_byte_copy],
            [cintelhex=1], [cintelhex_internal=1])],
        [cintelhex_internal=1])
    ])
@@ -91,7 +92,8 @@ AS_IF([test "x$cintelhex_internal" = x1],
        [cintelhex=1],
        [cintelhex_internal=0])
     CPPFLAGS="$saved_CPPFLAGS"
-   ])
+   ],
+   [AS_IF([test x$cintelhex = x1], AC_SUBST([LIBS_CINTELHEX], [-lcintelhex]))])
 AM_CONDITIONAL([HAVE_INTELHEX], [test x$cintelhex = x1])
 AM_CONDITIONAL([HAVE_INTELHEX_INTERNAL], [test x$cintelhex_internal = x1])
 AC_DEFINE_UNQUOTED([HAVE_INTELHEX], [$cintelhex], [Define if you have libcintelhex])

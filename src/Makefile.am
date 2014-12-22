@@ -25,7 +25,7 @@ DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 if HAVE_INTELHEX_INTERNAL
 CPPFLAGS_INTELHEX_INTERNAL = -I$(top_srcdir)/libcintelhex/include
-LIBS_CINTELHEX = $(top_builddir)/libcintelhex/src/.libs/libcintelhex.a
+LIBS_CINTELHEX += $(top_builddir)/libcintelhex/src/.libs/libcintelhex.a
 endif
 
 if USE_GNULIB
@@ -94,5 +94,5 @@ if USE_GNULIB
 LIBS_GNULIB = $(top_builddir)/gnulib/libgnu.a
 endif
 
-elf_mangle_LDADD = $(LIBS_CINTELHEX) $(LIBS_GNULIB) @LIBINTL@
+elf_mangle_LDADD = $(LIBS_CINTELHEX) $(LIBS_GNULIB) $(LIBS_ELF) $(LIBINTL)
 elf_mangle_LDADD += libfallback.a
