@@ -30,6 +30,7 @@ endif
 
 if USE_GNULIB
 CPPFLAGS_GNULIB = -I$(top_builddir)/gnulib -I$(top_srcdir)/gnulib
+LIBS_GNULIB = $(top_builddir)/gnulib/libgnu.a
 endif
 
 
@@ -88,10 +89,6 @@ endif
 if CUSTOM_FIELDS
 elf_mangle_SOURCES +=		\
 	custom_known_fields.c
-endif
-
-if USE_GNULIB
-LIBS_GNULIB = $(top_builddir)/gnulib/libgnu.a
 endif
 
 elf_mangle_LDADD = $(LIBS_CINTELHEX) $(LIBS_GNULIB) $(LIBS_ELF) $(LIBINTL)
