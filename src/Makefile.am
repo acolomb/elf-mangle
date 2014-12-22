@@ -91,5 +91,5 @@ elf_mangle_SOURCES +=		\
 	custom_known_fields.c
 endif
 
-elf_mangle_LDADD = $(LIBS_CINTELHEX) $(LIBS_GNULIB) $(LIBS_ELF) $(LIBINTL)
+elf_mangle_LDADD = $(LIBS_CINTELHEX) $(LIBS_GNULIB) $(LIBS_ELF) $(LTLIBINTL)
 elf_mangle_LDADD += libfallback.a
