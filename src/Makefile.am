@@ -1,5 +1,3 @@
-# Hey Emacs, this is a -*- makefile -*-
-
 # Copyright (C) 2014  Andre Colomb
 #
 # This file is part of elf-mangle.
