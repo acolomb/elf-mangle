@@ -21,6 +21,7 @@ ABOUT-NLS
 /*.cache
 Makefile
 Doxyfile
+/libtool
 
 # Compilation output
 *.o
