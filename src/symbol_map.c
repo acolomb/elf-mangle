@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Parsing of ELF files as symbol map sources
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -39,9 +39,8 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
+/// Compile diagnostic output messages?
+#define DEBUG 0
 
 /// Flags for open() system call
 #define OPEN_FLAGS	(O_RDONLY | O_BINARY)
@@ -99,10 +98,8 @@ find_symtab_and_section(
     while ((scn = elf_nextscn(elf, scn)) != NULL) {
 	// Get the section header
 	if (gelf_getshdr(scn, &shdr) != NULL) {
-#ifdef DEBUG
-	    fprintf(stderr, _("%s: [%zu] %s\n"), __func__,
-		    elf_ndxscn(scn), elf_strptr(elf, shstrndx, shdr.sh_name));
-#endif
+	    if (DEBUG) printf(_("%s: [%zu] %s\n"), __func__,
+			      elf_ndxscn(scn), elf_strptr(elf, shstrndx, shdr.sh_name));
 	    if (shdr.sh_type == SHT_SYMTAB) {
 		*symtab = scn;
 		*strings_index = shdr.sh_link;

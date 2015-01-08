@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Command line parsing
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -31,10 +31,6 @@
 #include <argp.h>
 #include <string.h>
 #include <stdlib.h>
-
-#ifdef DEBUG
-#undef DEBUG
-#endif
 
 
 

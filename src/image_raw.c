@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Handle input and output of blob data to raw binary files
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -39,9 +39,8 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
+/// Compile diagnostic output messages?
+#define DEBUG 0
 
 // Default to seek-based implementation
 #ifndef HAVE_MMAP
@@ -103,10 +102,8 @@ read_symbol_seek_iterator(
 
     if (symbol->blob_address) {					//destination ok
 	if (symbol->offset == (size_t) lseek(conf->source.fd, symbol->offset, SEEK_SET)) {
-#ifdef DEBUG
-	    fprintf(stderr, _("%s: copy %zu bytes from file offset %zu to %p\n"), __func__,
-		    symbol->size, symbol->offset, symbol->blob_address);
-#endif
+	    if (DEBUG) printf(_("%s: copy %zu bytes from file offset %zu to %p\n"),
+			      __func__, symbol->size, symbol->offset, symbol->blob_address);
 	    while (rest > 0) {
 		bytes_read = read(conf->source.fd,
 				  symbol->blob_address + (symbol->size - rest), rest);

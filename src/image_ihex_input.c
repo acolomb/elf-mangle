@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Handle input of blob data from Intel Hex files
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -31,10 +31,10 @@
 
 #include <stdio.h>
 #include <errno.h>
+#include <inttypes.h>
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
+/// Compile diagnostic output messages?
+#define DEBUG 0
 
 
 
@@ -85,10 +85,8 @@ image_ihex_merge_file(const char *filename,
     } else if (rs->ihrs_count == 0 || start >= end) {
 	fprintf(stderr, _("Image file \"%s\" is empty\n"), filename);
     } else {
-#ifdef DEBUG
-	printf("%s: %s contains range 0x%04" PRIx32 " to 0x%04" PRIx32 "\n",
-	       __func__, filename, start, end > 0 ? end - 1 : 0);
-#endif
+	if (DEBUG) printf("%s: %s contains range 0x%04" PRIx32 " to 0x%04" PRIx32 "\n",
+			  __func__, filename, start, end > 0 ? end - 1 : 0);
 	if (blob_size > end) {
 	    fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
 		    filename, blob_size - end, blob_size);

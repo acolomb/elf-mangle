@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Linked list of field descriptors
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -30,9 +30,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
+/// Compile diagnostic output messages?
+#define DEBUG 0
 
 
 
@@ -56,9 +55,7 @@ field_list_find(const char *symbol, const nvm_field_list *list)
 
     for (entry = list->start; entry; entry = entry->next) {
 	comp = strcmp(entry->field.symbol, symbol);
-#ifdef DEBUG
-	printf("%s: (%s; %s) = %d\n", __func__, entry->field.symbol, symbol, comp);
-#endif
+	if (DEBUG) printf("%s: (%s; %s) = %d\n", __func__, entry->field.symbol, symbol, comp);
 	if (comp == 0) return &entry->field;
 	else if (comp > 0) break;
     }

@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Copy symbol data between different lists
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -32,9 +32,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
+/// Compile diagnostic output messages?
+#define DEBUG 0
 
 
 
@@ -62,18 +61,14 @@ transfer_field_iterator(
 
     symbol_src = symbol_list_find_field(conf->list_src, conf->num_src, symbol_dst->field);
     if (symbol_src) {
-#ifdef DEBUG
-	printf(_("%s: Target `%s' (%p) matches source symbol %p\n"), __func__,
-	       symbol_dst->field->symbol, symbol_dst, symbol_src);
-#endif
+	if (DEBUG) printf(_("%s: Target `%s' (%p) matches source symbol %p\n"), __func__,
+			  symbol_dst->field->symbol, symbol_dst, symbol_src);
 	if (symbol_dst->field->copy_func) copy_func = symbol_dst->field->copy_func;
 	copied = copy_func(
 	    symbol_dst->field,
 	    symbol_dst->blob_address, symbol_src->blob_address, symbol_dst->size);
-#ifdef DEBUG
-	printf(_("%s: %zu of %zu bytes copied\n"),
-	       symbol_dst->field->symbol, copied, symbol_dst->size);
-#endif
+	if (DEBUG) printf(_("%s: %zu of %zu bytes copied\n"),
+			  symbol_dst->field->symbol, copied, symbol_dst->size);
     } else {
 	fprintf(stderr, "Target map field %s not found in source.", symbol_dst->field->symbol);
     }
@@ -91,8 +86,6 @@ transfer_fields(const nvm_symbol *list_src, int num_src,
 	.num_src	= num_src,
     };
 
-#ifdef DEBUG
-    printf("%s: Copy %d symbols in to %d out\n", __func__, num_src, num_dst);
-#endif
+    if (DEBUG) printf("%s: Copy %d symbols in to %d out\n", __func__, num_src, num_dst);
     symbol_list_foreach(list_dst, num_dst, transfer_field_iterator, &conf);
 }

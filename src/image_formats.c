@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Handling of different binary image formats
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -30,9 +30,8 @@
 
 #include <stdio.h>
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
+/// Compile diagnostic output messages?
+#define DEBUG 0
 
 
 
@@ -81,9 +80,7 @@ image_write_file(const char *filename,
 {
     if (! filename || ! blob || ! blob_size) return;
 
-#ifdef DEBUG
-    printf("%s: Output file \"%s\" format %d\n", __func__, filename, format);
-#endif
+    if (DEBUG) printf("%s: Output file \"%s\" format %d\n", __func__, filename, format);
     switch (format) {
     case formatRawBinary:
 	image_raw_write_file(filename, blob, blob_size);

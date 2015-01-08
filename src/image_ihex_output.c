@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Handle output of blob data to Intel Hex files
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -30,9 +30,8 @@
 #include <errno.h>
 #include <inttypes.h>
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
+/// Compile diagnostic output messages?
+#define DEBUG 0
 
 
 
@@ -102,10 +101,8 @@ ihex_write(
 	else reclen = default_length;
 	// Limit to current segment
 	if (load_offset + reclen > segment_length) reclen = segment_length - load_offset;
-#ifdef DEBUG
-	printf("%s: Record len=%zu source=%p rest=%zu USBA=%" PRIu32 "\n",
-	       __func__, reclen, blob, blob_size, segment_base);
-#endif
+	if (DEBUG) printf("%s: Record len=%zu source=%p rest=%zu USBA=%" PRIu32 "\n",
+			  __func__, reclen, blob, blob_size, segment_base);
 
 	// Write record data
 	if (reclen) ihex_write_single_record(out, reclen, load_offset, rec_data, blob);

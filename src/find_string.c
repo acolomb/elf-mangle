@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Locate special strings in binary images
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -31,9 +31,8 @@
 #include <ctype.h>
 #include <inttypes.h>
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
+/// Compile diagnostic output messages?
+#define DEBUG 0
 
 
 
@@ -57,17 +56,11 @@ nvm_string_find(const char* blob, size_t size, uint8_t min_length)
     if (min_length == 0) min_length = FIND_STRING_DEFAULT_LENGTH;
 
     for (c = blob + 1; c < blob + size; ++c) {	//skip first possible length byte
-#ifdef DEBUG
-	printf("[%04zx] ", c - blob);
-#endif
+	if (DEBUG) printf("[%04zx] ", c - blob);
 	if (*c == '\0') {		//string ends at NUL terminator
-#ifdef DEBUG
-	    puts("NUL");
-#endif
+	    if (DEBUG) puts("NUL");
 	    while (printable >= min_length) {
-#ifdef DEBUG
-		printf("\tprintable=%u length=%hhu\n", printable, c[-printable - 1]);
-#endif
+		if (DEBUG) printf("\tprintable=%u length=%hhu\n", printable, c[-printable - 1]);
 		if (printable + 1			//number of printable characters plus NUL
 		    == (uint8_t) c[-printable - 1])	//matches length byte value
 		    return c - printable;
@@ -76,18 +69,12 @@ nvm_string_find(const char* blob, size_t size, uint8_t min_length)
 	    printable = 0;
 	} else if (isprint((int) *c)) {	//printable character, might be part of string
 	    if (printable < UINT8_MAX) ++printable;
-#ifdef DEBUG
-	    printf("'%c'", *c);
-#endif
+	    if (DEBUG) printf("'%c'", *c);
 	} else {
 	    printable = 0;
-#ifdef DEBUG
-	    printf("<%03hhu>", *c);
-#endif
+	    if (DEBUG) printf("<%03hhu>", *c);
 	}
-#ifdef DEBUG
-	printf("\tprintable=%u\n", printable);
-#endif
+	if (DEBUG) printf("\tprintable=%u\n", printable);
     }
     return NULL;
 }

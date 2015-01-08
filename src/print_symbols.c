@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Pretty-print a dump of symbols that were parsed
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -32,9 +32,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
+/// Compile diagnostic output messages?
+#define DEBUG 0
 
 
 
@@ -62,9 +61,7 @@ print_symbol_description_iterator(
 	(! symbol->field->print_func)) printf("%s:", symbol->field->symbol);
     else printf("%s:", symbol->field->description);
     if (*conf & showByteSize) printf(" %zu bytes", symbol->size);
-#ifdef DEBUG
-    printf(" %p", symbol->blob_address);
-#endif
+    if (DEBUG) printf(" %p", symbol->blob_address);
 
     return NULL;	//continue iterating
 }
