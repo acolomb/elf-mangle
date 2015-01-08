@@ -11,7 +11,7 @@ Author: André Colomb <src@andre.colomb.de>
 License
 -------
 
-Copyright (C) 2014  André Colomb
+Copyright (C) 2014, 2015  André Colomb
 
 elf-mangle is free software: you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License as published
@@ -36,11 +36,13 @@ binary code to be run on a CPU or embedded microprocessor.  After
 these tools have finished their job, sometimes it is necessary to
 alter some bits of information inside these binary files.  The most
 common modern executable file format (at least in the *NIX world) is
-ELF, the Executable and Linkable Format.
+**ELF**, the _E_xecutable and _L_inkable _F_ormat.
 
 The *elf-mangle* tool exists to examine and alter (thus *mangle*)
 these ELF executable and binary data images, for example when you need
-an embedded serial number or calibration data which is unique.
+an embedded serial number or calibration data which is unique.  It
+allows you to process the data using associated ELF files as "lenses"
+or maps describing the information layout and possibly semantics.
 
 The use-case why the tool was written is an embedded controller for a
 mechanical system whose firmware contains a serial number in the
@@ -76,9 +78,9 @@ storage layout, and written back to an image file ready for flashing.
 Installation
 ------------
 
-The elf-mangle build system uses the GNU autotools - autoconf,
-automake, gettext, ...  When using the release version archives, it's
-as simple as the usual:
+The elf-mangle build system uses the *GNU autotools* - `autoconf`,
+`automake`, `gettext`, ...  When using the release version archives,
+it's as simple as the usual:
 
 	./configure
 	make
@@ -94,7 +96,8 @@ bootstrapping needs to be carried out.
 ### Bootstrapping ###
 
 Setting up the build system from the repository contents needs
-additional tools installed.  The following versions are tested:
+additional developer tools installed.  The following versions are
+tested:
 
 - GNU autoconf 2.69
 - GNU automake 1.14
@@ -103,7 +106,7 @@ additional tools installed.  The following versions are tested:
 To fully generate the build system, run these two commands in order:
 
 	gnulib-tool --update		# optional, see portability notes below
-	autoreconf -i
+	autoreconf -i -f
 
 
 ### Compilation ###
@@ -141,7 +144,8 @@ implementations are available, with varying licenses.
 Michael Riepe has written an excellent *LGPL*-licensed implementation,
 found at [www.mr511.de][libelf-lgpl].  This is the one *elf-mangle* is
 developed and tested with.  It is [included][libelfg0] in most
-*Debian*-based Linux distributions and can be compiled under Win32.
+*Debian*-based Linux distributions as well as *Cygwin* and can be
+compiled under Win32 using *MinGW*.
 
 [libelf-lgpl]: http://www.mr511.de/software/ "libelf LGPL'ed"
 [libelfg0]: https://packages.debian.org/stable/libelfg0-dev "libelf in Debian"
@@ -162,7 +166,7 @@ Either implementation should work if it supports the BSD *GElf* API.
 Just make sure the compiler finds the required headers and library.
 If not installed in a standard location, suitable flags should be
 passed through the `CPPFLAGS` and `LDFLAGS` environment variables when
-running `./configure`.
+running `configure`.
 
 
 #### Optional: libcintelhex ####
@@ -175,7 +179,7 @@ therefore not compatible yet.
 
 The library should be cloned from GitHub and built before configuring
 *elf-mangle*.  If it is not installed system-wide, the `CPPFLAGS` and
-`LDFLAGS` environment variables may be used to point `./configure` to
+`LDFLAGS` environment variables may be used to point `configure` to
 the right location.  The command-line option `--with-cintelhex=`
 accepts an installation prefix to correctly set up the flags variables
 automatically.  To force building without *Intel Hex* support, specify
@@ -196,15 +200,15 @@ pointing at the forked repository.  Initialize and use it with
 Some functionality provided by the *GNU C Library* and used by
 *elf-mangle* is not available on other platforms.  The compatibility
 layer [GNU Gnulib][gnulib] can be used to replace the missing bits.
-The tarball includes the relevant Gnulib sources, so this step can be
-skipped.
+The tarball includes the relevant *Gnulib* sources, so the following
+step is only necessary when building from the repository.
 
 A configuration file for *gnulib-tool* is available in the repository.
-If you have a Gnulib source checkout, copy the needed modules with the
-following commands:
+If you have a *Gnulib* source checkout, copy the needed modules with
+the following commands:
 
 	gnulib-tool --update
-	autoreconf -i
+	autoreconf -i -f
 
 [gnulib]: http://www.gnu.org/software/gnulib/ "Gnulib home page"
 
@@ -232,9 +236,9 @@ be overridden using the `--section=SECTION` option.  Other useful
 section names might be `.data` or `.rodata` for example--wherever the
 compiler has placed interesting information.
 
-Given just an input ELF file name, *elf-mangle* just tries to parse
+Given only an input ELF file name, *elf-mangle* just tries to parse
 the symbol table and then exits.  To display the symbols found, use
-the `--print` option.  It defaults to `pretty`, calling any print
+the `--print` option.  It defaults to `pretty` mode, calling any print
 function *elf-mangle* has for known symbols (see the section
 "Application Extensions" below for how to use them).  Since by default
 no symbol has a known special meaning, only the symbol names are
@@ -417,6 +421,12 @@ respective application.  To ease later upgrades and track changes in
 *elf-mangle* development, these changes should be maintained within a
 git branch for example.
 
+When building and installing a customized, application-specific
+version of *elf-mangle*, the `--program-prefix` option to `configure`
+may come in handy to install the custom program binary with a
+different name.  This way, the original *elf-mangle* binary can
+coexist nicely.
+
 
 ### Describing Known Fields ###
 
@@ -469,8 +479,8 @@ option handling with separate parsers for different groups of options.
 To implement application-specific command line extensions, a function
 named `get_custom_options()` should be provided in `custom_options.c`,
 returning a pointer to an `argp_child` structure, as described in the
-glibc manual.  This child parser will be added to the program's own
-options handling.
+[glibc][glibc] manual.  This child parser will be added to the
+program's own options handling.
 
 One of the most obvious use-cases for these extensions is to provide
 options for overriding single fields, but not with a string of hex
