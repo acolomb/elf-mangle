@@ -27,8 +27,8 @@ AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 # Checks for programs.
 AC_USE_SYSTEM_EXTENSIONS
 AC_PROG_CC_C99
-AC_PROG_RANLIB
 AM_PROG_AR
+LT_INIT
 
 # Use GNU Gnulib if required macros are present
 m4_ifdef([gl_EARLY],

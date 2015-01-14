@@ -23,21 +23,21 @@ DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 if HAVE_INTELHEX_INTERNAL
 CPPFLAGS_INTELHEX_INTERNAL = -I$(top_srcdir)/libcintelhex/include
-LIBS_CINTELHEX += $(top_builddir)/libcintelhex/src/.libs/libcintelhex.a
+LIBS_CINTELHEX += $(top_builddir)/libcintelhex/src/libcintelhex.la
 endif
 
 if USE_GNULIB
 CPPFLAGS_GNULIB = -I$(top_builddir)/gnulib -I$(top_srcdir)/gnulib
-LIBS_GNULIB = $(top_builddir)/gnulib/libgnu.a
+LIBS_GNULIB = $(top_builddir)/gnulib/libgnu.la
 endif
 
 
-noinst_LIBRARIES = libfallback.a
+noinst_LTLIBRARIES = libfallback.la
 bin_PROGRAMS = elf-mangle
 EXTRA_DIST = include_order.txt
 
 
-libfallback_a_SOURCES =		\
+libfallback_la_SOURCES =	\
 	fallback_options.c	\
 	fallback_known_fields.c
 
@@ -89,5 +89,5 @@ elf_mangle_SOURCES +=		\
 	custom_known_fields.c
 endif
 
-elf_mangle_LDADD = $(LIBS_CINTELHEX) $(LIBS_GNULIB) $(LIBS_ELF) $(LIBINTL)
-elf_mangle_LDADD += libfallback.a
+elf_mangle_LDADD = $(LIBS_CINTELHEX) $(LIBS_GNULIB) $(LIBS_ELF) $(LTLIBINTL)
+elf_mangle_LDADD += libfallback.la

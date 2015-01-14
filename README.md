@@ -101,6 +101,7 @@ tested:
 
 - GNU autoconf 2.69
 - GNU automake 1.14
+- GNU libtool 2.4.2
 - GNU gettext 0.19.2
 
 To fully generate the build system, run these two commands in order:
