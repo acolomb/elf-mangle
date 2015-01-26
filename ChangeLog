@@ -1,3 +1,24 @@
+2015-01-26  André Colomb  <src@andre.colomb.de>
+
+	* Rework the build system, fixing several usage and portability
+	problems.  Integrate GNU libtool for building libraries.
+	* Fix a problem with iterating through symbol lists caused by an
+	uninitialized local variable.
+	* Rename the option --byte-size to --field-size and add another
+	option --section-size.
+	* Fix offset output for the --strings option to point at the
+	length prefix byte.
+	* Abuse the --symbols option to generate more machine-readable
+	(non-localized) output for --strings and --section-size.
+	* Adjust help output to exclude unavailable options and reflect
+	the actually used default values.
+	* Fix error handling when an expected ELF section could not be
+	found.
+	* Handle unprintable characters in custom_known_fields.c example.
+	* Revised README document for new features and minor corrections.
+
+	* Release version 0.4.
+
 2014-08-08  André Colomb  <src@andre.colomb.de>
 
 	* Clean up build system for more stability and better user
