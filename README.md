@@ -100,7 +100,7 @@ additional developer tools installed.  The following versions are
 tested:
 
 - GNU autoconf 2.69
-- GNU automake 1.14
+- GNU automake 1.14.1
 - GNU libtool 2.4.2
 - GNU gettext 0.19.2
 
