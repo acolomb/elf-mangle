@@ -44,6 +44,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include <inttypes.h>
 
 
 
@@ -84,6 +85,27 @@ swap_endian(int input)
 
 
 
+/// Translate serial number argument to a symbol override
+static inline int
+parse_serial(char **overrides, const char *arg)
+{
+    int serial = 0;
+
+    switch (sscanf(arg, "%d", &serial)) {
+    case 1:
+	if (serial <= 0 || serial > UINT16_MAX) return -1;
+	*overrides = override_append(*overrides, "nvm_unique=%02x%02x",
+				     (serial >> 0) & 0xFFU,
+				     (serial >> 8) & 0xFFU);
+	return 0;
+
+    default:
+	return -1;
+    }
+}
+
+
+
 ///@brief Argp Parser Function for example-specific command line options
 ///@return Zero or error code specifying how to continue
 static error_t
@@ -97,8 +119,9 @@ dummy_parse_opt(
 
     switch (key) {
     case OPT_SET_SERIAL:
-	tool->overrides = override_append(tool->overrides, "nvm_unique=%04x",
-					  swap_endian(atoi(arg)));
+	if (0 != parse_serial(&tool->overrides, arg)) {
+	    argp_error(state, _("Invalid serial number `%s' specified."), arg);
+	}
 	break;
 
     default:
