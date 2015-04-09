@@ -41,7 +41,6 @@
 #include "intl.h"
 
 #include <argp.h>
-#include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
 #include <inttypes.h>
@@ -64,24 +63,6 @@ static const struct argp_option dummy_options[] =
       N_("Override system serial number in output"),			0 },
     { 0 }
 };
-
-
-
-/// Helper to byteswap one word
-static inline int
-swap_endian(int input)
-{
-    int output;
-#ifndef _XOPEN_SOURCE
-    char *in_bytes = (void*) &input, *out_bytes = (void*) &output;
-    out_bytes[0] = in_bytes[1];
-    out_bytes[1] = in_bytes[0];
-#else
-    swab(&input, &output, sizeof(output));
-#endif
-
-    return output;
-}
 
 
 
