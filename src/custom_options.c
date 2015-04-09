@@ -41,9 +41,9 @@
 #include "intl.h"
 
 #include <argp.h>
-#include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include <inttypes.h>
 
 
 
@@ -66,20 +66,23 @@ static const struct argp_option dummy_options[] =
 
 
 
-/// Helper to byteswap one word
+/// Translate serial number argument to a symbol override
 static inline int
-swap_endian(int input)
+parse_serial(char **overrides, const char *arg)
 {
-    int output;
-#ifndef _XOPEN_SOURCE
-    char *in_bytes = (void*) &input, *out_bytes = (void*) &output;
-    out_bytes[0] = in_bytes[1];
-    out_bytes[1] = in_bytes[0];
-#else
-    swab(&input, &output, sizeof(output));
-#endif
+    int serial = 0;
 
-    return output;
+    switch (sscanf(arg, "%d", &serial)) {
+    case 1:
+	if (serial <= 0 || serial > UINT16_MAX) return -1;
+	*overrides = override_append(*overrides, "nvm_unique=%02x%02x",
+				     (serial >> 0) & 0xFFU,
+				     (serial >> 8) & 0xFFU);
+	return 0;
+
+    default:
+	return -1;
+    }
 }
 
 
@@ -97,8 +100,9 @@ dummy_parse_opt(
 
     switch (key) {
     case OPT_SET_SERIAL:
-	tool->overrides = override_append(tool->overrides, "nvm_unique=%04x",
-					  swap_endian(atoi(arg)));
+	if (0 != parse_serial(&tool->overrides, arg)) {
+	    argp_error(state, _("Invalid serial number `%s' specified."), arg);
+	}
 	break;
 
     default:

@@ -70,7 +70,7 @@ symbol_list_foreach_count(const nvm_symbol list[], const int size,
 			  const symbol_list_iterator_f func, const void *arg)
 {
     const nvm_symbol *sym;
-    int count;
+    int count = 0;
 
     if (! list || ! size) return 0;
 

@@ -1,6 +1,6 @@
 ///@file
-///@brief	Compile-time configuration constants
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@brief	Main program logic
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle, a tool to analyze, transform and
 /// manipulate binary data based on ELF symbol tables.
@@ -42,18 +42,14 @@
 
 
 
-/// Default ELF section to use
-#define DEFAULT_SECTION		".eeprom"
-
-
-
 ///@brief Process symbol maps and binary data according to application arguments
-static void
+///@return Zero for success or no symbols, negative on error
+static int
 process_maps(const tool_config *config)
 {
     nvm_symbol_map_source *map_in = NULL, *map_out = NULL, *map_write = NULL;
     nvm_symbol *symbols_in = NULL, *symbols_out = NULL;
-    int num_in, num_out;
+    int num_in, num_out, ret_code = 0;
 
     // Read input symbol layout and associated image data
     map_in = symbol_map_open_file(config->map_files[0]);
@@ -66,7 +62,7 @@ process_maps(const tool_config *config)
 	// Scan for strings if requested
 	if (config->locate_strings >= 0) nvm_string_list(
 	    symbol_map_blob_address(map_in), symbol_map_blob_size(map_in),
-	    config->locate_strings);
+	    config->locate_strings, config->show_fields & showSymbol);
 
 	// Translate data from input to output layout if supplied
 	map_out = symbol_map_open_file(config->map_files[1]);
@@ -82,12 +78,15 @@ process_maps(const tool_config *config)
 	// Incorporate symbol overrides
 	parse_overrides(config->overrides, symbols_out, num_out);	//FIXME
 	// Print out information if requested
+	if (config->show_size) symbol_map_print_size(map_write, config->show_fields & showSymbol);
 	print_symbol_list(symbols_out, num_out,
 			  config->show_fields, config->print_content);
 	// Store output image to file
 	if (config->image_out) image_write_file(
 	    config->image_out, symbol_map_blob_address(map_write),
 	    symbol_map_blob_size(map_write), config->format_out);
+    } else {
+	ret_code = num_in;	//propagate error code or no symbols
     }
 
     free(symbols_in);
@@ -95,6 +94,7 @@ process_maps(const tool_config *config)
 
     symbol_map_close(map_in);
     symbol_map_close(map_out);
+    return ret_code;
 }
 
 
@@ -103,10 +103,11 @@ process_maps(const tool_config *config)
 int
 main(int argc, char **argv)
 {
-    int ret_code = 0;
+    int ret_code;
     tool_config config = {
 	.section		= DEFAULT_SECTION,
 	.locate_strings		= -1,
+	.show_size		= 0,
 	.show_fields		= showNone,
 	.print_content		= printNone,
 	.format_out		= formatIntelHex,
@@ -122,7 +123,7 @@ main(int argc, char **argv)
     if (ret_code != 0) return ret_code;
 
     // Process specified actions
-    process_maps(&config);
+    ret_code = -process_maps(&config);
 
     free(config.overrides);
 

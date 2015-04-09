@@ -63,6 +63,12 @@ size_t symbol_map_blob_size(
     nvm_symbol_map_source *source	///< [in,out] Handle of the map source
     );
 
+///@brief Print out the size of the source's binary data
+void symbol_map_print_size(
+    nvm_symbol_map_source *source,	///< [in] Handle of the map source
+    int parseable			///< [in] Avoid localized output
+    );
+
 ///@brief Close the symbol map source handle and free associated resources
 void symbol_map_close(
     nvm_symbol_map_source *source	///< [in,out] Handle of the map source

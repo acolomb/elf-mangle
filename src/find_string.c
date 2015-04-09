@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Locate special strings in binary images
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -24,20 +24,15 @@
 #include "config.h"
 
 #include "find_string.h"
+#include "intl.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <inttypes.h>
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
-
-
-
-/// Default minimum length of strings to locate
-#define MIN_LENGTH_DEFAULT	(4)
+/// Compile diagnostic output messages?
+#define DEBUG 0
 
 
 
@@ -58,38 +53,28 @@ nvm_string_find(const char* blob, size_t size, uint8_t min_length)
     const char *c;
     uint8_t printable = 0;
 
-    if (min_length == 0) min_length = MIN_LENGTH_DEFAULT;
+    if (min_length == 0) min_length = FIND_STRING_DEFAULT_LENGTH;
 
-    for (c = blob + 1; c < blob + size; ++c) {
-#ifdef DEBUG
-	printf("[%04zx] ", c - blob);
-#endif
+    for (c = blob + 1; c < blob + size; ++c) {	//skip first possible length byte
+	if (DEBUG) printf("[%04zx] ", c - blob);
 	if (*c == '\0') {		//string ends at NUL terminator
-#ifdef DEBUG
-	    puts("NUL");
-#endif
+	    if (DEBUG) puts("NUL");
 	    while (printable >= min_length) {
-#ifdef DEBUG
-		printf("\tprintable=%u length=%hhu\n", printable, c[-printable - 1]);
-#endif
-		if (printable + 1 == (uint8_t) c[-printable - 1]) return c - printable;
+		if (DEBUG) printf("\tprintable=%u length=%hhu\n", printable, c[-printable - 1]);
+		if (printable + 1			//number of printable characters plus NUL
+		    == (uint8_t) c[-printable - 1])	//matches length byte value
+		    return c - printable;
 		--printable;
 	    }
 	    printable = 0;
 	} else if (isprint((int) *c)) {	//printable character, might be part of string
 	    if (printable < UINT8_MAX) ++printable;
-#ifdef DEBUG
-	    printf("'%c'", *c);
-#endif
+	    if (DEBUG) printf("'%c'", *c);
 	} else {
 	    printable = 0;
-#ifdef DEBUG
-	    printf("<%03hhu>", *c);
-#endif
+	    if (DEBUG) printf("<%03hhu>", *c);
 	}
-#ifdef DEBUG
-	printf("\tprintable=%u\n", printable);
-#endif
+	if (DEBUG) printf("\tprintable=%u\n", printable);
     }
     return NULL;
 }
@@ -99,15 +84,19 @@ nvm_string_find(const char* blob, size_t size, uint8_t min_length)
 /// Strings are located by repeatedly calling nvm_string_find(),
 /// skipping over any previous match.
 void
-nvm_string_list(const char* blob, size_t size, uint8_t min_length)
+nvm_string_list(const char* blob, size_t size, uint8_t min_length, int parseable)
 {
     const char *next;
 
     while (size) {
 	next = nvm_string_find(blob, size, min_length);
 	if (! next) break;
-	printf("String at offset [%04zx] (%zu bytes + NUL):\n\t"
-	       "\"%s\"\n", next - blob, strlen(next), next);
+	printf(parseable
+	       ? ("lpstring [%04zx] (%zu bytes + NUL):\n\t"
+		  "\"%s\"\n")
+	       : _("Length prefixed string at offset [%04zx] (%zu bytes + NUL):\n\t"
+		   "\"%s\"\n"),
+	       next - 1 - blob, strlen(next), next);
 	next += strlen(next) + 1;
 	size -= next - blob;
 	blob = next;

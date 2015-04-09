@@ -29,6 +29,10 @@
 #include "find_string.h"
 
 
+/// Default ELF section to use
+#define DEFAULT_SECTION		".eeprom"
+
+
 /// Application options
 typedef struct tool_config {
     /// Names of input and output map files
@@ -45,6 +49,8 @@ typedef struct tool_config {
     enum image_format	format_out;
     /// Locate strings of this minimum length within image
     int			locate_strings;
+    /// Print out the total section image size in bytes
+    char		show_size;
     /// Configuration flags for dumping symbol descriptions
     enum show_field	show_fields;
     /// Configuration flags for dumping symbol content
