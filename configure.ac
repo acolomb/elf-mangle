@@ -17,7 +17,7 @@
 # <http://www.gnu.org/licenses/>.
 
 
-AC_INIT([elf-mangle], [0.3], [src@andre.colomb.de])
+AC_INIT([elf-mangle], [0.4], [src@andre.colomb.de])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src/elf-mangle.c])
 AC_CONFIG_AUX_DIR([.])
@@ -103,14 +103,30 @@ AM_COND_IF([HAVE_INTELHEX],
 
 
 # Checks for header files.
+AC_CHECK_HEADERS([fcntl.h])
+AC_CHECK_HEADERS([locale.h])
+AC_CHECK_HEADERS([stddef.h])
+AC_CHECK_HEADERS([libintl.h])
+
 
 
 # Checks for typedefs
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
+AC_TYPE_OFF_T
+AC_TYPE_UINT16_T
+AC_TYPE_UINT32_T
+AC_TYPE_UINT8_T
+
 
 
 # Checks for library functions.
+AC_CHECK_FUNCS([ftruncate])
+AC_CHECK_FUNCS([munmap])
+AC_CHECK_FUNCS([setlocale])
+AC_CHECK_FUNCS([strerror])
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
 AC_FUNC_MMAP
 
 
