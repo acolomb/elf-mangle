@@ -1,4 +1,4 @@
-2015-01-26  André Colomb  <src@andre.colomb.de>
+2015-04-09  André Colomb  <src@andre.colomb.de>
 
 	* Rework the build system, fixing several usage and portability
 	problems.  Integrate GNU libtool for building libraries.
@@ -15,6 +15,7 @@
 	* Fix error handling when an expected ELF section could not be
 	found.
 	* Handle unprintable characters in custom_known_fields.c example.
+	* Validate argument in custom_options.c example for --set-serial.
 	* Revised README document for new features and minor corrections.
 
 	* Release version 0.4.
