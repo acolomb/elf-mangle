@@ -28,6 +28,10 @@
 #include <stdint.h>
 
 
+/// Default minimum length of strings to locate
+#define FIND_STRING_DEFAULT_LENGTH	4
+
+
 ///@brief Find strings prefixed with single-byte length specification
 ///@return Start of string or NULL if none found
 const char* nvm_string_find(
@@ -40,7 +44,8 @@ const char* nvm_string_find(
 void nvm_string_list(
     const char* blob,		///< [in] Binary data to search in
     size_t size,		///< [in] Size of binary data
-    uint8_t min_length		///< [in] Minimum string length passed to nvm_string_find()
+    uint8_t min_length,		///< [in] Minimum string length passed to nvm_string_find()
+    int parseable		///< [in] Avoid localized output
     );
 
 #endif //FIND_STRING_H_

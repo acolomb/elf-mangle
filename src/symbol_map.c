@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Parsing of ELF files as symbol map sources
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -39,9 +39,8 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
+/// Compile diagnostic output messages?
+#define DEBUG 0
 
 /// Flags for open() system call
 #define OPEN_FLAGS	(O_RDONLY | O_BINARY)
@@ -99,10 +98,8 @@ find_symtab_and_section(
     while ((scn = elf_nextscn(elf, scn)) != NULL) {
 	// Get the section header
 	if (gelf_getshdr(scn, &shdr) != NULL) {
-#ifdef DEBUG
-	    fprintf(stderr, _("%s: [%zu] %s\n"), __func__,
-		    elf_ndxscn(scn), elf_strptr(elf, shstrndx, shdr.sh_name));
-#endif
+	    if (DEBUG) printf(_("%s: [%zu] %s\n"), __func__,
+			      elf_ndxscn(scn), elf_strptr(elf, shstrndx, shdr.sh_name));
 	    if (shdr.sh_type == SHT_SYMTAB) {
 		*symtab = scn;
 		*strings_index = shdr.sh_link;
@@ -117,6 +114,9 @@ find_symtab_and_section(
 		    elf_ndxscn(scn), elf_errmsg(elf_errno()));
 	}
     }
+    if (! *symtab) fprintf(stderr, _("No ELF symbol table found\n"));
+    if (! *section) fprintf(stderr, _("No ELF section named '%s' found\n"),
+			    section_name);
 }
 
 
@@ -285,6 +285,15 @@ symbol_map_blob_size(nvm_symbol_map_source *source)
 {
     if (! source) return 0;
     return source->blob_size;
+}
+
+
+
+void symbol_map_print_size(nvm_symbol_map_source *source,
+			   int parseable)
+{
+    printf(parseable ? "total: %zu bytes\n" : _("Section image size: %zu bytes\n"),
+	   symbol_map_blob_size(source));
 }
 
 

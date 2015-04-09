@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Helper functions to handle data field descriptors
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -29,9 +29,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
+/// Compile diagnostic output messages?
+#define DEBUG 0
 
 
 
@@ -44,9 +43,7 @@ find_field(const char *symbol,
 
     for (field = fields; field < fields + num_fields; ++field) {
 	comp = strcmp(field->symbol, symbol);
-#ifdef DEBUG
-	printf("%s: (%s; %s) = %d\n", __func__, field->symbol, symbol, comp);
-#endif
+	if (DEBUG) printf("%s: (%s; %s) = %d\n", __func__, field->symbol, symbol, comp);
 	if (comp == 0) return field;
 	else if (comp > 0) break;
     }

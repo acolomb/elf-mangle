@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Override symbol data from key-value string specification
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -38,9 +38,8 @@
 #include <errno.h>
 #include <stdint.h>
 
-#ifdef DEBUG
-#undef DEBUG
-#endif
+/// Compile diagnostic output messages?
+#define DEBUG 0
 
 
 
@@ -63,9 +62,7 @@ override_append(char *overrides, const char *append_fmt, ...)
     // Find length of appended override directive, plus NUL terminator
     add_length = vsnprintf(NULL, 0, append_fmt, args_copy) + sizeof(*new_string);
 
-#ifdef DEBUG
-    printf("%s: %zu + %zu\t(%s)\n", __func__, old_length, add_length, append_fmt);
-#endif
+    if (DEBUG) printf("%s: %zu + %zu\t(%s)\n", __func__, old_length, add_length, append_fmt);
 
     new_string = realloc(overrides, old_length + add_length);
     if (new_string) {
@@ -77,9 +74,7 @@ override_append(char *overrides, const char *append_fmt, ...)
 	    fprintf(stderr, _("%s: Override directive truncated during append.\n"), __func__);
 	}
 
-#ifdef DEBUG
-	printf("%1$s: %2$p -> %3$p (%3$s)\n", __func__, overrides, new_string);
-#endif
+	if (DEBUG) printf("%1$s: %2$p -> %3$p (%3$s)\n", __func__, overrides, new_string);
 	overrides = new_string;
     } else {
 	fprintf(stderr, _("Could not append override directive \""));
@@ -112,9 +107,7 @@ parse_hex_bytes(
     while (*start && parsed < max_length) {
 	if (1 == sscanf(start, " %2hhx%n", &value, &converted)) {
 	    output[parsed++] = value;
-#ifdef DEBUG
-	    printf("%.*s=%02hhx,\t", converted, start, value);
-#endif
+	    if (DEBUG) printf("%.*s=%02hhx,\t", converted, start, value);
 	    start += converted;
 	} else {
 	    fprintf(stderr, _("Failed after parsing %d hex bytes with \"%s\" remaining (%s)\n"),
@@ -135,9 +128,7 @@ parse_overrides(char *overrides, const nvm_symbol *list, int size)
     int i, parsed = 0, length;
 
     if (! overrides || ! list) return -1;
-#ifdef DEBUG
-    printf(_("%s: \"%s\"\n"), __func__, overrides);
-#endif
+    if (DEBUG) printf(_("%s: \"%s\"\n"), __func__, overrides);
 
     // Mirror token list from known symbols
     for (i = 0; i < size; ++i) {
@@ -155,9 +146,7 @@ parse_overrides(char *overrides, const nvm_symbol *list, int size)
 	i = getsubopt(&subopt, (char**) symbols, &value);
 	if (i >= 0 && i < size) {
 	    length = parse_hex_bytes(value, list[i].blob_address, list[i].size);
-#ifdef DEBUG
-	    printf(_("Parsed %d bytes for field %s\n"), length, symbols[i]);
-#endif
+	    if (DEBUG) printf(_("Parsed %d bytes for field %s\n"), length, symbols[i]);
 	    if (length > 0) {
 		++parsed;
 		continue;

@@ -1,4 +1,8 @@
 *.elf
 *.bin
 *.eep
+*.lo
+*.la
 /elf-mangle
+/.deps
+/.libs
