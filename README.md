@@ -35,8 +35,8 @@ Compilers and linkers do a great job in generating machine-readable
 binary code to be run on a CPU or embedded microprocessor.  After
 these tools have finished their job, sometimes it is necessary to
 alter some bits of information inside these binary files.  The most
-common modern executable file format (at least in the *NIX world) is
-**ELF**, the _E_xecutable and _L_inkable _F_ormat.
+common modern executable file format (at least in the UNIX / Linux
+world) is **ELF**, the Executable and Linkable Format.
 
 The *elf-mangle* tool exists to examine and alter (thus *mangle*)
 these ELF executable and binary data images, for example when you need
