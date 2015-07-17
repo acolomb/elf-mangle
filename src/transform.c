@@ -70,7 +70,7 @@ transfer_field_iterator(
 	if (DEBUG) printf(_("%s: %zu of %zu bytes copied\n"),
 			  symbol_dst->field->symbol, copied, symbol_dst->size);
     } else {
-	fprintf(stderr, "Target map field %s not found in source.", symbol_dst->field->symbol);
+	fprintf(stderr, "Target map field %s not found in source.\n", symbol_dst->field->symbol);
     }
     return NULL;	//continue iterating
 }
