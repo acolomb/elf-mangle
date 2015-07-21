@@ -59,8 +59,8 @@ print_symbol_description_iterator(
     if (*conf & showAddress) printf("[%04zx]\t", symbol->offset);
     if ((*conf & showSymbol) ||
 	(! symbol->field->print_func)) printf("%s:", symbol->field->symbol);
-    else printf("%s:", symbol->field->description);
-    if (*conf & showByteSize) printf(" %zu bytes", symbol->size);
+    else printf("%s:", _(symbol->field->description));
+    if (*conf & showByteSize) printf(_(" %zu bytes"), symbol->size);
     if (DEBUG) printf(" %p", symbol->blob_address);
 
     return NULL;	//continue iterating
