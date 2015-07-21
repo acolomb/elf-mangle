@@ -31,4 +31,6 @@ ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = ./config.rpath
 EXTRA_DIST += m4/gnulib-cache.m4
-EXTRA_DIST += README.md
+EXTRA_DIST += README.md LICENSE.txt TODO.md
+
+doc_DATA = README.md LICENSE.txt TODO.md ChangeLog
