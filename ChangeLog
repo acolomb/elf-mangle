@@ -1,3 +1,17 @@
+2015-07-21  André Colomb  <src@andre.colomb.de>
+
+	* Fix README.md syntax compatibility for GitHub and include it in
+	the distribution.
+	* Add a TODO list with ideas for future development.
+	* Fix bugs related to the handling of text / binary file modes on
+	Windows.
+	* Update included libcintelhex reference to benefit from bug fixes
+	there, some also related to binary file handling on Windows.
+	* Fix some localization issues (non-translatable strings, missing
+	newline).
+
+	* Release version 0.4.1
+
 2015-04-09  André Colomb  <src@andre.colomb.de>
 
 	* Rework the build system, fixing several usage and portability
