@@ -216,7 +216,8 @@ image_raw_write_file(const char *filename,
 
     if (! filename || ! blob || ! blob_size) return;
 
-    fd = open(filename, O_WRONLY | O_CREAT | O_BINARY, 0660);
+    fd = open(filename, O_WRONLY | O_CREAT | O_BINARY,
+	      S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR | S_IWGRP | S_IWOTH);
     if (fd == -1) {		//file not opened
 	fprintf(stderr, _("Cannot open image \"%s\" (%s)\n"), filename, strerror(errno));
     } else {
