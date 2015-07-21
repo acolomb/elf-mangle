@@ -187,7 +187,7 @@ image_raw_merge_file(const char *filename,
 	mapped = mmap(NULL, blob_size, PROT_READ, MAP_PRIVATE, fd, 0);
 	if (mapped == MAP_FAILED) {
 	    mapped = NULL;
-	    fprintf(stderr, "%s: mmap() failed (%s)\n", __func__, strerror(errno));
+	    fprintf(stderr, _("%s: mmap() failed (%s)\n"), __func__, strerror(errno));
 	}
 #endif
 	if (mapped) {

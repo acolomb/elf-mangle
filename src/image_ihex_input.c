@@ -85,7 +85,7 @@ image_ihex_merge_file(const char *filename,
     } else if (rs->ihrs_count == 0 || start >= end) {
 	fprintf(stderr, _("Image file \"%s\" is empty\n"), filename);
     } else {
-	if (DEBUG) printf("%s: %s contains range 0x%04" PRIx32 " to 0x%04" PRIx32 "\n",
+	if (DEBUG) printf(_("%s: %s contains range 0x%04" PRIx32 " to 0x%04" PRIx32 "\n"),
 			  __func__, filename, start, end > 0 ? end - 1 : 0);
 	if (blob_size > end) {
 	    fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),

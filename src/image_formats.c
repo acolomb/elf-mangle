@@ -80,7 +80,7 @@ image_write_file(const char *filename,
 {
     if (! filename || ! blob || ! blob_size) return;
 
-    if (DEBUG) printf("%s: Output file \"%s\" format %d\n", __func__, filename, format);
+    if (DEBUG) printf(_("%s: Output file \"%s\" format %d\n"), __func__, filename, format);
     switch (format) {
     case formatRawBinary:
 	image_raw_write_file(filename, blob, blob_size);

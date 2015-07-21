@@ -101,7 +101,7 @@ ihex_write(
 	else reclen = default_length;
 	// Limit to current segment
 	if (load_offset + reclen > segment_length) reclen = segment_length - load_offset;
-	if (DEBUG) printf("%s: Record len=%zu source=%p rest=%zu USBA=%" PRIu32 "\n",
+	if (DEBUG) printf(_("%s: Record len=%zu source=%p rest=%zu USBA=%" PRIu32 "\n"),
 			  __func__, reclen, blob, blob_size, segment_base);
 
 	// Write record data
