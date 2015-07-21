@@ -28,6 +28,7 @@
 #include "known_fields.h"
 #include "field_print.h"
 #include "nvm_field.h"
+#include "intl.h"
 
 #include <stdio.h>
 #include <stdlib.h>
