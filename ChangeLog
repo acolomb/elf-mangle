@@ -1,4 +1,4 @@
-2015-07-21  André Colomb  <src@andre.colomb.de>
+2015-07-22  André Colomb  <src@andre.colomb.de>
 
 	* Fix README.md syntax compatibility for GitHub and include it in
 	the distribution.
@@ -10,6 +10,7 @@
 	newline).
 	* Add a TODO list with ideas for future development.
 	* Install documentation files: README, TODO, LICENSE, ChangeLog
+	* Update German translation.
 
 	* Release version 0.4.1
 
