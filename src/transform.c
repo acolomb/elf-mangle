@@ -70,7 +70,8 @@ transfer_field_iterator(
 	if (DEBUG) printf(_("%s: %zu of %zu bytes copied\n"),
 			  symbol_dst->field->symbol, copied, symbol_dst->size);
     } else {
-	fprintf(stderr, "Target map field %s not found in source.\n", symbol_dst->field->symbol);
+	fprintf(stderr, _("Target map field %s not found in source.\n"),
+		symbol_dst->field->symbol);
     }
     return NULL;	//continue iterating
 }
@@ -86,6 +87,6 @@ transfer_fields(const nvm_symbol *list_src, int num_src,
 	.num_src	= num_src,
     };
 
-    if (DEBUG) printf("%s: Copy %d symbols in to %d out\n", __func__, num_src, num_dst);
+    if (DEBUG) printf(_("%s: Copy %d symbols in to %d out\n"), __func__, num_src, num_dst);
     symbol_list_foreach(list_dst, num_dst, transfer_field_iterator, &conf);
 }

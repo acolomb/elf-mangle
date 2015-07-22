@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: elf-mangle 0.1\n"
 "Report-Msgid-Bugs-To: src@andre.colomb.de\n"
-"POT-Creation-Date: 2015-04-09 14:08+0200\n"
-"PO-Revision-Date: 2015-04-09 14:03+0100\n"
+"POT-Creation-Date: 2015-07-22 12:55+0200\n"
+"PO-Revision-Date: 2015-07-22 12:56+0100\n"
 "Last-Translator: Andre Colomb <acolomb@schickhardt.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.7.5\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
@@ -122,12 +122,17 @@ msgstr ""
 msgid "Invalid input image file format.\n"
 msgstr "Ungültiges Format für Binärabbild.\n"
 
+#: src/image_formats.c:83
+#, c-format
+msgid "%s: Output file \"%s\" format %d\n"
+msgstr "%s: Ausgabedatei \"%s\" im Format %d\n"
+
 #: src/image_formats.c:95
 #, c-format
 msgid "Invalid output image file format specified.\n"
 msgstr "Ungültiges Ausgabeformat für Binärabbild.\n"
 
-#: src/image_ihex_input.c:77 src/image_raw.c:168 src/image_raw.c:216
+#: src/image_ihex_input.c:77 src/image_raw.c:173 src/image_raw.c:222
 #, c-format
 msgid "Cannot open image \"%s\" (%s)\n"
 msgstr "Abbilddatei \"%s\" kann nicht geöffnet werden (%s)\n"
@@ -138,12 +143,17 @@ msgid "Could not determine data range in Intel Hex file \"%s\" (%s)\n"
 msgstr ""
 "Konnte Datenbereich in der Intel-Hex-Datei \"%s\" nicht ermitteln (%s)\n"
 
-#: src/image_ihex_input.c:86 src/image_raw.c:173
+#: src/image_ihex_input.c:86 src/image_raw.c:178
 #, c-format
 msgid "Image file \"%s\" is empty\n"
 msgstr "Abbilddatei \"%s\" ist leer\n"
 
-#: src/image_ihex_input.c:91 src/image_raw.c:176
+#: src/image_ihex_input.c:88
+#, c-format
+msgid "%s: %s contains range 0x%04<PRIx32> to 0x%04<PRIx32>\n"
+msgstr "%s: %s umfasst den Bereich 0x%04<PRIx32> bis 0x%04<PRIx32>\n"
+
+#: src/image_ihex_input.c:91 src/image_raw.c:181
 #, c-format
 msgid "Image file \"%s\" is too small, %zu of %zu bytes missing\n"
 msgstr "Abbilddatei \"%s\" ist zu klein, %zu von %zu Byte fehlen\n"
@@ -153,28 +163,38 @@ msgstr "Abbilddatei \"%s\" ist zu klein, %zu von %zu Byte fehlen\n"
 msgid "Could not copy data from Intel Hex file \"%s\" (%s)\n"
 msgstr "Konnte keine Daten aus der Intel-Hex-Datei \"%s\" kopieren (%s)\n"
 
+#: src/image_ihex_output.c:104
+#, c-format
+msgid "%s: Record len=%zu source=%p rest=%zu USBA=%<PRIu32>\n"
+msgstr "%s: Eintrag len=%zu source=%p rest=%zu USBA=%<PRIu32>\n"
+
 #: src/image_ihex_output.c:145
 #, c-format
 msgid "Cannot open output image \"%s\" (%s)\n"
 msgstr "Abbilddatei \"%s\" für Ausgabe kann nicht geöffnet werden (%s)\n"
 
-#: src/image_raw.c:105
+#: src/image_raw.c:110
 #, c-format
 msgid "%s: copy %zu bytes from file offset %zu to %p\n"
 msgstr "%s: Kopiere %zu Byte von Dateiposition %zu nach %p\n"
 
-#: src/image_raw.c:115
+#: src/image_raw.c:120
 #, c-format
 msgid "Failed to read %s (%zu bytes) from file offset %zu to %p (%s)\n"
 msgstr ""
 "Fehler beim Lesen von %s (%zu Byte) von Dateiposition %zu nach %p (%s)\n"
 
-#: src/image_raw.c:219
+#: src/image_raw.c:190
+#, c-format
+msgid "%s: mmap() failed (%s)\n"
+msgstr "%s: mmap() fehlgeschlagen (%s)\n"
+
+#: src/image_raw.c:225
 #, c-format
 msgid "Cannot resize image file \"%s\" to %zu bytes (%s)\n"
 msgstr "Abbilddatei \"%s\" kann nicht auf %zu Bytes vergrößert werden (%s)\n"
 
-#: src/image_raw.c:227
+#: src/image_raw.c:233
 #, c-format
 msgid "Cannot write image file \"%s\" (%s)\n"
 msgstr "Abbilddatei \"%s\" kann nicht geschrieben werden (%s)\n"
@@ -362,46 +382,46 @@ msgstr "Feld nicht gefunden"
 msgid "Unable to parse override `%.*s' (%s)\n"
 msgstr "Kann Zuweisung '%.*s' nicht parsen (%s)\n"
 
-#: src/symbol_map.c:92
+#: src/symbol_map.c:91
 #, c-format
 msgid "Could not access section header string table: %s\n"
 msgstr "Kann nicht auf Sektions-Header-Stringtabelle zugreifen: %s\n"
 
-#: src/symbol_map.c:101
+#: src/symbol_map.c:100
 #, c-format
 msgid "%s: [%zu] %s\n"
 msgstr "%s: [%zu] %s\n"
 
-#: src/symbol_map.c:113
+#: src/symbol_map.c:112
 #, c-format
 msgid "Header of ELF section %zu inaccessible: %s\n"
 msgstr "Header der ELF-Sektion %zu unlesbar: %s\n"
 
-#: src/symbol_map.c:117
+#: src/symbol_map.c:116
 #, c-format
 msgid "No ELF symbol table found\n"
 msgstr "Keine ELF-Symboltabelle gefunden\n"
 
-#: src/symbol_map.c:118
+#: src/symbol_map.c:117
 #, c-format
 msgid "No ELF section named '%s' found\n"
 msgstr "Keine ELF-Sektion namens '%s' gefunden\n"
 
-#: src/symbol_map.c:136
+#: src/symbol_map.c:135
 #, c-format
 msgid "Could not allocate image data: %s\n"
 msgstr "Konnte keinen Speicher für Abbilddaten zuweisen: %s\n"
 
-#: src/symbol_map.c:235
+#: src/symbol_map.c:234
 msgid "Not an ELF object"
 msgstr "Kein ELF-Objekt"
 
-#: src/symbol_map.c:244
+#: src/symbol_map.c:243
 #, c-format
 msgid "Cannot open symbol map \"%s\" (%s)\n"
 msgstr "Symbolzuordnung \"%s\" kann nicht geöffnet werden (%s)\n"
 
-#: src/symbol_map.c:295
+#: src/symbol_map.c:294
 #, c-format
 msgid "Section image size: %zu bytes\n"
 msgstr "Größe der Sektion: %zu Byte\n"
@@ -415,3 +435,13 @@ msgstr "%s: Ziel '%s' (%p) entspricht Symbol %p in Quelle\n"
 #, c-format
 msgid "%s: %zu of %zu bytes copied\n"
 msgstr "%s: %zu von %zu Byte kopiert\n"
+
+#: src/transform.c:73
+#, c-format
+msgid "Target map field %s not found in source.\n"
+msgstr "Feld %s der Zielzuordnung nicht in der Quelle gefunden.\n"
+
+#: src/transform.c:90
+#, c-format
+msgid "%s: Copy %d symbols in to %d out\n"
+msgstr "%s: Kopiere %d Quellsymbole auf %d Ziele\n"
