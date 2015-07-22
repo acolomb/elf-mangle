@@ -42,6 +42,11 @@
 /// Compile diagnostic output messages?
 #define DEBUG 0
 
+// Flags for open() system call
+#ifndef O_BINARY
+#define O_BINARY	0
+#endif
+
 // Default to seek-based implementation
 #ifndef HAVE_MMAP
 #define HAVE_MMAP 0
@@ -163,7 +168,7 @@ image_raw_merge_file(const char *filename,
 
     if (! filename || ! blob_size) return -1;	//invalid parameters
 
-    fd = open(filename, O_RDONLY);
+    fd = open(filename, O_RDONLY | O_BINARY);
     if (fd == -1 || 0 != fstat(fd, &st)) {	//file not accessible
 	fprintf(stderr, _("Cannot open image \"%s\" (%s)\n"), filename, strerror(errno));
 	return -2;
@@ -182,7 +187,7 @@ image_raw_merge_file(const char *filename,
 	mapped = mmap(NULL, blob_size, PROT_READ, MAP_PRIVATE, fd, 0);
 	if (mapped == MAP_FAILED) {
 	    mapped = NULL;
-	    fprintf(stderr, "%s: mmap() failed (%s)\n", __func__, strerror(errno));
+	    fprintf(stderr, _("%s: mmap() failed (%s)\n"), __func__, strerror(errno));
 	}
 #endif
 	if (mapped) {
@@ -211,7 +216,8 @@ image_raw_write_file(const char *filename,
 
     if (! filename || ! blob || ! blob_size) return;
 
-    fd = open(filename, O_WRONLY | O_CREAT, 0660);
+    fd = open(filename, O_WRONLY | O_CREAT | O_BINARY,
+	      S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR | S_IWGRP | S_IWOTH);
     if (fd == -1) {		//file not opened
 	fprintf(stderr, _("Cannot open image \"%s\" (%s)\n"), filename, strerror(errno));
     } else {

@@ -26,5 +26,7 @@ Doxyfile
 # Compilation output
 *.o
 *.Po
+*.lo
+*.la
 *.a
 /doxygen

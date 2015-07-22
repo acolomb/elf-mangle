@@ -42,8 +42,7 @@
 /// Compile diagnostic output messages?
 #define DEBUG 0
 
-/// Flags for open() system call
-#define OPEN_FLAGS	(O_RDONLY | O_BINARY)
+// Flags for open() system call
 #ifndef O_BINARY
 #define O_BINARY	0
 #endif
@@ -220,7 +219,7 @@ symbol_map_open_file(const char *filename)
 
     source = malloc(sizeof(*source));
     if (source) {
-	source->fd = open(filename, OPEN_FLAGS);
+	source->fd = open(filename, O_RDONLY | O_BINARY);
 	source->elf = NULL;
 	source->blob = NULL;
 	source->blob_size = 0;
