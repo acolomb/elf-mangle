@@ -1,3 +1,11 @@
+2015-08-14  André Colomb  <src@andre.colomb.de>
+
+	* Fix segmentation fault when using Intel Hex files, caused by an
+	error in libcintelhex.  A newer pre-release of libcintelhex is now
+	referenced for the submodule.
+
+	* Release version 0.4.2
+
 2015-07-22  André Colomb  <src@andre.colomb.de>
 
 	* Fix README.md syntax compatibility for GitHub and include it in
