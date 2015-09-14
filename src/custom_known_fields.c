@@ -192,12 +192,14 @@ copy_unique(const nvm_field *field,
 	    size_t dst_size, size_t src_size)
 {
     uint8_t target_hwtype = hwInvalid;
+    size_t copied;
 
     if (dst_size >= unique_hardware_offset) target_hwtype = convert_uint8(
 	dst + unique_hardware_offset);
-    memcpy(dst, src, dst_size);
+    copied = copy_field_verbatim(field, dst, src, dst_size, src_size);
 
-    if (convert_uint8(src + unique_hardware_offset) != target_hwtype) {
+    if (src_size >= unique_hardware_offset &&
+	convert_uint8(src + unique_hardware_offset) != target_hwtype) {
 	fprintf(stderr,
 		_("WARNING: %s changed to match target hardware type!\n"
 		  "\t\t%02" PRIu8 " (%s) in target map\n"
@@ -207,9 +209,9 @@ copy_unique(const nvm_field *field,
 		convert_uint8(src + unique_hardware_offset),
 		get_unique_hardware_type(convert_uint8(src + unique_hardware_offset)));
 	dst[unique_hardware_offset] = target_hwtype;
-	return dst_size - sizeof(target_hwtype);
+	return copied - sizeof(target_hwtype);
     }
-    return dst_size;
+    return copied;
 }
 
 
