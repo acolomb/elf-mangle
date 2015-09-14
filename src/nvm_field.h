@@ -44,7 +44,8 @@ typedef size_t (*field_copy_f)(
     const nvm_field *field,	///< [in] Access to field descriptor //FIXME needed?
     char *dst,			///< [out] Destination address for field data
     const char *src,		///< [in] Source address for field data
-    size_t max_size		///< [in] Maximum size in bytes to write to destination
+    size_t dst_size,		///< [in] Maximum size in bytes to write to destination
+    size_t src_size		///< [in] Maximum size in bytes available from source
 );
 
 ///@brief Function pointer to pretty-print data field content
@@ -83,7 +84,8 @@ size_t copy_field_verbatim(
     const nvm_field *field,	///< [in] Access to field descriptor //FIXME needed?
     char *dst,			///< [out] Destination address for field data
     const char *src,		///< [in] Source address for field data
-    size_t max_size		///< [in] Maximum size in bytes to write to destination
+    size_t dst_size,		///< [in] Maximum size in bytes to write to destination
+    size_t src_size		///< [in] Maximum size in bytes available from source
     );
 
 ///@brief Do not copy data field content (dummy implementation)
@@ -92,7 +94,8 @@ size_t copy_field_noop(
     const nvm_field *field,	///< [in] Access to field descriptor //FIXME needed?
     char *dst,			///< [out] Destination address for field data
     const char *src,		///< [in] Source address for field data
-    size_t max_size		///< [in] Maximum size in bytes to write to destination
+    size_t dst_size,		///< [in] Maximum size in bytes to write to destination
+    size_t src_size		///< [in] Maximum size in bytes available from source
     );
 
 #endif //NVM_FIELD_H_

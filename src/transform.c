@@ -56,7 +56,7 @@ transfer_field_iterator(
 {
     const struct transfer_config *conf = arg;
     const nvm_symbol *symbol_src;
-    size_t copied __attribute__((unused));	//FIXME
+    size_t copied;
     field_copy_f copy_func = copy_field_verbatim;
 
     symbol_src = symbol_list_find_field(conf->list_src, conf->num_src, symbol_dst->field);
@@ -66,7 +66,8 @@ transfer_field_iterator(
 	if (symbol_dst->field->copy_func) copy_func = symbol_dst->field->copy_func;
 	copied = copy_func(
 	    symbol_dst->field,
-	    symbol_dst->blob_address, symbol_src->blob_address, symbol_dst->size);
+	    symbol_dst->blob_address, symbol_src->blob_address,
+	    symbol_dst->size, symbol_src->size);
 	if (DEBUG) printf(_("%s: %zu of %zu bytes copied\n"),
 			  symbol_dst->field->symbol, copied, symbol_dst->size);
     } else {

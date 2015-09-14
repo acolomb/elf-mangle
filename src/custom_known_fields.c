@@ -189,27 +189,31 @@ resize_version(const char *src, size_t initial __attribute((unused)))
 static size_t
 copy_unique(const nvm_field *field,
 	    char *dst, const char *src,
-	    size_t max_size)
+	    size_t dst_size, size_t src_size)
 {
-    uint8_t target_hwtype = hwInvalid;
+    uint8_t new_hwtype, target_hwtype;
+    size_t copied;
 
-    if (max_size >= unique_hardware_offset) target_hwtype = convert_uint8(
+    if (dst_size >= unique_hardware_offset) target_hwtype = convert_uint8(
 	dst + unique_hardware_offset);
-    memcpy(dst, src, max_size);
+    copied = copy_field_verbatim(field, dst, src, dst_size, src_size);
 
-    if (convert_uint8(src + unique_hardware_offset) != target_hwtype) {
-	fprintf(stderr,
-		_("WARNING: %s changed to match target hardware type!\n"
-		  "\t\t%02" PRIu8 " (%s) in target map\n"
-		  "\t\t%02" PRIu8 " (%s) provided from image\n"),
-		field->description,
-		target_hwtype, get_unique_hardware_type(target_hwtype),
-		convert_uint8(src + unique_hardware_offset),
-		get_unique_hardware_type(convert_uint8(src + unique_hardware_offset)));
-	dst[unique_hardware_offset] = target_hwtype;
-	return max_size - sizeof(target_hwtype);
+    if (src_size >= unique_hardware_offset &&
+	dst_size >= unique_hardware_offset) {
+	new_hwtype = convert_uint8(src + unique_hardware_offset);
+	if (new_hwtype != target_hwtype) {
+	    fprintf(stderr,
+		    _("WARNING: %s changed to match target hardware type!\n"
+		      "\t\t%02" PRIu8 " (%s) in target map\n"
+		      "\t\t%02" PRIu8 " (%s) provided from image\n"),
+		    field->description,
+		    target_hwtype, get_unique_hardware_type(target_hwtype),
+		    new_hwtype, get_unique_hardware_type(new_hwtype));
+	    dst[unique_hardware_offset] = target_hwtype;
+	    return copied - sizeof(target_hwtype);
+	}
     }
-    return max_size;
+    return copied;
 }
 
 
