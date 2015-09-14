@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: elf-mangle 0.1\n"
 "Report-Msgid-Bugs-To: src@andre.colomb.de\n"
-"POT-Creation-Date: 2015-07-22 12:55+0200\n"
+"POT-Creation-Date: 2015-09-14 10:53+0200\n"
 "PO-Revision-Date: 2015-07-22 12:56+0100\n"
 "Last-Translator: Andre Colomb <acolomb@schickhardt.org>\n"
 "Language-Team: German\n"
@@ -61,7 +61,7 @@ msgstr " (%<PRIu8> nicht druckbare Zeichen durch %c ersetzt)"
 msgid "<unknown version> (%<PRIu8> bytes)"
 msgstr "<unbekannte Version> (%<PRIu8> Byte)"
 
-#: src/custom_known_fields.c:202
+#: src/custom_known_fields.c:206
 #, c-format
 msgid ""
 "WARNING: %s changed to match target hardware type!\n"
@@ -72,11 +72,11 @@ msgstr ""
 "\t\t%02<PRIu8> (%s) in Zielobjekt\n"
 "\t\t%02<PRIu8> (%s) aus Abbild gelesen\n"
 
-#: src/custom_known_fields.c:219
+#: src/custom_known_fields.c:223
 msgid "Unique system identification"
 msgstr "Eindeutige Systemkennung"
 
-#: src/custom_known_fields.c:221
+#: src/custom_known_fields.c:225
 msgid "System firmware version"
 msgstr "Firmwareversion des Systems"
 
@@ -431,17 +431,17 @@ msgstr "Größe der Sektion: %zu Byte\n"
 msgid "%s: Target `%s' (%p) matches source symbol %p\n"
 msgstr "%s: Ziel '%s' (%p) entspricht Symbol %p in Quelle\n"
 
-#: src/transform.c:70
+#: src/transform.c:71
 #, c-format
 msgid "%s: %zu of %zu bytes copied\n"
 msgstr "%s: %zu von %zu Byte kopiert\n"
 
-#: src/transform.c:73
+#: src/transform.c:74
 #, c-format
 msgid "Target map field %s not found in source.\n"
 msgstr "Feld %s der Zielzuordnung nicht in der Quelle gefunden.\n"
 
-#: src/transform.c:90
+#: src/transform.c:91
 #, c-format
 msgid "%s: Copy %d symbols in to %d out\n"
 msgstr "%s: Kopiere %d Quellsymbole auf %d Ziele\n"
