@@ -1,3 +1,12 @@
+2015-09-14  André Colomb  <src@andre.colomb.de>
+
+	* Fix possible memory access error caused by a missing check for
+	the source field size in field copy functions.  This changes the
+	signature of the field_copy_f function prototype and all its
+	implementations.  Therefore bump the minor version.
+
+	* Release version 0.5
+
 2015-08-14  André Colomb  <src@andre.colomb.de>
 
 	* Fix segmentation fault when using Intel Hex files, caused by an
