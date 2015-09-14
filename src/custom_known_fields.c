@@ -189,13 +189,13 @@ resize_version(const char *src, size_t initial __attribute((unused)))
 static size_t
 copy_unique(const nvm_field *field,
 	    char *dst, const char *src,
-	    size_t max_size)
+	    size_t dst_size, size_t src_size)
 {
     uint8_t target_hwtype = hwInvalid;
 
-    if (max_size >= unique_hardware_offset) target_hwtype = convert_uint8(
+    if (dst_size >= unique_hardware_offset) target_hwtype = convert_uint8(
 	dst + unique_hardware_offset);
-    memcpy(dst, src, max_size);
+    memcpy(dst, src, dst_size);
 
     if (convert_uint8(src + unique_hardware_offset) != target_hwtype) {
 	fprintf(stderr,
@@ -207,9 +207,9 @@ copy_unique(const nvm_field *field,
 		convert_uint8(src + unique_hardware_offset),
 		get_unique_hardware_type(convert_uint8(src + unique_hardware_offset)));
 	dst[unique_hardware_offset] = target_hwtype;
-	return max_size - sizeof(target_hwtype);
+	return dst_size - sizeof(target_hwtype);
     }
-    return max_size;
+    return dst_size;
 }
 
 
