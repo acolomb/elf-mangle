@@ -55,10 +55,14 @@ find_field(const char *symbol,
 size_t
 copy_field_verbatim(const nvm_field *field __attribute__((unused)),
 		    char *dst, const char *src,
-		    size_t max_size)
+		    size_t dst_size, size_t src_size)
 {
-    memcpy(dst, src, max_size);
-    return max_size;
+    size_t common_size;
+
+    // Limit copying to the smaller of the source and destination fields
+    common_size = src_size < dst_size ? src_size : dst_size;
+    memcpy(dst, src, common_size);
+    return common_size;
 }
 
 
@@ -66,7 +70,7 @@ copy_field_verbatim(const nvm_field *field __attribute__((unused)),
 size_t
 copy_field_noop(const nvm_field *field __attribute__((unused)),
 		char *dst __attribute__((unused)), const char *src __attribute__((unused)),
-		size_t max_size __attribute__((unused)))
+		size_t dst_size __attribute__((unused)), size_t src_size __attribute__((unused)))
 {
     return 0;
 }
