@@ -57,8 +57,12 @@ copy_field_verbatim(const nvm_field *field __attribute__((unused)),
 		    char *dst, const char *src,
 		    size_t dst_size, size_t src_size)
 {
-    memcpy(dst, src, dst_size);
-    return dst_size;
+    size_t common_size;
+
+    // Limit copying to the smaller of the source and destination fields
+    common_size = src_size < dst_size ? src_size : dst_size;
+    memcpy(dst, src, common_size);
+    return common_size;
 }
 
 
