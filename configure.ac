@@ -92,6 +92,7 @@ AC_ARG_WITH([cintelhex],
 AS_IF([test "x$cintelhex_internal" = x1],
    [AC_MSG_NOTICE([Trying embedded internal copy of libcintelhex])
     AS_UNSET([ac_cv_header_cintelhex_h])
+    saved_CPPFLAGS="$CPPFLAGS"
     CPPFLAGS="-I${srcdir}/libcintelhex/include $CPPFLAGS"
     AC_CHECK_HEADERS([cintelhex.h],
        [cintelhex=1],
