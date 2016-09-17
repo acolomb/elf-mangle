@@ -1,4 +1,4 @@
-# Copyright (C) 2014  Andre Colomb
+# Copyright (C) 2014, 2016  Andre Colomb
 #
 # This file is part of elf-mangle.
 #
@@ -39,13 +39,18 @@ AM_CONDITIONAL([USE_GNULIB], [test "x$gnulib" = x1])
 
 # Checks for libraries.
 m4_ifdef([gl_INIT], [gl_INIT])
-AC_CHECK_LIB([elf], [elf_version],
-   [AC_SUBST([LIBS_ELF], [-lelf])],
-   [AC_MSG_ERROR([Libelf is needed to compile this software.
-                  Specify LDFLAGS if necessary.])])
+AC_SEARCH_LIBS([elf_version], [elf], [],
+   [AC_MSG_ERROR([Libelf is needed to compile this software,
+                  but no library could be found.
+                  Specify LDFLAGS and / or LIBS if necessary.
+                  Hint: `pkg-config --libs libelf`
+                        may be of help if installed.])])
 AC_CHECK_HEADERS([gelf.h], [],
-   [AC_MSG_ERROR([Libelf is needed to compile this software.
-                  Specify CPPFLAGS if necessary.])])
+   [AC_MSG_ERROR([Libelf is needed to compile this software,
+                  but no working headers could be found.
+                  Specify CPPFLAGS if necessary.
+                  Hint: `pkg-config --cflags libelf`
+                        may be of help if installed.])])
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_NEED([need-formatstring-macros])
 AM_GNU_GETTEXT_VERSION([0.18.3])

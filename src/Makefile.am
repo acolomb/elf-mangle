@@ -1,4 +1,4 @@
-# Copyright (C) 2014  Andre Colomb
+# Copyright (C) 2014, 2016  Andre Colomb
 #
 # This file is part of elf-mangle.
 #
@@ -89,5 +89,5 @@ elf_mangle_SOURCES +=		\
 	custom_known_fields.c
 endif
 
-elf_mangle_LDADD = $(LIBS_CINTELHEX) $(LIBS_GNULIB) $(LIBS_ELF) $(LTLIBINTL)
+elf_mangle_LDADD = $(LIBS_CINTELHEX) $(LIBS_GNULIB) $(LTLIBINTL)
 elf_mangle_LDADD += libfallback.la
