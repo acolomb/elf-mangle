@@ -53,7 +53,7 @@ AC_CHECK_HEADERS([gelf.h], [],
                         may be of help if installed.])])
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_NEED([need-formatstring-macros])
-AM_GNU_GETTEXT_VERSION([0.18.3])
+AM_GNU_GETTEXT_VERSION([0.19.7])
 
 # Use installed libcintelhex or fall back to embedded copy
 cintelhex=0

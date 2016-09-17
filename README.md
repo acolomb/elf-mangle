@@ -100,9 +100,9 @@ additional developer tools installed.  The following versions are
 tested:
 
 - GNU autoconf 2.69
-- GNU automake 1.14.1
-- GNU libtool 2.4.2
-- GNU gettext 0.19.2
+- GNU automake 1.15
+- GNU libtool 2.4.6
+- GNU gettext 0.19.7
 
 To fully generate the build system, run these two commands in order:
 
@@ -143,9 +143,8 @@ therefore a compatible version must be present.  Several different
 implementations are available, with varying licenses.
 
 Michael Riepe has written an excellent *LGPL*-licensed implementation,
-found at [www.mr511.de][libelf-lgpl].  This is the one *elf-mangle* is
-developed and tested with.  It is [included][libelfg0] in most
-*Debian*-based Linux distributions as well as *Cygwin* and can be
+found at [www.mr511.de][libelf-lgpl].  It is [included][libelfg0] in
+most *Debian*-based Linux distributions as well as *Cygwin* and can be
 compiled under Win32 using *MinGW*.
 
 [libelf-lgpl]: http://www.mr511.de/software/ "libelf LGPL'ed"
@@ -159,9 +158,11 @@ is also [packaged][elfutils-deb] in *Debian*.
 [elfutils-deb]: https://packages.debian.org/stable/libelf-dev
 
 The [ELF Tool Chain Project][elftoolchain] includes another *libelf*
-implementation which is *BSD*-licensed.
+implementation which is *BSD*-licensed.  A corresponding *Debian*
+[package][libelf-freebsd] is built from their sources.
 
 [elftoolchain]: http://sourceforge.net/projects/elftoolchain/
+[libelf-freebsd]: https://packages.debian.org/jessie/libelf-freebsd-dev
 
 Either implementation should work if it supports the BSD *GElf* API.
 Just make sure the compiler finds the required headers and library.
