@@ -104,9 +104,10 @@ tested:
 - GNU libtool 2.4.6
 - GNU gettext 0.19.7
 
-To fully generate the build system, run these two commands in order:
+To fully generate the build system, run these three commands in order:
 
-	gnulib-tool --update		# optional, see portability notes below
+	git submodule update --init		# embedded dependencies
+	gnulib-tool --update			# optional, see portability notes below
 	autoreconf -i -f
 
 
