@@ -99,7 +99,7 @@ AS_IF([test "x$cintelhex_internal" = x1],
        [cintelhex_internal=0])
     CPPFLAGS="$saved_CPPFLAGS"
    ],
-   [AS_IF([test x$cintelhex = x1], AC_SUBST([LIBS_CINTELHEX], [-lcintelhex]))])
+   [AS_IF([test x$cintelhex = x1], AC_SUBST([CINTELHEX_LIBS], [-lcintelhex]))])
 AM_CONDITIONAL([HAVE_INTELHEX], [test x$cintelhex = x1])
 AM_CONDITIONAL([HAVE_INTELHEX_INTERNAL], [test x$cintelhex_internal = x1])
 AC_DEFINE_UNQUOTED([HAVE_INTELHEX], [$cintelhex], [Define if you have libcintelhex])
