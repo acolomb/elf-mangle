@@ -1,4 +1,4 @@
-# Copyright (C) 2014  Andre Colomb
+# Copyright (C) 2014, 2016  Andre Colomb
 #
 # This file is part of elf-mangle.
 #
@@ -17,18 +17,18 @@
 # <http://www.gnu.org/licenses/>.
 
 
-AM_CPPFLAGS = -D_POSIX $(CPPFLAGS_INTELHEX_INTERNAL) $(CPPFLAGS_GNULIB)
+AM_CPPFLAGS = -D_POSIX $(CINTELHEX_INTERNAL_CPPFLAGS) $(GNULIB_CPPFLAGS)
 AM_CFLAGS = -Wall -Wstrict-prototypes -Wextra -fgnu89-inline
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 if HAVE_INTELHEX_INTERNAL
-CPPFLAGS_INTELHEX_INTERNAL = -I$(top_srcdir)/libcintelhex/include
-LIBS_CINTELHEX += $(top_builddir)/libcintelhex/src/libcintelhex.la
+CINTELHEX_INTERNAL_CPPFLAGS = -I$(top_srcdir)/libcintelhex/include
+CINTELHEX_LIBS += $(top_builddir)/libcintelhex/src/libcintelhex.la
 endif
 
 if USE_GNULIB
-CPPFLAGS_GNULIB = -I$(top_builddir)/gnulib -I$(top_srcdir)/gnulib
-LIBS_GNULIB = $(top_builddir)/gnulib/libgnu.la
+GNULIB_CPPFLAGS = -I$(top_builddir)/gnulib -I$(top_srcdir)/gnulib
+GNULIB_LIBS = $(top_builddir)/gnulib/libgnu.la
 endif
 
 
@@ -89,5 +89,5 @@ elf_mangle_SOURCES +=		\
 	custom_known_fields.c
 endif
 
-elf_mangle_LDADD = $(LIBS_CINTELHEX) $(LIBS_GNULIB) $(LIBS_ELF) $(LTLIBINTL)
+elf_mangle_LDADD = $(CINTELHEX_LIBS) $(GNULIB_LIBS) $(LTLIBINTL)
 elf_mangle_LDADD += libfallback.la
