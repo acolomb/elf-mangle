@@ -18,7 +18,7 @@
 /// License along with this program.  If not, see
 /// <http://www.gnu.org/licenses/>.
 ///
-///@author	Andre Colomb <andre.colomb@auteko.de>
+///@author	Andre Colomb <src@andre.colomb.de>
 
 
 #ifndef IMAGE_FORMATS_H_
