@@ -1,3 +1,11 @@
+2016-09-19  André Colomb  <src@andre.colomb.de>
+
+	* Minor clean-ups for the build system and detection of libelf
+	library.
+	* Update the documentation with used build utility versions.
+
+	* Release version 0.5.1
+
 2015-09-14  André Colomb  <src@andre.colomb.de>
 
 	* Fix possible memory access error caused by a missing check for
