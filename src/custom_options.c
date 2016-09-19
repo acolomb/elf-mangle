@@ -31,7 +31,7 @@
 ///
 /// For more information, please refer to <http://unlicense.org/>
 ///
-///@author	Andre Colomb <andre.colomb@auteko.de>
+///@author	Andre Colomb <src@andre.colomb.de>
 
 
 #include "config.h"
