@@ -174,13 +174,13 @@ image_raw_merge_file(const char *filename,
 	return -2;
     }
 
-    if (st.st_size == 0) {
+    if (st.st_size <= 0) {
 	fprintf(stderr, _("Image file \"%s\" is empty\n"), filename);
     } else {
 	if (blob_size > (size_t) st.st_size) {
 	    fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
 		    filename, blob_size - (size_t) st.st_size, blob_size);
-	    blob_size = st.st_size;
+	    blob_size = (size_t) st.st_size;
 	}
 
 #if HAVE_MMAP
