@@ -38,6 +38,67 @@
 
 
 
+///@brief Open Intel Hex file and determine content size
+///@return 1 on success, 0 for unsupported format or negative error code
+static int
+image_ihex_open_file(
+    const char *filename,	///< [in] Input file path to open
+    size_t *file_size,		///< [out] Data address at end of content
+    ihex_recordset_t **rs)	///< [out] File access handle (open on success)
+{
+    uint32_t start, end;
+    int status = 0;
+
+    if (! filename || ! rs) return -1;	//invalid parameters
+
+    *rs = ihex_rs_from_file(filename);
+    if (! *rs) {
+	switch (ihex_errno()) {
+	case IHEX_ERR_INCORRECT_CHECKSUM:
+	case IHEX_ERR_NO_EOF:
+	case IHEX_ERR_PARSE_ERROR:
+	case IHEX_ERR_WRONG_RECORD_LENGTH:
+	case IHEX_ERR_UNKNOWN_RECORD_TYPE:
+	    // Parse error, not a well-formed Intel Hex file
+	    return 0;
+
+	case IHEX_ERR_NO_INPUT:
+	case IHEX_ERR_MMAP_FAILED:
+	case IHEX_ERR_READ_FAILED:
+	    // File not accessible
+	    status = -2;
+	    break;
+
+	case IHEX_ERR_MALLOC_FAILED:
+	default:
+	    // System error
+	    status = -3;
+	    break;
+	}
+	fprintf(stderr, _("Cannot open image \"%s\" (%s)\n"), filename, ihex_error());
+	return status;
+    }
+
+    if (0 != ihex_rs_get_address_range(*rs, &start, &end)) {
+	fprintf(stderr, _("Could not determine data range in Intel Hex file \"%s\" (%s)\n"),
+		filename, ihex_error());
+	status = -4;
+    } else if ((*rs)->ihrs_count == 0 || start >= end) {
+	fprintf(stderr, _("Image file \"%s\" is empty\n"), filename);
+	status = -4;
+    } else {
+	if (DEBUG) printf(_("%s: %s contains range 0x%04" PRIx32 " to 0x%04" PRIx32 "\n"),
+			  __func__, filename, start, end > 0 ? end - 1 : 0);
+	if (file_size) *file_size = end;
+	return 1;
+    }
+    ihex_rs_free(*rs);
+
+    return status;
+}
+
+
+
 int
 image_ihex_merge_file(const char *filename,
 		      const nvm_symbol *list, int list_size,

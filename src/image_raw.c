@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Handle input and output of blob data to raw binary files
-///@copyright	Copyright (C) 2014, 2015  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015, 2016  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -153,6 +153,39 @@ image_raw_merge_filedes(int fd,
     };
 
     return symbol_list_foreach_count(list, list_size, read_symbol_seek_iterator, &conf);
+}
+
+
+
+///@brief Open file in raw binary format and determine content size
+///@return 1 on success or negative error code
+static int
+image_raw_open_file(
+    const char *filename,	///< [in] Input file path to open
+    size_t *file_size,		///< [out] Data address at end of content
+    int *fd)			///< [out] File access handle (open on success)
+{
+    int status = 0;
+    struct stat st;
+
+    if (! filename || ! fd) return -1;		//invalid parameters
+
+    *fd = open(filename, O_RDONLY | O_BINARY);
+    if (*fd == -1 || 0 != fstat(*fd, &st)) {	//file not accessible
+	fprintf(stderr, _("Cannot open image \"%s\" (%s)\n"), filename, strerror(errno));
+	return -2;
+    }
+
+    if (st.st_size <= 0) {
+	fprintf(stderr, _("Image file \"%s\" is empty\n"), filename);
+	status = -4;
+    } else {
+	if (file_size) *file_size = (size_t) st.st_size;
+	return 1;
+    }
+    close(*fd);
+
+    return status;
 }
 
 
