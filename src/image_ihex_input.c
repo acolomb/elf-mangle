@@ -96,8 +96,8 @@ image_ihex_merge_file(const char *filename,
 	// Allocate and initialize memory for needed ihex content
 	blob = calloc(1, blob_size);
 	if (! blob) {
-	    fprintf(stderr, _("Could not copy data from Intel Hex file \"%s\" (%s)\n"),
-		    filename, strerror(errno));
+	    fprintf(stderr, _("Could not allocate memory for image data: %s\n"),
+		    strerror(errno));
 	    symbols = -3;
 	} else {
 	    if (0 != ihex_byte_copy(rs, (void*) blob, blob_size, 0)) {
