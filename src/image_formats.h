@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Handling of different binary image formats
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2016  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -47,7 +47,7 @@ int image_merge_file(
     int list_size,		///< [in] Number of symbols in list
     size_t blob_size,		///< [in] Expected data size in the image
     enum image_format format	///< [in] Expected input format
-    );
+);
 
 ///@brief Write blob data to raw binary image file
 void image_write_file(
@@ -55,6 +55,6 @@ void image_write_file(
     const char* blob,		///< [in] Binary data to write
     size_t blob_size,		///< [in] Data size in bytes
     enum image_format format	///< [in] Desired output format
-    );
+);
 
 #endif //IMAGE_FORMATS_H_

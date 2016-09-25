@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Handle input and output of blob data to Intel Hex files
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2016  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -38,7 +38,7 @@ int image_ihex_merge_file(
     const nvm_symbol *list,	///< [in] Symbol list start address
     int list_size,		///< [in] Number of symbols in list
     size_t blob_size		///< [in] Expected data size in the image
-    );
+);
 
 ///@brief Write blob data to Intel Hex image file
 void image_ihex_write_file(

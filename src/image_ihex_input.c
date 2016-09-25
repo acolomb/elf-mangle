@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Handle input of blob data from Intel Hex files
-///@copyright	Copyright (C) 2014, 2015  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015, 2016  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -111,5 +111,6 @@ image_ihex_merge_file(const char *filename,
 	}
     }
     ihex_rs_free(rs);
+
     return symbols;
 }
