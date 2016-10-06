@@ -43,7 +43,7 @@ libfallback_la_SOURCES =	\
 
 elf_mangle_SOURCES =		\
 	elf-mangle.c		\
-	options.c		\
+	options_elf-mangle.c	\
 	options.h		\
 	override.c		\
 	override.h		\

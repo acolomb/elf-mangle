@@ -1,5 +1,5 @@
 ///@file
-///@brief	Command line parsing
+///@brief	Command line parsing for elf-mangle utility
 ///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
