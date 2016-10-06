@@ -31,6 +31,14 @@
 typedef struct nvm_symbol nvm_symbol;
 
 
+///@brief Open Intel Hex image file and store contents in memory
+///@return 1 on success or negative error code
+int image_ihex_memorize_file(
+    const char *filename,	///< [in] Input file path to open
+    const char **blob,		///< [out] Binary data content
+    size_t *blob_size		///< [out] Data address at end of content
+);
+
 ///@brief Open Intel Hex image file and update each listed symbol's content
 ///@return Number of symbols successfully read or negative error code
 int image_ihex_merge_file(
