@@ -191,6 +191,45 @@ image_raw_open_file(
 
 
 int
+image_raw_memorize_file(const char *filename,
+			const char **blob, size_t *blob_size)
+{
+    int fd = -1, status;
+    char *contents = NULL;
+    ssize_t bytes_read = 0;
+    size_t rest;
+
+    if (! filename || ! blob || ! blob_size) return -1;	//invalid parameters
+
+    status = image_raw_open_file(filename, blob_size, &fd);
+    if (status <= 0) return status;	//file not accessible
+
+    // Allocate and initialize memory for needed content
+    contents = calloc(1, *blob_size);
+    if (! contents) {
+	fprintf(stderr, _("Could not allocate memory for image data: %s\n"),
+		strerror(errno));
+	status = -3;
+    } else {
+	for (rest = *blob_size; rest > 0; rest -= bytes_read) {
+	    bytes_read = read(fd, contents + (*blob_size - rest), rest);
+	    if (bytes_read <= 0) {
+		fprintf(stderr, _("Failed to read %zu bytes from file \"%s\""
+				  " at offset %zu (%s)\n"),
+			rest, filename, *blob_size - rest, strerror(errno));
+		break;	//error or end of file
+	    }
+	}
+	*blob = contents;
+    }
+    close(fd);
+
+    return status;
+}
+
+
+
+int
 image_raw_merge_file(const char *filename,
 		     const nvm_symbol list[], int list_size,
 		     size_t blob_size)

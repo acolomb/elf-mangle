@@ -100,6 +100,40 @@ image_ihex_open_file(
 
 
 int
+image_ihex_memorize_file(const char *filename,
+			 const char **blob, size_t *blob_size)
+{
+    ihex_recordset_t *rs = NULL;
+    int status;
+    char *contents = NULL;
+
+    if (! filename || ! blob || ! blob_size) return -1;	//invalid parameters
+
+    status = image_ihex_open_file(filename, blob_size, &rs);
+    if (status <= 0) return status;	//file not accessible
+
+    // Allocate and initialize memory for needed ihex content
+    contents = calloc(1, *blob_size);
+    if (! contents) {
+	fprintf(stderr, _("Could not allocate memory for image data: %s\n"),
+	 	strerror(errno));
+	status = -3;
+    } else {
+	if (0 != ihex_byte_copy(rs, (void*) blob, *blob_size, 0)) {
+	    fprintf(stderr, _("Could not copy data from Intel Hex file \"%s\" (%s)\n"),
+		    filename, ihex_error());
+	    status = -4;
+	}
+	*blob = contents;
+    }
+    ihex_rs_free(rs);
+
+    return status;
+}
+
+
+
+int
 image_ihex_merge_file(const char *filename,
 		      const nvm_symbol *list, int list_size,
 		      size_t blob_size)
