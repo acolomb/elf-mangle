@@ -197,40 +197,33 @@ image_raw_merge_file(const char *filename,
 {
     char *mapped = NULL;
     int fd, symbols = 0;
-    struct stat st;
+    size_t file_size = 0;
 
     if (! filename || ! blob_size) return -1;	//invalid parameters
 
-    fd = open(filename, O_RDONLY | O_BINARY);
-    if (fd == -1 || 0 != fstat(fd, &st)) {	//file not accessible
-	fprintf(stderr, _("Cannot open image \"%s\" (%s)\n"), filename, strerror(errno));
-	return -2;
+    symbols = image_raw_open_file(filename, &file_size, &fd);
+    if (symbols <= 0) return symbols;	//file not accessible
+
+    if (blob_size > file_size) {
+	fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
+		filename, blob_size - file_size, blob_size);
+	blob_size = file_size;
     }
 
-    if (st.st_size <= 0) {
-	fprintf(stderr, _("Image file \"%s\" is empty\n"), filename);
+#if HAVE_MMAP
+    mapped = mmap(NULL, blob_size, PROT_READ, MAP_PRIVATE, fd, 0);
+    if (mapped == MAP_FAILED) {
+	mapped = NULL;
+	fprintf(stderr, _("%s: mmap() failed (%s)\n"), __func__, strerror(errno));
+    }
+#endif
+    if (mapped) {
+	symbols = image_raw_merge_mem(mapped, list, list_size, blob_size);
+#if HAVE_MMAP
+	munmap(mapped, blob_size);
+#endif
     } else {
-	if (blob_size > (size_t) st.st_size) {
-	    fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
-		    filename, blob_size - (size_t) st.st_size, blob_size);
-	    blob_size = (size_t) st.st_size;
-	}
-
-#if HAVE_MMAP
-	mapped = mmap(NULL, blob_size, PROT_READ, MAP_PRIVATE, fd, 0);
-	if (mapped == MAP_FAILED) {
-	    mapped = NULL;
-	    fprintf(stderr, _("%s: mmap() failed (%s)\n"), __func__, strerror(errno));
-	}
-#endif
-	if (mapped) {
-	    symbols = image_raw_merge_mem(mapped, list, list_size, blob_size);
-#if HAVE_MMAP
-	    munmap(mapped, blob_size);
-#endif
-	} else {
-	    symbols = image_raw_merge_filedes(fd, list, list_size, blob_size);
-	}
+	symbols = image_raw_merge_filedes(fd, list, list_size, blob_size);
     }
     close(fd);
 
