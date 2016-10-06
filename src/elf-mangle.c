@@ -62,7 +62,8 @@ process_maps(const tool_config *config)
 	// Scan for strings if requested
 	if (config->locate_strings >= 0) nvm_string_list(
 	    symbol_map_blob_address(map_in), symbol_map_blob_size(map_in),
-	    config->locate_strings, config->show_fields & showSymbol);
+	    config->locate_strings, config->show_fields & showSymbol,
+	    NULL);
 
 	// Translate data from input to output layout if supplied
 	map_out = symbol_map_open_file(config->map_files[1]);

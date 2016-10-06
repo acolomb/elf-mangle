@@ -83,20 +83,43 @@ nvm_string_find(const char* blob, size_t size, uint8_t min_length)
 
 /// Strings are located by repeatedly calling nvm_string_find(),
 /// skipping over any previous match.
+///
+/// If non-NULL, the delim parameter is used to separate the located
+/// strings for output.  In that case, the offset may be printed in
+/// octal=8, decimal=10 or hex=16 as specified in the radix parameter.
+/// If negative, the string length is also included.  If no delimiter
+/// is specified, a human-readable, verbose efault format is used.  A
+/// nonzero output_format then avoids translation of the message.
 void
-nvm_string_list(const char* blob, size_t size, uint8_t min_length, int parseable)
+nvm_string_list(const char* blob, size_t size,
+		uint8_t min_length,
+		int output_format, const char *delim)
 {
-    const char *next, *start = blob;
+    const char *next, *start = blob, *fmt = NULL;
 
     while (size) {
 	next = nvm_string_find(start, size, min_length);
 	if (! next) break;
-	printf(parseable
-	       ? ("lpstring [%04zx] (%zu bytes + NUL):\n\t"
-		  "\"%s\"\n")
-	       : _("Length prefixed string at offset [%04zx] (%zu bytes + NUL):\n\t"
-		   "\"%s\"\n"),
-	       next - 1 - blob, strlen(next), next);
+	if (delim) {	//output compatibility mode
+	    switch (output_format) {
+	    case 8:	fmt = "%7zo "; break;
+	    case 10:	fmt = "%7zu "; break;
+	    case 16:	fmt = "%7zx "; break;
+	    case -8:	fmt = "%7zo+%03zo "; break;
+	    case -10:	fmt = "%7zu+%03zu "; break;
+	    case -16:	fmt = "%7zx+%03zx "; break;
+	    default:	break;
+	    }
+	    if (fmt) printf(fmt, next - 1 - blob, strlen(next));
+	    printf("%s%s", next, delim);
+	} else {
+	    printf(output_format
+		   ? ("lpstring [%04zx] (%zu bytes + NUL):\n\t"
+		      "\"%s\"\n")
+		   : _("Length prefixed string at offset [%04zx] (%zu bytes + NUL):\n\t"
+		       "\"%s\"\n"),
+		   next - 1 - blob, strlen(next), next);
+	}
 	next += strlen(next) + 1;
 	size -= next - start;
 	start = next;
@@ -142,7 +165,7 @@ main(void)
 	"\0"			//0xff
 	;
 
-    nvm_string_list(data, sizeof(data), 0, 0);
+    nvm_string_list(data, sizeof(data), 0, -16, " EOS\n\n");
 
     return 0;
 }

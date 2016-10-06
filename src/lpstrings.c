@@ -46,7 +46,7 @@ process_image(const tool_config *config)
 	// Scan for strings
 	nvm_string_list(
 	    blob_address, blob_size,
-	    config->locate_strings, 0);
+	    config->locate_strings, 0, NULL);
     } else {
 	ret_code = status;	//propagate error code
     }
