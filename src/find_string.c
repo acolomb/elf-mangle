@@ -86,10 +86,10 @@ nvm_string_find(const char* blob, size_t size, uint8_t min_length)
 void
 nvm_string_list(const char* blob, size_t size, uint8_t min_length, int parseable)
 {
-    const char *next;
+    const char *next, *start = blob;
 
     while (size) {
-	next = nvm_string_find(blob, size, min_length);
+	next = nvm_string_find(start, size, min_length);
 	if (! next) break;
 	printf(parseable
 	       ? ("lpstring [%04zx] (%zu bytes + NUL):\n\t"
@@ -98,8 +98,8 @@ nvm_string_list(const char* blob, size_t size, uint8_t min_length, int parseable
 		   "\"%s\"\n"),
 	       next - 1 - blob, strlen(next), next);
 	next += strlen(next) + 1;
-	size -= next - blob;
-	blob = next;
+	size -= next - start;
+	start = next;
     }
 }
 
@@ -142,7 +142,7 @@ main(void)
 	"\0"			//0xff
 	;
 
-    nvm_string_list(data, sizeof(data), 0);
+    nvm_string_list(data, sizeof(data), 0, 0);
 
     return 0;
 }
