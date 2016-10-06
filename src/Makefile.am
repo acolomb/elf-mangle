@@ -35,7 +35,7 @@ endif
 noinst_LTLIBRARIES =		\
 	libfallback.la		\
 	libelf-mangle.la
-bin_PROGRAMS = elf-mangle
+bin_PROGRAMS = elf-mangle lpstrings
 EXTRA_DIST = include_order.txt
 
 
@@ -97,3 +97,11 @@ endif
 
 elf_mangle_LDADD = libelf-mangle.la
 elf_mangle_LDADD += libfallback.la
+
+
+lpstrings_SOURCES =		\
+	lpstrings.c		\
+	options_lpstrings.c	\
+	options.h
+
+lpstrings_LDADD = libelf-mangle.la
