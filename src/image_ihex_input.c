@@ -119,7 +119,7 @@ image_ihex_memorize_file(const char *filename,
 	 	strerror(errno));
 	status = -3;
     } else {
-	if (0 != ihex_byte_copy(rs, (void*) blob, *blob_size, 0)) {
+	if (0 != ihex_byte_copy(rs, (void*) contents, *blob_size, 0)) {
 	    fprintf(stderr, _("Could not copy data from Intel Hex file \"%s\" (%s)\n"),
 		    filename, ihex_error());
 	    status = -4;

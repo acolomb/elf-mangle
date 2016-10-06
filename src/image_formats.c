@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Handling of different binary image formats
-///@copyright	Copyright (C) 2014, 2015  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015, 2016  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -32,6 +32,43 @@
 
 /// Compile diagnostic output messages?
 #define DEBUG 0
+
+
+
+int
+image_memorize_file(const char *filename,
+		    const char **blob, size_t *blob_size,
+		    enum image_format format)
+{
+    int status = 0;
+
+    if (! filename || ! blob || ! blob_size) return -1;
+
+    if (format == formatNone ||
+	format == formatIntelHex) {
+#if HAVE_INTELHEX
+	status = image_ihex_memorize_file(filename, blob, blob_size);
+	if (status != 0) return status;
+	// Retry with raw binary on failure
+	else if (format == formatNone) {
+	    fprintf(stderr,
+		    _("Image file \"%s\" is not in Intel Hex format, trying raw binary.\n"),
+		    filename);
+	    format = formatRawBinary;
+	}
+#else // !HAVE_INTELHEX
+	format = formatRawBinary;
+#endif
+    }
+
+    if (format == formatRawBinary) {
+	status = image_raw_memorize_file(filename, blob, blob_size);
+	return status;
+    }
+
+    fprintf(stderr, _("Invalid input image file format.\n"));
+    return -2;
+}
 
 
 
