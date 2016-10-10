@@ -401,6 +401,32 @@ format with a length prefix byte, and usually operates on all
 initialized and loaded sections of the object file.
 
 
+#### Length-Prefixed Strings in Binary Image Files ####
+
+Similar to the standard POSIX `strings(1)` utility, *elf-mangle*
+includes a separate binary called `lpstrings` that applies the search
+algorithm described above to a given binary data image. In contrast to
+`elf-mangle`, it works without an ELF file as input, but directly
+scans a binary file in any supported format, as documented for the
+`--input-format` option.
+
+The default output format used by *elf-mangle* can be switched to a
+simpler format if either the `--output-separator` or `--radix` options
+are given.  The former allows specifying a custom delimiter between
+located strings, which is a newline by default.  If given, the
+`--radix` option causes the start offset to be prepended to each
+string, as an octal (`o`), decimal (`d`) or hexadecimal (`x`) number.
+
+As an extension to the POSIX options, `lpstrings` may print the
+string length in bytes without NUL terminator for each string if the
+`--length` option is given in addition to `--radix`.  It is appended
+after the offset with a plus sign and uses the same radix.
+
+In contrast to POSIX `strings(1)`, processing the standard input or
+more than one file given on the command line is not possible.
+
+
+
 Application Extensions
 ----------------------
 
