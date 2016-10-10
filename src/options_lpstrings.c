@@ -37,6 +37,9 @@
 ///@{
 #define OPT_IN_FORMAT		'I'
 #define OPT_BYTES		'n'
+#define OPT_LENGTH		'l'
+#define OPT_SEPARATOR		's'
+#define OPT_RADIX		't'
 ///@}
 
 /// Helper macro to show number literals in option help
@@ -60,6 +63,16 @@ static const struct argp_option options[] = {
       N_("Locate strings of at least MIN-LEN bytes in input"
 	 " (argument defaults to " _STR_MACRO(FIND_STRING_DEFAULT_LENGTH)
 	 " if omitted)"),					0 },
+
+    { NULL,		0,		NULL,			0,
+      N_("Display information from parsed files:"),		0 },
+    { "length",		OPT_LENGTH,	NULL,			0,
+      N_("Print length in bytes for each string"),		0 },
+    { "output-separator",OPT_SEPARATOR,	N_("SEP"),		0,
+      N_("Separator between strings in output."),		0 },
+    { "radix",		OPT_RADIX,	"{o,d,x}",		OPTION_ARG_OPTIONAL,
+      N_("Print the location of the string"
+	 " in base 8, 10 or 16 (default)"),			0 },
     { 0 }
 };
 
@@ -117,6 +130,24 @@ parse_opt(
 	    tool->lpstring_min = -1;
 	}
 	break;
+
+    case OPT_LENGTH:
+	tool->show_fields |= showByteSize;
+	break;
+
+    case OPT_SEPARATOR:
+	// Switch to strings(1) like output
+	tool->lpstring_delim = arg;
+	break;
+
+    case OPT_RADIX:
+	// Switch to strings(1) like output
+	if (! tool->lpstring_delim) tool->lpstring_delim = "\n";
+    	if (arg == NULL || strcmp(arg, "x") == 0) tool->offset_radix = 16;
+    	else if (strcmp(arg, "d") == 0) tool->offset_radix = 10;
+    	else if (strcmp(arg, "o") == 0) tool->offset_radix = 8;
+    	else argp_error(state, _("Invalid offset radix `%s' specified."), arg);
+    	break;
 
     case ARGP_KEY_ARG:	/* non-option -> input / output file name */
 	// Check number of non-option arguments
