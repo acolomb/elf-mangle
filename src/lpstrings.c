@@ -46,7 +46,7 @@ process_image(const tool_config *config)
 	// Scan for strings
 	nvm_string_list(
 	    blob_address, blob_size,
-	    config->locate_strings, 0, NULL);
+	    config->lpstring_min, 0, NULL);
     } else {
 	ret_code = status;	//propagate error code
     }
@@ -61,7 +61,7 @@ main(int argc, char **argv)
 {
     int ret_code;
     tool_config config = {
-	.locate_strings		= 0,
+	.lpstring_min		= 0,
 	.show_size		= 0,
 	.show_fields		= showNone,
 	.print_content		= printNone,

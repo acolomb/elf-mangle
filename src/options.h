@@ -48,7 +48,7 @@ typedef struct tool_config {
     /// Format of the output image file
     enum image_format	format_out;
     /// Locate strings of this minimum length within image
-    int			locate_strings;
+    int			lpstring_min;
     /// Print out the total section image size in bytes
     char		show_size;
     /// Configuration flags for dumping symbol descriptions

@@ -110,11 +110,11 @@ parse_opt(
 
     case OPT_BYTES:
 	if (arg == NULL) return EINVAL;
-	else tool->locate_strings = atoi(arg);
-	if (tool->locate_strings < 0 || tool->locate_strings > UINT8_MAX) {
+	else tool->lpstring_min = atoi(arg);
+	if (tool->lpstring_min < 0 || tool->lpstring_min > UINT8_MAX) {
 	    argp_error(state, _("Minimum string length %d out of range."),
-		       tool->locate_strings);
-	    tool->locate_strings = -1;
+		       tool->lpstring_min);
+	    tool->lpstring_min = -1;
 	}
 	break;
 
