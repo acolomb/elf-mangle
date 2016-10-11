@@ -31,7 +31,7 @@
 
 
 ///@brief Process binary data according to application arguments
-///@return Zero for success, negative on error
+///@return Number of strings found or negative error code
 static int
 process_image(const tool_config *config)
 {
@@ -42,9 +42,9 @@ process_image(const tool_config *config)
     // Read input symbol layout and associated image data
     status = image_memorize_file(	//input image loaded
 	config->image_in, &blob_address, &blob_size, config->format_in);
-    if (0 < status) {
+    if (status > 0) {
 	// Scan for strings
-	nvm_string_list(
+	ret_code = nvm_string_list(
 	    blob_address, blob_size,
 	    config->lpstring_min,
 	    config->offset_radix * (config->show_fields & showByteSize ? -1 : 1),

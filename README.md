@@ -423,8 +423,9 @@ string length in bytes without NUL terminator for each string if the
 after the offset with a plus sign and uses the same radix.
 
 In contrast to POSIX `strings(1)`, processing the standard input or
-more than one file given on the command line is not possible.
-
+more than one file given on the command line is not possible.  A
+positive exit status indicates the number of strings found, negative
+values indicate errors.
 
 
 Application Extensions

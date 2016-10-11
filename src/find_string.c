@@ -88,14 +88,15 @@ nvm_string_find(const char* blob, size_t size, uint8_t min_length)
 /// strings for output.  In that case, the offset may be printed in
 /// octal=8, decimal=10 or hex=16 as specified in the radix parameter.
 /// If negative, the string length is also included.  If no delimiter
-/// is specified, a human-readable, verbose efault format is used.  A
+/// is specified, a human-readable, verbose default format is used.  A
 /// nonzero output_format then avoids translation of the message.
-void
+int
 nvm_string_list(const char* blob, size_t size,
 		uint8_t min_length,
 		int output_format, const char *delim)
 {
     const char *next, *start = blob, *fmt = NULL;
+    int found = 0;
 
     while (size) {
 	next = nvm_string_find(start, size, min_length);
@@ -123,7 +124,10 @@ nvm_string_list(const char* blob, size_t size,
 	next += strlen(next) + 1;
 	size -= next - start;
 	start = next;
+	found += 1;
     }
+
+    return found;
 }
 
 
@@ -165,8 +169,6 @@ main(void)
 	"\0"			//0xff
 	;
 
-    nvm_string_list(data, sizeof(data), 0, -16, " EOS\n\n");
-
-    return 0;
+    return nvm_string_list(data, sizeof(data), 0, -16, " EOS\n\n");
 }
 #endif
