@@ -38,14 +38,16 @@ const char* nvm_string_find(
     const char* blob,		///< [in] Binary data to search in
     size_t size,		///< [in] Size of binary data
     uint8_t min_length		///< [in] Minimum length of string to find (zero for default=4)
-    );
+);
 
 ///@brief Find and print all suitable strings in given binary data
-void nvm_string_list(
+///@return Number of strings found or negative error code
+int nvm_string_list(
     const char* blob,		///< [in] Binary data to search in
     size_t size,		///< [in] Size of binary data
     uint8_t min_length,		///< [in] Minimum string length passed to nvm_string_find()
-    int parseable		///< [in] Avoid localized output
-    );
+    int output_format,		///< [in] Output format configuration
+    const char *delim		///< [in] Delimiter for string output, forces simple format if set
+);
 
 #endif //FIND_STRING_H_

@@ -33,8 +33,10 @@ GNULIB_LIBS = $(top_builddir)/gnulib/libgnu.la
 endif
 
 
-noinst_LTLIBRARIES = libfallback.la
-bin_PROGRAMS = elf-mangle
+noinst_LTLIBRARIES =		\
+	libfallback.la		\
+	libelf-mangle.la
+bin_PROGRAMS = elf-mangle lpstrings
 EXTRA_DIST = include_order.txt
 
 
@@ -42,10 +44,7 @@ libfallback_la_SOURCES =	\
 	fallback_options.c	\
 	fallback_known_fields.c
 
-elf_mangle_SOURCES =		\
-	elf-mangle.c		\
-	options.c		\
-	options.h		\
+libelf_mangle_la_SOURCES =	\
 	override.c		\
 	override.h		\
 	print_symbols.c		\
@@ -74,12 +73,19 @@ elf_mangle_SOURCES =		\
 	find_string.h		\
 	intl.h			\
 	gettext.h
+libelf_mangle_la_LIBADD = $(CINTELHEX_LIBS) $(GNULIB_LIBS) $(LTLIBINTL)
 
 
 if HAVE_INTELHEX
 IMAGE_IHEX_INPUT = 		\
 	image_ihex_input.c
 endif
+
+
+elf_mangle_SOURCES =		\
+	elf-mangle.c		\
+	options_elf-mangle.c	\
+	options.h
 
 if CUSTOM_OPTIONS
 elf_mangle_SOURCES +=		\
@@ -90,5 +96,13 @@ elf_mangle_SOURCES +=		\
 	custom_known_fields.c
 endif
 
-elf_mangle_LDADD = $(CINTELHEX_LIBS) $(GNULIB_LIBS) $(LTLIBINTL)
+elf_mangle_LDADD = libelf-mangle.la
 elf_mangle_LDADD += libfallback.la
+
+
+lpstrings_SOURCES =		\
+	lpstrings.c		\
+	options_lpstrings.c	\
+	options.h
+
+lpstrings_LDADD = libelf-mangle.la

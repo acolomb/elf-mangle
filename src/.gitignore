@@ -2,5 +2,6 @@
 *.bin
 *.eep
 /elf-mangle
+/lpstrings
 /.deps
 /.libs

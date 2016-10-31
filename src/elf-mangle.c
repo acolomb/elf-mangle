@@ -60,9 +60,10 @@ process_maps(const tool_config *config)
 		config->image_in, symbols_in, num_in,
 		symbol_map_blob_size(map_in), config->format_in))) {
 	// Scan for strings if requested
-	if (config->locate_strings >= 0) nvm_string_list(
+	if (config->lpstring_min >= 0) nvm_string_list(
 	    symbol_map_blob_address(map_in), symbol_map_blob_size(map_in),
-	    config->locate_strings, config->show_fields & showSymbol);
+	    config->lpstring_min, config->show_fields & showSymbol,
+	    NULL);
 
 	// Translate data from input to output layout if supplied
 	map_out = symbol_map_open_file(config->map_files[1]);
@@ -106,7 +107,7 @@ main(int argc, char **argv)
     int ret_code;
     tool_config config = {
 	.section		= DEFAULT_SECTION,
-	.locate_strings		= -1,
+	.lpstring_min		= -1,
 	.show_size		= 0,
 	.show_fields		= showNone,
 	.print_content		= printNone,
