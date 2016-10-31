@@ -86,10 +86,11 @@ nvm_string_find(const char* blob, size_t size, uint8_t min_length)
 ///
 /// If non-NULL, the delim parameter is used to separate the located
 /// strings for output.  In that case, the offset may be printed in
-/// octal=8, decimal=10 or hex=16 as specified in the radix parameter.
-/// If negative, the string length is also included.  If no delimiter
-/// is specified, a human-readable, verbose default format is used.  A
-/// nonzero output_format then avoids translation of the message.
+/// octal=8, decimal=10 or hex=16 as specified in the output_format
+/// parameter.  If negative, the string length is also included.  If
+/// no delimiter is specified, a human-readable, verbose default
+/// format is used.  A nonzero output_format then avoids translation
+/// of the message.
 int
 nvm_string_list(const char* blob, size_t size,
 		uint8_t min_length,

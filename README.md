@@ -410,12 +410,13 @@ algorithm described above to a given binary data image. In contrast to
 scans a binary file in any supported format, as documented for the
 `--input-format` option.
 
-The default output format used by *elf-mangle* can be switched to a
-simpler format if either the `--output-separator` or `--radix` options
-are given.  The former allows specifying a custom delimiter between
-located strings, which is a newline by default.  If given, the
-`--radix` option causes the start offset to be prepended to each
-string, as an octal (`o`), decimal (`d`) or hexadecimal (`x`) number.
+The default output format used by `lpstrings` is the same as for
+*elf-mangle*, but can be simplified if either the `--output-separator`
+or `--radix` options are given.  The former allows specifying a custom
+delimiter between located strings, which is a newline by default.  If
+given, the `--radix` option causes the start offset to be prepended to
+each string, as an octal (`o`), decimal (`d`) or hexadecimal (`x`)
+number.
 
 As an extension to the POSIX options, `lpstrings` may print the
 string length in bytes without NUL terminator for each string if the

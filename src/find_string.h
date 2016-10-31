@@ -46,7 +46,7 @@ int nvm_string_list(
     const char* blob,		///< [in] Binary data to search in
     size_t size,		///< [in] Size of binary data
     uint8_t min_length,		///< [in] Minimum string length passed to nvm_string_find()
-    int output_format,		///< [in] Output format configuration:
+    int output_format,		///< [in] Output format configuration
     const char *delim		///< [in] Delimiter for string output, forces simple format if set
 );
 
