@@ -70,6 +70,6 @@ int check_opts(
     int argc,			///< [in] Number of tokens on the command line
     char **argv,		///< [in,out] Vector of command line tokens
     tool_config *config		///< [out] Storage for parsed application configuration
-    );
+);
 
 #endif //OPTIONS_H_

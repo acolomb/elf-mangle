@@ -38,7 +38,7 @@ typedef struct nvm_symbol_map_source nvm_symbol_map_source;
 ///@return Handle of this source for further processing
 nvm_symbol_map_source* symbol_map_open_file(
     const char *filename		///< [in] File path to open
-    );
+);
 
 ///@brief Examine symbol map contents, store symbol list and binary data
 ///@return
@@ -49,29 +49,29 @@ int symbol_map_parse(
     nvm_symbol_map_source *source,	///< [in,out] Handle of the map source
     const char *section_name,		///< [in] Section within the source to parse
     nvm_symbol **symbol_list		///< [out] List of symbols found
-    );
+);
 
 ///@brief Access the source's binary data
 ///@return Address of the binary data or NULL on error
 char* symbol_map_blob_address(
     nvm_symbol_map_source *source	///< [in,out] Handle of the map source
-    );
+);
 
 ///@brief Check the size of the source's binary data
 ///@return Size of binary data or zero on error
 size_t symbol_map_blob_size(
     nvm_symbol_map_source *source	///< [in,out] Handle of the map source
-    );
+);
 
 ///@brief Print out the size of the source's binary data
 void symbol_map_print_size(
     nvm_symbol_map_source *source,	///< [in] Handle of the map source
     int parseable			///< [in] Avoid localized output
-    );
+);
 
 ///@brief Close the symbol map source handle and free associated resources
 void symbol_map_close(
     nvm_symbol_map_source *source	///< [in,out] Handle of the map source
-    );
+);
 
 #endif //SYMBOL_MAP_H_

@@ -35,13 +35,13 @@ typedef struct nvm_field nvm_field;
 void print_hex_dump(
     const char *data,		///< [in] Start address of data block
     size_t size			///< [in] Size of data block in bytes
-    );
+);
 
 ///@brief Pretty-print data block according to field description
 void print_field(
     const nvm_field *field,	///< [in] Field descriptor
     const char *data,		///< [in] Start address of data block
     size_t size			///< [in] Actual size of data block in bytes
-    );
+);
 
 #endif //FIELD_PRINT_H_

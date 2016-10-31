@@ -58,6 +58,6 @@ void print_symbol_list(
     int size,			///< [in] Number of symbols in list
     enum show_field field,	///< [in] Description display options
     enum print_content content	///< [in] Content display options
-    );
+);
 
 #endif //PRINT_SYMBOLS_H_

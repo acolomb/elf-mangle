@@ -37,6 +37,6 @@ int known_fields_expected(void);
 ///@return Reference to field descriptor or NULL on error
 const struct nvm_field* find_known_field(
     const char *symbol		///< [in] Symbol name
-    );
+);
 
 #endif //KNOWN_FIELDS_H_
