@@ -1,3 +1,17 @@
+2016-11-02  André Colomb  <src@andre.colomb.de>
+
+	* Fix offset output showing wrong numbers when using the
+	length-prefixed string search function (--strings option).
+	* Refactor internal handling of binary blobs to allow loading an
+	image file into memory for later processing.
+	* Add the lpstrings utility, similar to the standard POSIX
+	strings(1) command.
+	* Fix a corner case in build system configuration which would
+	overwrite user-supplied CPPFLAGS / LDFLAGS variables.
+	* Update German translation.
+
+	* Release version 0.6
+
 2016-09-19  André Colomb  <src@andre.colomb.de>
 
 	* Minor clean-ups for the build system and detection of libelf
