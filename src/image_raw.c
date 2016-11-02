@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Handle input and output of blob data to raw binary files
-///@copyright	Copyright (C) 2014, 2015  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015, 2016  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -157,6 +157,78 @@ image_raw_merge_filedes(int fd,
 
 
 
+///@brief Open file in raw binary format and determine content size
+///@return 1 on success or negative error code
+static int
+image_raw_open_file(
+    const char *filename,	///< [in] Input file path to open
+    size_t *file_size,		///< [out] Data address at end of content
+    int *fd)			///< [out] File access handle (open on success)
+{
+    int status = 0;
+    struct stat st;
+
+    if (! filename || ! fd) return -1;		//invalid parameters
+
+    *fd = open(filename, O_RDONLY | O_BINARY);
+    if (*fd == -1 || 0 != fstat(*fd, &st)) {	//file not accessible
+	fprintf(stderr, _("Cannot open image \"%s\" (%s)\n"), filename, strerror(errno));
+	return -2;
+    }
+
+    if (st.st_size <= 0) {
+	fprintf(stderr, _("Image file \"%s\" is empty\n"), filename);
+	status = -4;
+    } else {
+	if (file_size) *file_size = (size_t) st.st_size;
+	return 1;
+    }
+    close(*fd);
+
+    return status;
+}
+
+
+
+int
+image_raw_memorize_file(const char *filename,
+			const char **blob, size_t *blob_size)
+{
+    int fd = -1, status;
+    char *contents = NULL;
+    ssize_t bytes_read = 0;
+    size_t rest;
+
+    if (! filename || ! blob || ! blob_size) return -1;	//invalid parameters
+
+    status = image_raw_open_file(filename, blob_size, &fd);
+    if (status <= 0) return status;	//file not accessible
+
+    // Allocate and initialize memory for needed content
+    contents = calloc(1, *blob_size);
+    if (! contents) {
+	fprintf(stderr, _("Could not allocate memory for image data: %s\n"),
+		strerror(errno));
+	status = -3;
+    } else {
+	for (rest = *blob_size; rest > 0; rest -= bytes_read) {
+	    bytes_read = read(fd, contents + (*blob_size - rest), rest);
+	    if (bytes_read <= 0) {
+		fprintf(stderr, _("Failed to read %zu bytes from file \"%s\""
+				  " at offset %zu (%s)\n"),
+			rest, filename, *blob_size - rest, strerror(errno));
+		break;	//error or end of file
+	    }
+	}
+	*blob = contents;
+    }
+    close(fd);
+
+    return status;
+}
+
+
+
 int
 image_raw_merge_file(const char *filename,
 		     const nvm_symbol list[], int list_size,
@@ -164,40 +236,33 @@ image_raw_merge_file(const char *filename,
 {
     char *mapped = NULL;
     int fd, symbols = 0;
-    struct stat st;
+    size_t file_size = 0;
 
     if (! filename || ! blob_size) return -1;	//invalid parameters
 
-    fd = open(filename, O_RDONLY | O_BINARY);
-    if (fd == -1 || 0 != fstat(fd, &st)) {	//file not accessible
-	fprintf(stderr, _("Cannot open image \"%s\" (%s)\n"), filename, strerror(errno));
-	return -2;
+    symbols = image_raw_open_file(filename, &file_size, &fd);
+    if (symbols <= 0) return symbols;	//file not accessible
+
+    if (blob_size > file_size) {
+	fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
+		filename, blob_size - file_size, blob_size);
+	blob_size = file_size;
     }
 
-    if (st.st_size == 0) {
-	fprintf(stderr, _("Image file \"%s\" is empty\n"), filename);
+#if HAVE_MMAP
+    mapped = mmap(NULL, blob_size, PROT_READ, MAP_PRIVATE, fd, 0);
+    if (mapped == MAP_FAILED) {
+	mapped = NULL;
+	fprintf(stderr, _("%s: mmap() failed (%s)\n"), __func__, strerror(errno));
+    }
+#endif
+    if (mapped) {
+	symbols = image_raw_merge_mem(mapped, list, list_size, blob_size);
+#if HAVE_MMAP
+	munmap(mapped, blob_size);
+#endif
     } else {
-	if (blob_size > (size_t) st.st_size) {
-	    fprintf(stderr, _("Image file \"%s\" is too small, %zu of %zu bytes missing\n"),
-		    filename, blob_size - (size_t) st.st_size, blob_size);
-	    blob_size = st.st_size;
-	}
-
-#if HAVE_MMAP
-	mapped = mmap(NULL, blob_size, PROT_READ, MAP_PRIVATE, fd, 0);
-	if (mapped == MAP_FAILED) {
-	    mapped = NULL;
-	    fprintf(stderr, _("%s: mmap() failed (%s)\n"), __func__, strerror(errno));
-	}
-#endif
-	if (mapped) {
-	    symbols = image_raw_merge_mem(mapped, list, list_size, blob_size);
-#if HAVE_MMAP
-	    munmap(mapped, blob_size);
-#endif
-	} else {
-	    symbols = image_raw_merge_filedes(fd, list, list_size, blob_size);
-	}
+	symbols = image_raw_merge_filedes(fd, list, list_size, blob_size);
     }
     close(fd);
 

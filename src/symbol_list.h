@@ -50,7 +50,7 @@ typedef struct nvm_symbol {
 typedef const nvm_symbol* (*symbol_list_iterator_f)(
     const nvm_symbol *symbol,		///< [in] Current symbol to process
     const void *arg			///< [in] Custom data to control iteration
-    );
+);
 
 
 ///@brief Append an element to the list
@@ -59,7 +59,7 @@ typedef const nvm_symbol* (*symbol_list_iterator_f)(
 nvm_symbol* symbol_list_append(
     nvm_symbol *(list[]),		///< [in,out] Start location of the list
     int *size				///< [out] New list size
-    );
+);
 
 ///@brief Iterate through a list of symbols and call the given function
 ///@details Iteration stops after the iterator function returns a non-NULL value
@@ -69,7 +69,7 @@ const nvm_symbol* symbol_list_foreach(
     int size,				///< [in] Number of symbols in the list
     const symbol_list_iterator_f func,	///< [in] Iterator function to be called
     const void *arg			///< [in] Custom data passed to iterator function
-    );
+);
 
 ///@brief Iterate through a list of symbols and call the given function
 ///@return Number of iterations where the function returned a NULL value.
@@ -78,7 +78,7 @@ int symbol_list_foreach_count(
     int size,				///< [in] Number of symbols in the list
     const symbol_list_iterator_f func,	///< [in] Iterator function to be called
     const void *arg			///< [in] Custom data passed to iterator function
-    );
+);
 
 ///@brief Find the first symbol with a given field descriptor
 ///@return Address of the first matching symbol or NULL on error
@@ -86,7 +86,7 @@ const nvm_symbol* symbol_list_find_field(
     const nvm_symbol list[],		///< [in] List of symbols to search through
     int size,				///< [in] Number of symbols in the list
     const nvm_field *field		///< [in] Field descriptor to look for
-    );
+);
 
 ///@brief Find the first symbol whose field descriptor matches a given name
 ///@return Address of the first matching symbol or NULL on error
@@ -94,6 +94,6 @@ const nvm_symbol* symbol_list_find_symbol(
     const nvm_symbol list[],		///< [in] List of symbols to search through
     int size,				///< [in] Number of symbols in the list
     const char *symbol			///< [in] Symbol name to look for
-    );
+);
 
 #endif //SYMBOL_LIST_H_

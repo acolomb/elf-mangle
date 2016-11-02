@@ -71,15 +71,17 @@ AC_ARG_WITH([cintelhex],
                            [cintelhex=1], [cintelhex_internal=1])],
                        [cintelhex_internal=1])],
        [internal], [cintelhex_internal=1],
-       [saved_CPPFLAGS="$CPPFLAGS"
-        CPPFLAGS="-I$with_cintelhex/include $CPPFLAGS"
+       [AC_SUBST([CINTELHEX_CPPFLAGS], [-I$with_cintelhex/include])
+        saved_CPPFLAGS="$CPPFLAGS"
+        CPPFLAGS="$CINTELHEX_CPPFLAGS $CPPFLAGS"
         AC_CHECK_HEADERS([cintelhex.h],
-           [saved_LDFLAGS="$LDFLAGS"
-            LDFLAGS="-L$with_cintelhex/lib $LDFLAGS"
+           [AC_SUBST([CINTELHEX_LDFLAGS], [-L$with_cintelhex/lib])
+	    saved_LDFLAGS="$LDFLAGS"
+            LDFLAGS="$CINTELHEX_LDFLAGS $LDFLAGS"
             AC_CHECK_LIB([cintelhex], [ihex_byte_copy],
-               [cintelhex=1],
-               [LDFLAGS="$saved_LDFLAGS"])],
-           [CPPFLAGS="$saved_CPPFLAGS"])
+               [cintelhex=1])
+	    LDFLAGS="$saved_LDFLAGS"])
+        CPPFLAGS="$saved_CPPFLAGS"
        ])
    ],
    [AC_MSG_RESULT([--with-cintelhex not specified])
