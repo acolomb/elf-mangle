@@ -1,14 +1,14 @@
 # German translations for elf-mangle package.
-# Copyright (C) 2014 Andre Colomb
+# Copyright (C) 2014, 2016  Andre Colomb
 # This file is distributed under the same license as the elf-mangle package.
-# AndrÃ© Colomb <src@andre.colomb.de>, 2014.
+# André Colomb <src@andre.colomb.de>, 2014, 2016.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: elf-mangle 0.1\n"
+"Project-Id-Version: elf-mangle 0.6\n"
 "Report-Msgid-Bugs-To: src@andre.colomb.de\n"
-"POT-Creation-Date: 2015-09-14 10:53+0200\n"
-"PO-Revision-Date: 2015-07-22 12:56+0100\n"
+"POT-Creation-Date: 2016-11-02 22:28+0100\n"
+"PO-Revision-Date: 2016-11-02 23:02+0100\n"
 "Last-Translator: Andre Colomb <acolomb@schickhardt.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
@@ -102,7 +102,7 @@ msgstr "Optionen spezifisch für Beispiel:"
 msgid "\tMissing %zu of %zu data bytes!"
 msgstr "\t%zu von %zu Datenbytes fehlen!"
 
-#: src/find_string.c:97
+#: src/find_string.c:121
 #, c-format
 msgid ""
 "Length prefixed string at offset [%04zx] (%zu bytes + NUL):\n"
@@ -111,57 +111,62 @@ msgstr ""
 "Zeichenkette mit Längenpräfix an Position [%04zx] (%zu Byte + NUL):\n"
 "\t\"%s\"\n"
 
-#: src/image_formats.c:56
+#: src/image_formats.c:55 src/image_formats.c:93
 #, c-format
 msgid "Image file \"%s\" is not in Intel Hex format, trying raw binary.\n"
 msgstr ""
 "Abbilddatei \"%s\" ist nicht im Intel-Hex-Format, versuche Binärformat.\n"
 
-#: src/image_formats.c:70
+#: src/image_formats.c:69 src/image_formats.c:107
 #, c-format
 msgid "Invalid input image file format.\n"
 msgstr "Ungültiges Format für Binärabbild.\n"
 
-#: src/image_formats.c:83
+#: src/image_formats.c:120
 #, c-format
 msgid "%s: Output file \"%s\" format %d\n"
 msgstr "%s: Ausgabedatei \"%s\" im Format %d\n"
 
-#: src/image_formats.c:95
+#: src/image_formats.c:132
 #, c-format
 msgid "Invalid output image file format specified.\n"
 msgstr "Ungültiges Ausgabeformat für Binärabbild.\n"
 
-#: src/image_ihex_input.c:77 src/image_raw.c:173 src/image_raw.c:222
+#: src/image_ihex_input.c:78 src/image_raw.c:175 src/image_raw.c:287
 #, c-format
 msgid "Cannot open image \"%s\" (%s)\n"
 msgstr "Abbilddatei \"%s\" kann nicht geöffnet werden (%s)\n"
 
-#: src/image_ihex_input.c:82
+#: src/image_ihex_input.c:83
 #, c-format
 msgid "Could not determine data range in Intel Hex file \"%s\" (%s)\n"
 msgstr ""
 "Konnte Datenbereich in der Intel-Hex-Datei \"%s\" nicht ermitteln (%s)\n"
 
-#: src/image_ihex_input.c:86 src/image_raw.c:178
+#: src/image_ihex_input.c:87 src/image_raw.c:180
 #, c-format
 msgid "Image file \"%s\" is empty\n"
 msgstr "Abbilddatei \"%s\" ist leer\n"
 
-#: src/image_ihex_input.c:88
+#: src/image_ihex_input.c:90
 #, c-format
 msgid "%s: %s contains range 0x%04<PRIx32> to 0x%04<PRIx32>\n"
 msgstr "%s: %s umfasst den Bereich 0x%04<PRIx32> bis 0x%04<PRIx32>\n"
 
-#: src/image_ihex_input.c:91 src/image_raw.c:181
+#: src/image_ihex_input.c:118 src/image_ihex_input.c:160 src/image_raw.c:210
 #, c-format
-msgid "Image file \"%s\" is too small, %zu of %zu bytes missing\n"
-msgstr "Abbilddatei \"%s\" ist zu klein, %zu von %zu Byte fehlen\n"
+msgid "Could not allocate memory for image data: %s\n"
+msgstr "Konnte keinen Speicher für Abbilddaten zuweisen: %s\n"
 
-#: src/image_ihex_input.c:99 src/image_ihex_input.c:104
+#: src/image_ihex_input.c:123 src/image_ihex_input.c:165
 #, c-format
 msgid "Could not copy data from Intel Hex file \"%s\" (%s)\n"
 msgstr "Konnte keine Daten aus der Intel-Hex-Datei \"%s\" kopieren (%s)\n"
+
+#: src/image_ihex_input.c:152 src/image_raw.c:247
+#, c-format
+msgid "Image file \"%s\" is too small, %zu of %zu bytes missing\n"
+msgstr "Abbilddatei \"%s\" ist zu klein, %zu von %zu Byte fehlen\n"
 
 #: src/image_ihex_output.c:104
 #, c-format
@@ -184,46 +189,54 @@ msgid "Failed to read %s (%zu bytes) from file offset %zu to %p (%s)\n"
 msgstr ""
 "Fehler beim Lesen von %s (%zu Byte) von Dateiposition %zu nach %p (%s)\n"
 
-#: src/image_raw.c:190
+#: src/image_raw.c:217
+#, c-format
+msgid "Failed to read %zu bytes from file \"%s\" at offset %zu (%s)\n"
+msgstr ""
+"Fehler beim Lesen von %zu Byte aus Datei \"%s\" von Position %zu (%s)\n"
+
+#: src/image_raw.c:256
 #, c-format
 msgid "%s: mmap() failed (%s)\n"
 msgstr "%s: mmap() fehlgeschlagen (%s)\n"
 
-#: src/image_raw.c:225
+#: src/image_raw.c:290
 #, c-format
 msgid "Cannot resize image file \"%s\" to %zu bytes (%s)\n"
 msgstr "Abbilddatei \"%s\" kann nicht auf %zu Bytes vergrößert werden (%s)\n"
 
-#: src/image_raw.c:233
+#: src/image_raw.c:298
 #, c-format
 msgid "Cannot write image file \"%s\" (%s)\n"
 msgstr "Abbilddatei \"%s\" kann nicht geschrieben werden (%s)\n"
 
-#: src/options.c:62
+#: src/options_elf-mangle.c:62 src/options_lpstrings.c:54
 msgid "Input / output options:"
 msgstr "Ein- / Ausgabeoptionen:"
 
-#: src/options.c:63
+#: src/options_elf-mangle.c:63
 msgid "SECTION"
 msgstr "SEKTION"
 
-#: src/options.c:64
+#: src/options_elf-mangle.c:64
 msgid "Use SECTION from ELF file instead of the default ("
 msgstr "Benutze SEKTION aus der ELF-Datei anstatt der Standardsektion ("
 
-#: src/options.c:66 src/options.c:77
+#: src/options_elf-mangle.c:66 src/options_elf-mangle.c:77
+#: src/options_lpstrings.c:82
 msgid "FILE"
 msgstr "DATEI"
 
-#: src/options.c:67
+#: src/options_elf-mangle.c:67
 msgid "Read binary input data from image FILE"
 msgstr "Lese Eingabe-Binärdaten aus der Abbild-DATEI"
 
-#: src/options.c:70 src/options.c:81 src/options.c:92
+#: src/options_elf-mangle.c:70 src/options_elf-mangle.c:81
+#: src/options_elf-mangle.c:92 src/options_lpstrings.c:55
 msgid "FORMAT"
 msgstr "FORMAT"
 
-#: src/options.c:71
+#: src/options_elf-mangle.c:71 src/options_lpstrings.c:56
 msgid ""
 "Format of input image file.  FORMAT can be either \"raw\", \"ihex\" or \"auto"
 "\" (default)"
@@ -231,11 +244,11 @@ msgstr ""
 "Format der Eingabe-Abbilddatei.  Unterstützte FORMATe: \"raw\", \"ihex\" "
 "oder \"auto\" (standard)"
 
-#: src/options.c:78
+#: src/options_elf-mangle.c:78
 msgid "Write binary data to output image FILE"
 msgstr "Binärdaten in Ausgabe-Abbilddatei DATEI schreiben"
 
-#: src/options.c:82
+#: src/options_elf-mangle.c:82
 msgid ""
 "Format of output image file.  FORMAT can be either \"raw\" or \"ihex"
 "\" (default)"
@@ -243,11 +256,11 @@ msgstr ""
 "Format der Ausgabe-Abbilddatei.  Unterstützte FORMATe: \"raw\" oder \"ihex"
 "\" (standard)"
 
-#: src/options.c:84
+#: src/options_elf-mangle.c:84
 msgid "FIELD=BYTES,..."
 msgstr "FELD=BYTES,..."
 
-#: src/options.c:85
+#: src/options_elf-mangle.c:85
 msgid ""
 "Override the given fields' values (comma-separated pairs).\n"
 "Each FIELD symbol name must be followed by an equal sign and the data BYTES "
@@ -259,38 +272,38 @@ msgstr ""
 "Hexadezimal-Kodierung stehen.  Nicht spezifizierte Bytes bleiben "
 "unverändert, zu viele führen zum Fehler."
 
-#: src/options.c:91
+#: src/options_elf-mangle.c:91 src/options_lpstrings.c:68
 msgid "Display information from parsed files:"
 msgstr "Information aus analysierten Dateien auflisten:"
 
-#: src/options.c:93
+#: src/options_elf-mangle.c:93
 msgid ""
 "Print field values.  FORMAT can be either \"pretty\" (default) or \"hex\""
 msgstr ""
 "Werte der Felder ausgeben.  Unterstützte FORMATe: \"pretty\" (standard) oder "
 "\"hex\""
 
-#: src/options.c:96
+#: src/options_elf-mangle.c:96
 msgid "Print symbol address for each field"
 msgstr "Symboladresse für jedes Feld ausgeben"
 
-#: src/options.c:98
+#: src/options_elf-mangle.c:98
 msgid "Show object symbol names instead of field decriptions"
 msgstr "Symbolnamen anstatt Feldbeschreibungen anzeigen"
 
-#: src/options.c:100
+#: src/options_elf-mangle.c:100
 msgid "Print size in bytes for each field"
 msgstr "Größe in Byte für jedes Feld ausgeben"
 
-#: src/options.c:102
+#: src/options_elf-mangle.c:102
 msgid "Print size in bytes for the whole image"
 msgstr "Größe in Byte für das gesamte Abbild ausgeben"
 
-#: src/options.c:103
+#: src/options_elf-mangle.c:103 src/options_lpstrings.c:62
 msgid "MIN-LEN"
 msgstr "ANZAHL"
 
-#: src/options.c:104
+#: src/options_elf-mangle.c:104 src/options_lpstrings.c:63
 #, fuzzy
 msgid ""
 "Locate strings of at least MIN-LEN bytes in input (argument defaults to "
@@ -298,41 +311,76 @@ msgstr ""
 "Zeichenketten mit mindestens ANZAHL Byte in Eingabe suchen (falls nicht "
 "angegeben "
 
-#: src/options.c:113
+#: src/options_elf-mangle.c:113
 msgid "IN_MAP [OUT_MAP]"
 msgstr "EINGABE_ELF [AUSGABE_ELF]"
 
-#: src/options.c:117
+#: src/options_elf-mangle.c:117
 msgid ""
 "Analyze, transform and manipulate binary data based on ELF symbol tables."
 msgstr ""
 "Analyse, Umwandlung und Manipulation von Binärdaten anhand von ELF-"
 "Symboltabellen."
 
-#: src/options.c:164 src/options.c:171
+#: src/options_elf-mangle.c:164 src/options_elf-mangle.c:171
+#: src/options_lpstrings.c:121
 #, c-format
 msgid "Invalid binary image format `%s' specified."
 msgstr "Ungültiges Format '%s' für Binärabbild angegeben."
 
-#: src/options.c:182
+#: src/options_elf-mangle.c:182 src/options_lpstrings.c:128
 #, c-format
 msgid "Minimum string length %d out of range."
 msgstr "Minimale Zeichenkettenlänge %d außerhalb des gültigen Bereichs."
 
-#: src/options.c:191
+#: src/options_elf-mangle.c:191
 #, c-format
 msgid "Unknown print format `%s' specified."
 msgstr "Unbekanntes Ausgabeformat '%s' angegeben."
 
-#: src/options.c:213
+#: src/options_elf-mangle.c:213
 #, c-format
 msgid "Too many map file arguments."
 msgstr "Zu viele Dateien für Symbolzuordnung."
 
-#: src/options.c:218
+#: src/options_elf-mangle.c:218 src/options_lpstrings.c:159
 #, c-format
 msgid "Missing file name."
 msgstr "Dateiname fehlt."
+
+#: src/options_lpstrings.c:70
+msgid "Print length in bytes for each string"
+msgstr "Länge in Byte für jede Zeichenkette ausgeben"
+
+#: src/options_lpstrings.c:71
+msgid "SEP"
+msgstr "TRENNER"
+
+#: src/options_lpstrings.c:72
+msgid "Separator between strings in output."
+msgstr "Trennzeichen für die Ausgabe der Zeichenketten."
+
+#: src/options_lpstrings.c:74
+msgid "Print the location of the string in base 8, 10 or 16 (default)"
+msgstr ""
+"Fundstelle der Zeichenkette mit Basis 8, 10 oder 16 (standard) ausgeben"
+
+#: src/options_lpstrings.c:86
+msgid ""
+"Locate length-prefixed strings of printable characters plus NUL terminator."
+msgstr ""
+"Suche Zeichenketten aus druckbaren Zeichen mit Längenangabe und NUL-"
+"Abschluss."
+
+#: src/options_lpstrings.c:149
+#, c-format
+msgid "Invalid offset radix `%s' specified."
+msgstr "Ungültige Basis '%s' für Adressabstand angegeben."
+
+#: src/options_lpstrings.c:154
+#, c-format
+msgid "Too many input file arguments."
+msgstr "Zu viele Dateien als Eingabe."
 
 #: src/override.c:74
 #, c-format
@@ -381,6 +429,11 @@ msgstr "Feld nicht gefunden"
 #, c-format
 msgid "Unable to parse override `%.*s' (%s)\n"
 msgstr "Kann Zuweisung '%.*s' nicht parsen (%s)\n"
+
+#: src/print_symbols.c:64
+#, c-format
+msgid " %zu bytes"
+msgstr " %zu Byte"
 
 #: src/symbol_map.c:91
 #, c-format
