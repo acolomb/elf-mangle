@@ -27,14 +27,16 @@ AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 # Checks for programs.
 AC_USE_SYSTEM_EXTENSIONS
 AC_PROG_CC_C99
-AM_PROG_AR
-LT_INIT
 
 # Use GNU Gnulib if required macros are present
 m4_ifdef([gl_EARLY],
    [gl_EARLY
     gnulib=1], [gnulib=0])
 AM_CONDITIONAL([USE_GNULIB], [test "x$gnulib" = x1])
+
+# More checks for programs.
+AM_PROG_AR
+LT_INIT
 
 
 # Checks for libraries.
