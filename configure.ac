@@ -17,7 +17,7 @@
 # <http://www.gnu.org/licenses/>.
 
 
-AC_INIT([elf-mangle], [0.5.1], [src@andre.colomb.de])
+AC_INIT([elf-mangle], [0.6], [src@andre.colomb.de])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src/elf-mangle.c])
 AC_CONFIG_AUX_DIR([.])
@@ -27,14 +27,16 @@ AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 # Checks for programs.
 AC_USE_SYSTEM_EXTENSIONS
 AC_PROG_CC_C99
-AM_PROG_AR
-LT_INIT
 
 # Use GNU Gnulib if required macros are present
 m4_ifdef([gl_EARLY],
    [gl_EARLY
     gnulib=1], [gnulib=0])
 AM_CONDITIONAL([USE_GNULIB], [test "x$gnulib" = x1])
+
+# More checks for programs.
+AM_PROG_AR
+LT_INIT
 
 
 # Checks for libraries.
@@ -71,15 +73,17 @@ AC_ARG_WITH([cintelhex],
                            [cintelhex=1], [cintelhex_internal=1])],
                        [cintelhex_internal=1])],
        [internal], [cintelhex_internal=1],
-       [saved_CPPFLAGS="$CPPFLAGS"
-        CPPFLAGS="-I$with_cintelhex/include $CPPFLAGS"
+       [AC_SUBST([CINTELHEX_CPPFLAGS], [-I$with_cintelhex/include])
+        saved_CPPFLAGS="$CPPFLAGS"
+        CPPFLAGS="$CINTELHEX_CPPFLAGS $CPPFLAGS"
         AC_CHECK_HEADERS([cintelhex.h],
-           [saved_LDFLAGS="$LDFLAGS"
-            LDFLAGS="-L$with_cintelhex/lib $LDFLAGS"
+           [AC_SUBST([CINTELHEX_LDFLAGS], [-L$with_cintelhex/lib])
+	    saved_LDFLAGS="$LDFLAGS"
+            LDFLAGS="$CINTELHEX_LDFLAGS $LDFLAGS"
             AC_CHECK_LIB([cintelhex], [ihex_byte_copy],
-               [cintelhex=1],
-               [LDFLAGS="$saved_LDFLAGS"])],
-           [CPPFLAGS="$saved_CPPFLAGS"])
+               [cintelhex=1])
+	    LDFLAGS="$saved_LDFLAGS"])
+        CPPFLAGS="$saved_CPPFLAGS"
        ])
    ],
    [AC_MSG_RESULT([--with-cintelhex not specified])

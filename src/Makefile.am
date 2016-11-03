@@ -17,12 +17,13 @@
 # <http://www.gnu.org/licenses/>.
 
 
-AM_CPPFLAGS = -D_POSIX $(CINTELHEX_INTERNAL_CPPFLAGS) $(GNULIB_CPPFLAGS)
+AM_CPPFLAGS = -D_POSIX $(CINTELHEX_CPPFLAGS) $(GNULIB_CPPFLAGS)
 AM_CFLAGS = -Wall -Wstrict-prototypes -Wextra -fgnu89-inline
+AM_LDFLAGS = $(CINTELHEX_LDFLAGS)
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 if HAVE_INTELHEX_INTERNAL
-CINTELHEX_INTERNAL_CPPFLAGS = -I$(top_srcdir)/libcintelhex/include
+CINTELHEX_CPPFLAGS += -I$(top_srcdir)/libcintelhex/include
 CINTELHEX_LIBS += $(top_builddir)/libcintelhex/src/libcintelhex.la
 endif
 
@@ -32,8 +33,10 @@ GNULIB_LIBS = $(top_builddir)/gnulib/libgnu.la
 endif
 
 
-noinst_LTLIBRARIES = libfallback.la
-bin_PROGRAMS = elf-mangle
+noinst_LTLIBRARIES =		\
+	libfallback.la		\
+	libelf-mangle.la
+bin_PROGRAMS = elf-mangle lpstrings
 EXTRA_DIST = include_order.txt
 
 
@@ -41,10 +44,7 @@ libfallback_la_SOURCES =	\
 	fallback_options.c	\
 	fallback_known_fields.c
 
-elf_mangle_SOURCES =		\
-	elf-mangle.c		\
-	options.c		\
-	options.h		\
+libelf_mangle_la_SOURCES =	\
 	override.c		\
 	override.h		\
 	print_symbols.c		\
@@ -73,12 +73,19 @@ elf_mangle_SOURCES =		\
 	find_string.h		\
 	intl.h			\
 	gettext.h
+libelf_mangle_la_LIBADD = $(CINTELHEX_LIBS) $(GNULIB_LIBS) $(LTLIBINTL)
 
 
 if HAVE_INTELHEX
-IMAGE_IHEX_INPUT = 			\
+IMAGE_IHEX_INPUT = 		\
 	image_ihex_input.c
 endif
+
+
+elf_mangle_SOURCES =		\
+	elf-mangle.c		\
+	options_elf-mangle.c	\
+	options.h
 
 if CUSTOM_OPTIONS
 elf_mangle_SOURCES +=		\
@@ -89,5 +96,13 @@ elf_mangle_SOURCES +=		\
 	custom_known_fields.c
 endif
 
-elf_mangle_LDADD = $(CINTELHEX_LIBS) $(GNULIB_LIBS) $(LTLIBINTL)
+elf_mangle_LDADD = libelf-mangle.la
 elf_mangle_LDADD += libfallback.la
+
+
+lpstrings_SOURCES =		\
+	lpstrings.c		\
+	options_lpstrings.c	\
+	options.h
+
+lpstrings_LDADD = libelf-mangle.la

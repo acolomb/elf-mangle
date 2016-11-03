@@ -36,6 +36,6 @@ void transfer_fields(
     int num_src,		///< [in] Number of symbols in source list
     const nvm_symbol *list_dst,	///< [in] Destination list of symbols to copy to
     int num_dst			///< [in] Number of symbols in destination list
-    );
+);
 
 #endif //TRANSFORM_H_

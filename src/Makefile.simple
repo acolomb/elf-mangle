@@ -21,7 +21,7 @@
 
 elf_mangle_SRC =		\
 	elf-mangle.c		\
-	options.c		\
+	options_elf-mangle.c	\
 	override.c		\
 	print_symbols.c		\
 	transform.c		\

@@ -42,6 +42,6 @@ int parse_overrides(
     char *overrides,		///< [in] Override specification string
     const nvm_symbol *list,	///< [in] List of symbols to apply overrides
     int size			///< [in] Number of symbols in the list
-    );
+);
 
 #endif //OVERRIDE_H_

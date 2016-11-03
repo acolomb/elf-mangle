@@ -48,7 +48,7 @@ typedef struct nvm_field_list {
 const nvm_field* field_list_find(
     const char *symbol,		///< [in] Symbol name to look for
     const nvm_field_list *list	///< [in] Field descriptor list
-    );
+);
 
 ///@brief Append and initialize a new field descriptor to the list
 ///@invariant References to any previously added field descriptors remain valid
@@ -58,6 +58,6 @@ const nvm_field* field_list_add(
     size_t expected_size,	///< [in] Expected symbol size to record in field descriptor
     const char *symbol,		///< [in] Symbol name to record in field descriptor
     const char *description	///< [in] Intelligible field name to record in field descriptor
-    );
+);
 
 #endif //FIELD_LIST_H_

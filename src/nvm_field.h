@@ -36,7 +36,7 @@ typedef struct nvm_field nvm_field;
 typedef size_t (*field_resize_f)(
     const char *src,		///< [in] Data field content
     size_t initial		///< [in] Currently known symbol size in bytes
-    );
+);
 
 ///@brief Function pointer to copy individual field data intelligently
 ///@return Number of bytes copied
@@ -52,7 +52,7 @@ typedef size_t (*field_copy_f)(
 typedef void (*field_print_f)(
     const char *data,		///< [in] Data field content
     size_t size			///< [in] Size of the data block in bytes
-    );
+);
 
 /// Description of a binary data field
 struct nvm_field {
@@ -76,7 +76,7 @@ const nvm_field* find_field(
     const char *symbol,		///< [in] Symbol name to look for
     const nvm_field fields[],	///< [in] Vector of field descriptors
     size_t num_fields		///< [in] Number of elements in the vector
-    );
+);
 
 ///@brief Copy data field content byte-wise
 ///@see field_copy_f
@@ -86,7 +86,7 @@ size_t copy_field_verbatim(
     const char *src,		///< [in] Source address for field data
     size_t dst_size,		///< [in] Maximum size in bytes to write to destination
     size_t src_size		///< [in] Maximum size in bytes available from source
-    );
+);
 
 ///@brief Do not copy data field content (dummy implementation)
 ///@see field_copy_f
@@ -96,6 +96,6 @@ size_t copy_field_noop(
     const char *src,		///< [in] Source address for field data
     size_t dst_size,		///< [in] Maximum size in bytes to write to destination
     size_t src_size		///< [in] Maximum size in bytes available from source
-    );
+);
 
 #endif //NVM_FIELD_H_
