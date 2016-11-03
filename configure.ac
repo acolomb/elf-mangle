@@ -17,7 +17,7 @@
 # <http://www.gnu.org/licenses/>.
 
 
-AC_INIT([elf-mangle], [0.5.1], [src@andre.colomb.de])
+AC_INIT([elf-mangle], [0.6], [src@andre.colomb.de])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src/elf-mangle.c])
 AC_CONFIG_AUX_DIR([.])
@@ -27,14 +27,16 @@ AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 # Checks for programs.
 AC_USE_SYSTEM_EXTENSIONS
 AC_PROG_CC_C99
-AM_PROG_AR
-LT_INIT
 
 # Use GNU Gnulib if required macros are present
 m4_ifdef([gl_EARLY],
    [gl_EARLY
     gnulib=1], [gnulib=0])
 AM_CONDITIONAL([USE_GNULIB], [test "x$gnulib" = x1])
+
+# More checks for programs.
+AM_PROG_AR
+LT_INIT
 
 
 # Checks for libraries.
