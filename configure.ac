@@ -135,8 +135,8 @@ AC_CHECK_FUNCS([ftruncate])
 AC_CHECK_FUNCS([munmap])
 AC_CHECK_FUNCS([setlocale])
 AC_CHECK_FUNCS([strerror])
-AC_FUNC_MALLOC
-AC_FUNC_REALLOC
+AC_CHECK_FUNCS([malloc])
+AC_CHECK_FUNCS([realloc])
 AC_FUNC_MMAP
 
 
