@@ -17,7 +17,7 @@
 # <http://www.gnu.org/licenses/>.
 
 
-AC_INIT([elf-mangle], [0.6], [src@andre.colomb.de])
+AC_INIT([elf-mangle], [0.6.1], [src@andre.colomb.de])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src/elf-mangle.c])
 AC_CONFIG_AUX_DIR([.])
@@ -135,8 +135,8 @@ AC_CHECK_FUNCS([ftruncate])
 AC_CHECK_FUNCS([munmap])
 AC_CHECK_FUNCS([setlocale])
 AC_CHECK_FUNCS([strerror])
-AC_FUNC_MALLOC
-AC_FUNC_REALLOC
+AC_CHECK_FUNCS([malloc])
+AC_CHECK_FUNCS([realloc])
 AC_FUNC_MMAP
 
 

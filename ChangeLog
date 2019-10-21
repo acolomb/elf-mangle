@@ -1,3 +1,10 @@
+2019-10-21  André Colomb  <src@andre.colomb.de>
+
+	* Fix cross-compilation error related to undefined rpl_malloc and
+	rpl_realloc symbols.
+
+	* Release version 0.6.1
+
 2016-11-02  André Colomb  <src@andre.colomb.de>
 
 	* Fix offset output showing wrong numbers when using the
