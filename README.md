@@ -100,9 +100,9 @@ additional developer tools installed.  The following versions are
 tested:
 
 - GNU autoconf 2.69
-- GNU automake 1.15
+- GNU automake 1.16
 - GNU libtool 2.4.6
-- GNU gettext 0.19.7
+- GNU gettext 0.19.8
 
 To fully generate the build system, run these three commands in order:
 
