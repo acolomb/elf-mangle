@@ -1,3 +1,10 @@
+2021-11-15  André Colomb  <src@andre.colomb.de>
+
+	* Update pointers to available libelf implementations.
+	* Minor build system updates.
+
+	* Release version 0.6.2
+
 2019-10-21  André Colomb  <src@andre.colomb.de>
 
 	* Fix cross-compilation error related to undefined rpl_malloc and
