@@ -27,6 +27,7 @@
 /intlmacosx.m4
 /intmax.m4
 /intmax_t.m4
+/inttypes.m4
 /inttypes_h.m4
 /inttypes-pri.m4
 /lcmessage.m4
@@ -35,11 +36,12 @@
 /lib-prefix.m4
 /libtool.m4
 /lock.m4
-/longlong.m4
 /ltoptions.m4
 /ltsugar.m4
 /ltversion.m4
 /lt~obsolete.m4
+/limits-h.m4
+/longlong.m4
 /malloc.m4
 /math_h.m4
 /memchr.m4
@@ -49,7 +51,6 @@
 /nls.m4
 /nocrash.m4
 /off_t.m4
-/onceonly.m4
 /po.m4
 /printf.m4
 /printf-posix.m4
@@ -61,8 +62,8 @@
 /stdalign.m4
 /stdbool.m4
 /stddef_h.m4
-/stdint_h.m4
 /stdint.m4
+/stdint_h.m4
 /stdio_h.m4
 /stdlib_h.m4
 /strcase.m4
@@ -72,11 +73,11 @@
 /strings_h.m4
 /strndup.m4
 /strnlen.m4
-/sysexits.m4
 /sys_socket_h.m4
 /sys_types_h.m4
 /threadlib.m4
 /uintmax_t.m4
+/sysexits.m4
 /unistd_h.m4
 /vasnprintf.m4
 /visibility.m4
@@ -86,4 +87,4 @@
 /wchar_t.m4
 /wint_t.m4
 /xsize.m4
-/limits-h.m4
+/zzgnulib.m4
