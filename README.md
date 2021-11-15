@@ -145,7 +145,7 @@ implementations are available, with varying licenses.
 
 A pretty stable implementation is maintained at
 [sourceware.org][elfutils], as part of the *elfutils* suite, and is
-dual-licensed under the *GPLv2+* / *LGPLv3+*-.  It is
+dual-licensed under the *GPLv2+* / *LGPLv3+*.  It is
 [packaged][elfutils-deb] in most *Debian*-based Linux distributions
 and can be compiled under Win32 using *MinGW*.
 
