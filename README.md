@@ -143,27 +143,30 @@ Dealing with ELF files is done through the standard *libelf* library,
 therefore a compatible version must be present.  Several different
 implementations are available, with varying licenses.
 
-Michael Riepe has written an excellent *LGPL*-licensed implementation,
-found at [www.mr511.de][libelf-lgpl].  It is [included][libelfg0] in
-most *Debian*-based Linux distributions as well as *Cygwin* and can be
-compiled under Win32 using *MinGW*.
+A pretty stable implementation is maintained at
+[sourceware.org][elfutils], as part of the *elfutils* suite, and is
+dual-licensed under the *GPLv2+* / *LGPLv3+*-.  It is
+[packaged][elfutils-deb] in most *Debian*-based Linux distributions
+and can be compiled under Win32 using *MinGW*.
 
-[libelf-lgpl]: http://www.mr511.de/software/ "libelf LGPL'ed"
-[libelfg0]: https://packages.debian.org/stable/libelfg0-dev "libelf in Debian"
-
-Another implementation is maintained at [fedorahosted.org][elfutils],
-as part of the *elfutils* suite, and is mainly *GPLv3*-licensed.  It
-is also [packaged][elfutils-deb] in *Debian*.
-
-[elfutils]: https://fedorahosted.org/elfutils/
-[elfutils-deb]: https://packages.debian.org/stable/libelf-dev
+[elfutils]: https://sourceware.org/elfutils/
+[elfutils-deb]: https://tracker.debian.org/pkg/elfutils
 
 The [ELF Tool Chain Project][elftoolchain] includes another *libelf*
 implementation which is *BSD*-licensed.  A corresponding *Debian*
 [package][libelf-freebsd] is built from their sources.
 
-[elftoolchain]: http://sourceforge.net/projects/elftoolchain/
-[libelf-freebsd]: https://packages.debian.org/jessie/libelf-freebsd-dev
+[elftoolchain]: https://sourceforge.net/projects/elftoolchain/
+[libelf-freebsd]: https://packages.debian.org/unstable/libelf-freebsd-dev
+
+Up until about 2019, an excellent *LGPL*-licensed implementation,
+written by Michael Riepe, used to be found at
+[www.mr511.de][libelf-lgpl].  It was [included][libelfg0] in most
+*Debian*-based Linux distributions as well as *Cygwin* and can be
+compiled under Win32 using *MinGW*.
+
+[libelf-lgpl]: http://www.mr511.de/software/ "libelf LGPL'ed"
+[libelfg0]: https://tracker.debian.org/pkg/libelf "libelf in Debian"
 
 Either implementation should work if it supports the BSD *GElf* API.
 Just make sure the compiler finds the required headers and library.
