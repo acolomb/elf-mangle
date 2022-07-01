@@ -59,8 +59,8 @@
 /// Supported command-line arguments definition
 static const struct argp_option dummy_options[] =
 {
-    { "set-serial",	OPT_SET_SERIAL,		N_("NUMBER"),		0,
-      N_("Override system serial number in output"),			0 },
+    { "set-serial",	OPT_SET_SERIAL,		N_("NUMBER"),	0,
+      N_("Override system serial number in output"),		0 },
     { 0 }
 };
 
