@@ -98,6 +98,10 @@ if CUSTOM_FIELDS
 elf_mangle_SOURCES +=		\
 	custom_known_fields.c
 endif
+if CUSTOM_POST_PROCESS
+elf_mangle_SOURCES +=		\
+	custom_post_process.c
+endif
 
 elf_mangle_LDADD = libelf-mangle.la
 elf_mangle_LDADD += libfallback.la
