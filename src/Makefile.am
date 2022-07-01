@@ -42,9 +42,12 @@ EXTRA_DIST = include_order.txt
 
 libfallback_la_SOURCES =	\
 	fallback_options.c	\
-	fallback_known_fields.c
+	fallback_known_fields.c	\
+	fallback_post_process.c
 
 libelf_mangle_la_SOURCES =	\
+	post_process.c		\
+	post_process.h		\
 	override.c		\
 	override.h		\
 	print_symbols.c		\
