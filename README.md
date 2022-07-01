@@ -73,6 +73,7 @@ storage layout, and written back to an image file ready for flashing.
 	- Copying data from input to output image
 	- Overriding the symbol data size in case the ELF file reports a
       wrong value (such as with flexible array member in C structs)
+  * Post-processing steps to apply application-specific content rules
 
 
 Installation
@@ -122,9 +123,12 @@ for the `configure` script are:
   application specific command line options
 * `--enable-custom-fields`: Include code module providing descriptions
   of known application specific symbols with advanced processing.
+* `--enable-custom-post-process`: Include code module providing
+  post-processing functions to make further finalizing modifications
+  to an image.
 
 See the section "Application Extensions" below for more information on
-the latter two.  For more options, refer to the output of `./configure
+the latter.  For more options, refer to the output of `./configure
 --help`.  After configuration, the package can be built with `make
 all` and installed with `make install` (with sufficient file
 permissions).
@@ -441,14 +445,15 @@ application with special needs, the code can be easily extended to
 provide additional semantics or shortcut options supplementing the
 basic program logic.
 
-Two source code files are provided to showcase the possible
+Three source code files are provided to showcase the possible
 flexibility.  They will not be compiled by default and must first be
-enabled with the `configure` script switches `--enable-custom-fields`
-and `--enable-custom-options`, respectively. The sources are shipped
-within the distribution as:
+enabled with the `configure` script switches `--enable-custom-fields`,
+`--enable-custom-options` and `--enable-custom-post-process`,
+respectively. The sources are shipped within the distribution as:
 
 	src/custom_known_fields.c
 	src/custom_options.c
+	src/custom_post_process.c
 
 It is recommended to modify and adapt these files to the needs of the
 respective application.  To ease later upgrades and track changes in
@@ -523,6 +528,33 @@ includes such an option to override a unique serial number within the
 blob data.  The same effect could be achieved using the `--define`
 option, but without plausibility checks and without the convenience of
 a human-readable number representation.
+
+
+### Adding Post-Processing Functions ###
+
+Post-processors in *elf-mangle* allow arbitrary validation and
+adjustment steps to be carried out on the output binary image.  They
+have access to the complete blob data, as well as the list of
+contained fields, with all layout transformations and overrides
+already applied.  Any changes made in a post-processor will affect
+what is written to the output image file and also pretty-printed on
+request.
+
+To use this, a function named `get_custom_post_processors()` should be
+provided in `custom_post_process.c`, returning a `NULL`-terminated
+list of `post_process_f` function pointers.  These functions will be
+called in the listed order, each with the resulting blob from the
+previous one.  The first `NULL` value in the list will stop
+post-processing, so optionally suppressing further steps can easily be
+facilitated by clearing an entry in the list.
+
+A possible application, as provided in the example implementation,
+handles a special field within the symbol maps to hold a checksum of
+the data for verification.  The stored CRC value should match the
+checksum calculated over the whole blob data, except for the checksum
+field itself.  The example showcases both a verification and an update
+step to adjust the checksum field, resulting in an image which
+includes basic error detection against data corruption.
 
 
 Examples
