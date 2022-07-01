@@ -25,6 +25,7 @@
 #include "config.h"
 
 #include "options.h"
+#include "post_process.h"
 #include "override.h"
 #include "transform.h"
 #include "symbol_map.h"
@@ -78,6 +79,9 @@ process_maps(const tool_config *config)
 	}
 	// Incorporate symbol overrides
 	parse_overrides(config->overrides, symbols_out, num_out);	//FIXME
+	// Let any custom post-processors scan and manipulate the blob content
+	post_process_image(symbol_map_blob_address(map_write), symbol_map_blob_size(map_write),
+			   symbols_out, num_out);
 	// Print out information if requested
 	if (config->show_size) symbol_map_print_size(map_write, config->show_fields & showSymbol);
 	print_symbol_list(symbols_out, num_out,

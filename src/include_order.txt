@@ -1,6 +1,7 @@
 #include "config.h"
 
 #include "options.h"
+#include "post_process.h"
 #include "override.h"
 #include "print_symbols.h"
 #include "transform.h"

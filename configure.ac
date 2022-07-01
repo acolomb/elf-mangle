@@ -170,6 +170,20 @@ AC_MSG_RESULT([${custom_fields}])
 AM_CONDITIONAL([CUSTOM_FIELDS], [test "x$custom_fields" = xyes])
 
 
+AC_MSG_CHECKING([whether extension module for custom post-processors should be built])
+AC_ARG_ENABLE([custom-post-process],
+   [AS_HELP_STRING([--enable-custom-post-process],
+       [Build extension module with custom post-processors])],
+   [AS_CASE([$enableval],
+       [yes], [custom_post_process=yes],
+       [no],  [custom_post_process=no],
+       [AC_MSG_ERROR([bad value ${enableval} for --enable-custom-post-process])])
+   ],
+   [custom_post_process=no])
+AC_MSG_RESULT([${custom_post_process}])
+AM_CONDITIONAL([CUSTOM_POST_PROCESS], [test "x$custom_post_process" = xyes])
+
+
 # Ouput definitions
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile Doxyfile src/Makefile po/Makefile.in])

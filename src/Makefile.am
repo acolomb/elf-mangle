@@ -42,9 +42,12 @@ EXTRA_DIST = include_order.txt
 
 libfallback_la_SOURCES =	\
 	fallback_options.c	\
-	fallback_known_fields.c
+	fallback_known_fields.c	\
+	fallback_post_process.c
 
 libelf_mangle_la_SOURCES =	\
+	post_process.c		\
+	post_process.h		\
 	override.c		\
 	override.h		\
 	print_symbols.c		\
@@ -94,6 +97,10 @@ endif
 if CUSTOM_FIELDS
 elf_mangle_SOURCES +=		\
 	custom_known_fields.c
+endif
+if CUSTOM_POST_PROCESS
+elf_mangle_SOURCES +=		\
+	custom_post_process.c
 endif
 
 elf_mangle_LDADD = libelf-mangle.la
