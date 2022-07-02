@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: elf-mangle 0.6\n"
 "Report-Msgid-Bugs-To: src@andre.colomb.de\n"
-"POT-Creation-Date: 2016-11-02 22:28+0100\n"
-"PO-Revision-Date: 2016-11-02 23:02+0100\n"
+"POT-Creation-Date: 2022-07-03 00:50+0200\n"
+"PO-Revision-Date: 2022-07-03 01:03+0200\n"
 "Last-Translator: Andre Colomb <acolomb@schickhardt.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
@@ -96,6 +96,37 @@ msgstr "Ungültige Seriennummer '%s' angegeben."
 #: src/custom_options.c:125
 msgid "Example-specific options:"
 msgstr "Optionen spezifisch für Beispiel:"
+
+#: src/custom_post_process.c:126
+#, c-format
+msgid "Checksum field %s not found in map.\n"
+msgstr "Kontrollsummenfeld %s nicht in der Zielzuordnung gefunden.\n"
+
+#: src/custom_post_process.c:131
+#, c-format
+msgid "Checksum field %s has %zu bytes, expected %zu.\n"
+msgstr "Kontrollsummenfeld %s hat %zu Bytes, %zu erwartet. \n"
+
+#: src/custom_post_process.c:148
+#, c-format
+msgid "CORRECT checksum %08<PRIX32> in field %s.\n"
+msgstr "KORREKTE Kontrollsumme %08<PRIX32> im Feld %s.\n"
+
+#: src/custom_post_process.c:152
+#, c-format
+msgid "WRONG checksum %08<PRIX32> in field %s, expected %08<PRIX32>.\n"
+msgstr "KORREKTE Kontrollsumme %08<PRIX32> im Feld %s, %08<PRIX32> erwartet.\n"
+
+#: src/custom_post_process.c:161
+#, c-format
+msgid "Failed to update checksum field %s to %08<PRIX32>.\n"
+msgstr ""
+"Fehler beim Aktualisieren des Kontrollsummenfelds %s auf %08<PRIX32>.\n"
+
+#: src/custom_post_process.c:165
+#, c-format
+msgid "Updated checksum field %s to %08<PRIX32>.\n"
+msgstr "Kontrollsummenfeld %s auf %08<PRIX32> aktualisiert.\n"
 
 #: src/field_print.c:62
 #, c-format
@@ -429,6 +460,11 @@ msgstr "Feld nicht gefunden"
 #, c-format
 msgid "Unable to parse override `%.*s' (%s)\n"
 msgstr "Kann Zuweisung '%.*s' nicht parsen (%s)\n"
+
+#: src/post_process.c:58
+#, c-format
+msgid "Post-processors modified %d fields.\n"
+msgstr "Post-Prozessoren haben %d Felder geändert.\n"
 
 #: src/print_symbols.c:64
 #, c-format
