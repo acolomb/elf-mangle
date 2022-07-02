@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: elf-mangle 0.6\n"
 "Report-Msgid-Bugs-To: src@andre.colomb.de\n"
 "POT-Creation-Date: 2022-07-03 00:50+0200\n"
-"PO-Revision-Date: 2022-07-03 01:03+0200\n"
+"PO-Revision-Date: 2022-07-03 01:29+0200\n"
 "Last-Translator: Andre Colomb <acolomb@schickhardt.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -100,33 +100,32 @@ msgstr "Optionen spezifisch für Beispiel:"
 #: src/custom_post_process.c:126
 #, c-format
 msgid "Checksum field %s not found in map.\n"
-msgstr "Kontrollsummenfeld %s nicht in der Zielzuordnung gefunden.\n"
+msgstr "Prüfsummenfeld %s nicht in der Zielzuordnung gefunden.\n"
 
 #: src/custom_post_process.c:131
 #, c-format
 msgid "Checksum field %s has %zu bytes, expected %zu.\n"
-msgstr "Kontrollsummenfeld %s hat %zu Bytes, %zu erwartet. \n"
+msgstr "Prüfsummenfeld %s hat %zu Bytes, %zu erwartet. \n"
 
 #: src/custom_post_process.c:148
 #, c-format
 msgid "CORRECT checksum %08<PRIX32> in field %s.\n"
-msgstr "KORREKTE Kontrollsumme %08<PRIX32> im Feld %s.\n"
+msgstr "KORREKTE Prüfsumme %08<PRIX32> im Feld %s.\n"
 
 #: src/custom_post_process.c:152
 #, c-format
 msgid "WRONG checksum %08<PRIX32> in field %s, expected %08<PRIX32>.\n"
-msgstr "KORREKTE Kontrollsumme %08<PRIX32> im Feld %s, %08<PRIX32> erwartet.\n"
+msgstr "KORREKTE Prüfsumme %08<PRIX32> im Feld %s, %08<PRIX32> erwartet.\n"
 
 #: src/custom_post_process.c:161
 #, c-format
 msgid "Failed to update checksum field %s to %08<PRIX32>.\n"
-msgstr ""
-"Fehler beim Aktualisieren des Kontrollsummenfelds %s auf %08<PRIX32>.\n"
+msgstr "Fehler beim Aktualisieren des Prüfsummenfelds %s auf %08<PRIX32>.\n"
 
 #: src/custom_post_process.c:165
 #, c-format
 msgid "Updated checksum field %s to %08<PRIX32>.\n"
-msgstr "Kontrollsummenfeld %s auf %08<PRIX32> aktualisiert.\n"
+msgstr "Prüfsummenfeld %s auf %08<PRIX32> aktualisiert.\n"
 
 #: src/field_print.c:62
 #, c-format
