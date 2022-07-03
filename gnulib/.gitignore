@@ -22,9 +22,6 @@
 /basename-lgpl.c
 /basename-lgpl.h
 /c++defs.h
-/dirname.h
-/dirname-lgpl.c
-/dosname.h
 /errno.in.h
 /filename.h
 /float.c
@@ -82,7 +79,6 @@
 /string.in.h
 /strings.h
 /strings.in.h
-/stripslash.c
 /strncasecmp.c
 /strndup.c
 /strnlen.c
