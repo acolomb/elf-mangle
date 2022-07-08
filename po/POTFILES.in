@@ -1,6 +1,7 @@
 # List of source files which contain translatable strings.
 src/custom_known_fields.c
 src/custom_options.c
+src/custom_post_process.c
 src/field_print.c
 src/find_string.c
 src/image_formats.c
@@ -12,6 +13,7 @@ src/nvm_field.c
 src/options_elf-mangle.c
 src/options_lpstrings.c
 src/override.c
+src/post_process.c
 src/print_symbols.c
 src/symbol_map.c
 src/transform.c

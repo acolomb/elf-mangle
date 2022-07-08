@@ -17,7 +17,7 @@
 # <http://www.gnu.org/licenses/>.
 
 
-AC_INIT([elf-mangle], [0.6.2], [src@andre.colomb.de])
+AC_INIT([elf-mangle],[0.6.2],[src@andre.colomb.de])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src/elf-mangle.c])
 AC_CONFIG_AUX_DIR([.])
@@ -26,7 +26,7 @@ AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 
 # Checks for programs.
 AC_USE_SYSTEM_EXTENSIONS
-AC_PROG_CC_C99
+AC_PROG_CC
 
 # Use GNU Gnulib if required macros are present
 m4_ifdef([gl_EARLY],
@@ -168,6 +168,20 @@ AC_ARG_ENABLE([custom-fields],
    [custom_fields=no])
 AC_MSG_RESULT([${custom_fields}])
 AM_CONDITIONAL([CUSTOM_FIELDS], [test "x$custom_fields" = xyes])
+
+
+AC_MSG_CHECKING([whether extension module for custom post-processors should be built])
+AC_ARG_ENABLE([custom-post-process],
+   [AS_HELP_STRING([--enable-custom-post-process],
+       [Build extension module with custom post-processors])],
+   [AS_CASE([$enableval],
+       [yes], [custom_post_process=yes],
+       [no],  [custom_post_process=no],
+       [AC_MSG_ERROR([bad value ${enableval} for --enable-custom-post-process])])
+   ],
+   [custom_post_process=no])
+AC_MSG_RESULT([${custom_post_process}])
+AM_CONDITIONAL([CUSTOM_POST_PROCESS], [test "x$custom_post_process" = xyes])
 
 
 # Ouput definitions
