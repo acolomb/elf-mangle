@@ -1,3 +1,12 @@
+2022-07-08  André Colomb  <src@andre.colomb.de>
+
+	* Add facility to implement custom post-processors on the output
+	image data, with the ability to further modify contained fields.
+	* Implement an example post-processor to calculate and store a CRC
+	checksum over the binary data.
+
+	* Release version 1.0
+
 2021-11-15  André Colomb  <src@andre.colomb.de>
 
 	* Update pointers to available libelf implementations.
