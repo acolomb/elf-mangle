@@ -54,18 +54,18 @@ int symbol_map_parse(
 ///@brief Access the source's binary data
 ///@return Address of the binary data or NULL on error
 char* symbol_map_blob_address(
-    nvm_symbol_map_source *source	///< [in,out] Handle of the map source
+    const nvm_symbol_map_source *source	///< [in,out] Handle of the map source
 );
 
 ///@brief Check the size of the source's binary data
 ///@return Size of binary data or zero on error
 size_t symbol_map_blob_size(
-    nvm_symbol_map_source *source	///< [in,out] Handle of the map source
+    const nvm_symbol_map_source *source	///< [in,out] Handle of the map source
 );
 
 ///@brief Print out the size of the source's binary data
 void symbol_map_print_size(
-    nvm_symbol_map_source *source,	///< [in] Handle of the map source
+    const nvm_symbol_map_source *source,///< [in] Handle of the map source
     int parseable			///< [in] Avoid localized output
 );
 
