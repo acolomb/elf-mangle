@@ -106,6 +106,13 @@ print_symbol_iterator(
     const void *arg)		///< [in] Display configuration flags
 {
     const struct print_symbols_config *conf = arg;
+    int r;
+
+    if (conf->field & showFilterChanged && symbol->original_value) {
+	r = memcmp(symbol->blob_address, symbol->original_value, symbol->size);
+	// Skip output if unchanged from original value
+	if (! r) return NULL;	//continue iterating
+    }
 
     print_symbol_description_iterator(symbol, &conf->field);
     print_symbol_content_iterator(symbol, &conf->content);

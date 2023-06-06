@@ -148,9 +148,10 @@ static int
 parse_elf_symbols(
     Elf *elf,			///< [in] Elf object handle
     Elf_Scn *symtab,		///< [in] Section handle for the symbol table
-    size_t strings_index,	///< [in] Number of the string table section
+    const size_t strings_index,	///< [in] Number of the string table section
     Elf_Scn *section,		///< [in] Section handle for the requested data section
-    GElf_Shdr *header,		///< [out] Section header of the requested data section
+    const GElf_Shdr *header,	///< [in] Section header of the requested data section
+    const int save_values,	///< [in] Need a separate copy of the original content value?
     nvm_symbol **symbol_list,	///< [out] List of discovered symbols
     char *blob_data)		///< [out] Binary data contained in ELF section
 {
@@ -158,6 +159,7 @@ parse_elf_symbols(
     Elf_Data *symtab_data, *section_data;
     GElf_Sym sym;
     nvm_symbol *current;
+    void *copy = NULL;
 
     // Require both output arguments
     if (! symbol_list || ! blob_data) return -1;
@@ -186,6 +188,12 @@ parse_elf_symbols(
 	current->offset = sym.st_value - header->sh_addr;
 	current->size = sym.st_size;
 	current->blob_address = blob_data + current->offset;
+	if (! save_values) current->original_value = NULL;
+	else {
+	    copy = malloc(sym.st_size);
+	    if (copy) current->original_value = memcpy(
+		copy, current->blob_address, sym.st_size);
+	}
 	current->field = find_known_field(elf_strptr(elf, strings_index, sym.st_name));
 	// Look up field in case it was found during previous parsing
 	if (! current->field) current->field = field_list_find(
@@ -249,7 +257,8 @@ symbol_map_open_file(const char *filename)
 int
 symbol_map_parse(nvm_symbol_map_source *source,
 		 const char *section_name,
-		 nvm_symbol **symbol_list)
+		 nvm_symbol **symbol_list,
+		 int save_values)
 {
     size_t string_index = 0;
     Elf_Scn *symtab, *section;
@@ -264,7 +273,7 @@ symbol_map_parse(nvm_symbol_map_source *source,
     if (! allocate_blob(source, &header)) return -3;
 
     return parse_elf_symbols(source->elf, symtab, string_index,
-			     section, &header,
+			     section, &header, save_values,
 			     symbol_list, source->blob);
 }
 

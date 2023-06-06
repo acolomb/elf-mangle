@@ -38,6 +38,7 @@ enum show_field {
     showSymbolDefine	= 16,	///< One-line "symbol_name=" prefix, machine-parseable
     showByteSize	= 4,	///< Add symbol size in bytes
     showAddress		= 8,	///< Add symbol address within blob
+    showFilterChanged	= 32,	///< Show only fields differing from input map
     /// Default configuration
     showDefault		= showAny | showDescription,
     /// All available information
@@ -46,6 +47,8 @@ enum show_field {
     showDump		= showAny | showSymbol | showByteSize | showAddress,
     /// Single-line machine parseable
     showDefines		= showAny | showSymbolDefine,
+    /// Only differing symbols in single-line machine parseable format
+    showDefinesDiff	= showDefines | showFilterChanged,
 };
 
 /// Options controlling the display of interpreted contents
