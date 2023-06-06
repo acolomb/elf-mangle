@@ -49,6 +49,21 @@ symbol_list_append(nvm_symbol *(list[]), int *size)
 
 
 
+void
+symbol_list_free(nvm_symbol list[], const int size)
+{
+    nvm_symbol *sym;
+
+    if (! list || ! size) return;
+
+    for (sym = list; sym < list + size; ++sym) {
+	free((void*) sym->original_value);
+	sym->original_value = NULL;
+    }
+}
+
+
+
 const nvm_symbol*
 symbol_list_foreach(const nvm_symbol list[], const int size,
 		    const symbol_list_iterator_f func, const void *arg)

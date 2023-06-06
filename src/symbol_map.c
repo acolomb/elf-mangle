@@ -186,6 +186,7 @@ parse_elf_symbols(
 	current->offset = sym.st_value - header->sh_addr;
 	current->size = sym.st_size;
 	current->blob_address = blob_data + current->offset;
+	current->original_value = NULL;
 	current->field = find_known_field(elf_strptr(elf, strings_index, sym.st_name));
 	// Look up field in case it was found during previous parsing
 	if (! current->field) current->field = field_list_find(
