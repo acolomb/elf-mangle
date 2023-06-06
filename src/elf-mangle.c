@@ -54,7 +54,8 @@ process_maps(const tool_config *config)
 
     // Read input symbol layout and associated image data
     map_in = symbol_map_open_file(config->map_files[0]);
-    num_in = symbol_map_parse(map_in, config->section, &symbols_in);
+    num_in = symbol_map_parse(map_in, config->section, &symbols_in,
+			      config->show_fields & showFilterChanged);
     if ((symbols_in && num_in > 0)		//input map loaded
 	&& (! config->image_in			//no input image
 	    || 0 < image_merge_file(		//input image loaded
@@ -68,7 +69,7 @@ process_maps(const tool_config *config)
 
 	// Translate data from input to output layout if supplied
 	map_out = symbol_map_open_file(config->map_files[1]);
-	num_out = symbol_map_parse(map_out, config->section, &symbols_out);
+	num_out = symbol_map_parse(map_out, config->section, &symbols_out, 0);
 	if (symbols_out && num_out > 0) {
 	    map_write = map_out;
 	    transfer_fields(symbols_in, num_in, symbols_out, num_out);
@@ -94,6 +95,7 @@ process_maps(const tool_config *config)
 	ret_code = num_in;	//propagate error code or no symbols
     }
 
+    symbol_list_free(symbols_in, num_in);
     free(symbols_in);
     if (symbols_in != symbols_out) free(symbols_out);
 

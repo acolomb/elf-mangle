@@ -48,7 +48,8 @@ nvm_symbol_map_source* symbol_map_open_file(
 int symbol_map_parse(
     nvm_symbol_map_source *source,	///< [in,out] Handle of the map source
     const char *section_name,		///< [in] Section within the source to parse
-    nvm_symbol **symbol_list		///< [out] List of symbols found
+    nvm_symbol **symbol_list,		///< [out] List of symbols found
+    int save_values			///< [in] Need separate copies of the original values?
 );
 
 ///@brief Access the source's binary data
