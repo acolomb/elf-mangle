@@ -148,9 +148,9 @@ static int
 parse_elf_symbols(
     Elf *elf,			///< [in] Elf object handle
     Elf_Scn *symtab,		///< [in] Section handle for the symbol table
-    size_t strings_index,	///< [in] Number of the string table section
+    const size_t strings_index,	///< [in] Number of the string table section
     Elf_Scn *section,		///< [in] Section handle for the requested data section
-    GElf_Shdr *header,		///< [out] Section header of the requested data section
+    const GElf_Shdr *header,	///< [in] Section header of the requested data section
     nvm_symbol **symbol_list,	///< [out] List of discovered symbols
     char *blob_data)		///< [out] Binary data contained in ELF section
 {
