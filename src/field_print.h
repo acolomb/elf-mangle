@@ -37,6 +37,12 @@ void print_hex_dump(
     size_t size			///< [in] Size of data block in bytes
 );
 
+///@brief Output data block as a string of hexadecimal byte values
+void print_hex_string(
+    const char *data,		///< [in] Start address of data block
+    size_t size			///< [in] Actual size of data block in bytes
+);
+
 ///@brief Pretty-print data block according to field description
 void print_field(
     const nvm_field *field,	///< [in] Field descriptor

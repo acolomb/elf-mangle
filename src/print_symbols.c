@@ -58,10 +58,13 @@ print_symbol_description_iterator(
     const enum show_field *conf = arg;
 
     if (*conf & showAddress) printf("[%04zx]\t", symbol->offset);
-    if ((*conf & showSymbol) ||
-	(! symbol->field->description)) printf("%s:", symbol->field->symbol);
-    else printf("%s:", _(symbol->field->description));
-    if (*conf & showByteSize) printf(_(" %zu bytes"), symbol->size);
+    if (*conf & showSymbolDefine) printf("%s=", symbol->field->symbol);
+    else {
+	if ((*conf & showSymbol) ||
+	    (! symbol->field->description)) printf("%s:", symbol->field->symbol);
+	else printf("%s:", _(symbol->field->description));
+	if (*conf & showByteSize) printf(_(" %zu bytes"), symbol->size);
+    }
     if (DEBUG) printf(" %p", symbol->blob_address);
 
     return NULL;	//continue iterating
@@ -83,6 +86,9 @@ print_symbol_content_iterator(
     case printHex:	field.print_func = print_hex_dump;	break;
     case printNone:	field.print_func = NULL;		break;
     case printPretty:	break;
+    case printDefines:
+	print_hex_string(symbol->blob_address, symbol->size);
+	return NULL;	//continue iterating
     default:		break;
     }
     print_field(&field, symbol->blob_address, symbol->size);

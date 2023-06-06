@@ -35,6 +35,7 @@ enum show_field {
     showAny		= 1,	///< Dummy value to distinguish 'no flags' from showNone
     showDescription	= 0,	///< Default is to show description
     showSymbol		= 2,	///< Show symbol name instead of field description
+    showSymbolDefine	= 16,	///< One-line "symbol_name=" prefix, machine-parseable
     showByteSize	= 4,	///< Add symbol size in bytes
     showAddress		= 8,	///< Add symbol address within blob
     /// Default configuration
@@ -43,6 +44,8 @@ enum show_field {
     showAll		= showAny | showByteSize | showAddress,
     /// Most interesting for programmers
     showDump		= showAny | showSymbol | showByteSize | showAddress,
+    /// Single-line machine parseable
+    showDefines		= showAny | showSymbolDefine,
 };
 
 /// Options controlling the display of interpreted contents
@@ -50,6 +53,7 @@ enum print_content {
     printNone		= 0,	///< No output
     printPretty		= 1,	///< Field-specific interpretation
     printHex		= 2,	///< Generic hex dump of byte stream
+    printDefines	= 4,	///< One-line hex dump, machine-parseable
 };
 
 ///@brief Print out the listed symbols according to configuration flags

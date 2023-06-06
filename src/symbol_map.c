@@ -271,7 +271,7 @@ symbol_map_parse(nvm_symbol_map_source *source,
 
 
 char*
-symbol_map_blob_address(nvm_symbol_map_source *source)
+symbol_map_blob_address(const nvm_symbol_map_source *source)
 {
     if (! source) return NULL;
     return source->blob;
@@ -280,7 +280,7 @@ symbol_map_blob_address(nvm_symbol_map_source *source)
 
 
 size_t
-symbol_map_blob_size(nvm_symbol_map_source *source)
+symbol_map_blob_size(const nvm_symbol_map_source *source)
 {
     if (! source) return 0;
     return source->blob_size;
@@ -288,8 +288,9 @@ symbol_map_blob_size(nvm_symbol_map_source *source)
 
 
 
-void symbol_map_print_size(nvm_symbol_map_source *source,
-			   int parseable)
+void
+symbol_map_print_size(const nvm_symbol_map_source *source,
+		      int parseable)
 {
     printf(parseable ? "total: %zu bytes\n" : _("Section image size: %zu bytes\n"),
 	   symbol_map_blob_size(source));
