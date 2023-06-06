@@ -42,6 +42,7 @@
 #define OPT_IN_FORMAT		'I'
 #define OPT_OUT_FORMAT		'O'
 #define OPT_DEFINE		'D'
+#define OPT_DEFS_FROM		'f'
 #define OPT_STRINGS		'l'
 #define OPT_PRINT		'p'
 #define OPT_ADDRESSES		'a'
@@ -87,6 +88,11 @@ static const struct argp_option options[] = {
 	 "Each FIELD symbol name must be followed by an equal sign and the data"
 	 " BYTES encoded in hexadecimal.  Missing bytes are left unchanged,"
 	 " extra data generates an error."),			0 },
+    { "define-from",	OPT_DEFS_FROM,	N_("FILE"),		0,
+      N_("Read override field=value pairs from FILE.\n"
+	 "Like the --define option, but accepts pairs separated"
+	 " by comma or newlines.  If FILE is -, the list will be read"
+	 " from standard input."),				0 },
 
     { NULL,		0,		NULL,			0,
       N_("Display information from parsed files:"),		0 },
@@ -176,6 +182,10 @@ parse_opt(
 
     case OPT_DEFINE:
 	tool->overrides = override_append(tool->overrides, "%s", arg);
+	break;
+
+    case OPT_DEFS_FROM:
+	tool->overrides_file = arg;
 	break;
 
     case OPT_STRINGS:
