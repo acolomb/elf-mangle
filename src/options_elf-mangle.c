@@ -91,7 +91,7 @@ static const struct argp_option options[] = {
       N_("Display information from parsed files:"),		0 },
     { "print",		OPT_PRINT,	N_("FORMAT"),		OPTION_ARG_OPTIONAL,
       N_("Print field values.  FORMAT can be either  \"pretty\" (default),"
-	 " \"hex\", or \"defines\""),				0 },
+	 " \"hex\", \"defines\", or \"defdiff\""),		0 },
     { "addresses",	OPT_ADDRESSES,	NULL,			0,
       N_("Print symbol address for each field"),		0 },
     { "symbols",	OPT_SYMBOLS,	NULL,			0,
@@ -190,6 +190,9 @@ parse_opt(
 	else if (strcmp(arg, "hex") == 0) tool->print_content = printHex;
 	else if (strcmp(arg, "defines") == 0) {
 	    tool->show_fields = showDefines;
+	    tool->print_content = printDefines;
+	} else if (strcmp(arg, "defdiff") == 0) {
+	    tool->show_fields = showDefinesDiff;
 	    tool->print_content = printDefines;
 	} else argp_error(state, _("Unknown print format `%s' specified."), arg);
 	break;
