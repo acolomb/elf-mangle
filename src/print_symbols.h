@@ -56,7 +56,7 @@ enum print_content {
     printNone		= 0,	///< No output
     printPretty		= 1,	///< Field-specific interpretation
     printHex		= 2,	///< Generic hex dump of byte stream
-    printDefines	= 4,	///< One-line hex dump, machine-parseable
+    printDefines	= 3,	///< One-line hex dump, machine-parseable
 };
 
 ///@brief Print out the listed symbols according to configuration flags

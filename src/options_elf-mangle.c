@@ -47,6 +47,7 @@
 #define OPT_ADDRESSES		'a'
 #define OPT_SYMBOLS		'S'
 #define OPT_FIELD_SIZE		'F'
+#define OPT_CHANGED		'c'
 #define OPT_SECTION_SIZE	's'
 ///@}
 
@@ -91,13 +92,15 @@ static const struct argp_option options[] = {
       N_("Display information from parsed files:"),		0 },
     { "print",		OPT_PRINT,	N_("FORMAT"),		OPTION_ARG_OPTIONAL,
       N_("Print field values.  FORMAT can be either  \"pretty\" (default),"
-	 " \"hex\", \"defines\", or \"defdiff\""),		0 },
+	 " \"hex\", or \"defines\""),				0 },
     { "addresses",	OPT_ADDRESSES,	NULL,			0,
       N_("Print symbol address for each field"),		0 },
     { "symbols",	OPT_SYMBOLS,	NULL,			0,
       N_("Show object symbol names instead of field decriptions"), 0 },
     { "field-size",	OPT_FIELD_SIZE,	NULL,			0,
       N_("Print size in bytes for each field"),			0 },
+    { "changed",	OPT_CHANGED,	NULL,			0,
+      N_("Print only symbols differing from input map"),	0 },
     { "section-size",	OPT_SECTION_SIZE,	NULL,		0,
       N_("Print size in bytes for the whole image"),		0 },
     { "strings",	OPT_STRINGS,	N_("MIN-LEN"),		OPTION_ARG_OPTIONAL,
@@ -189,10 +192,7 @@ parse_opt(
 	if (arg == NULL || strcmp(arg, "pretty") == 0) tool->print_content = printPretty;
 	else if (strcmp(arg, "hex") == 0) tool->print_content = printHex;
 	else if (strcmp(arg, "defines") == 0) {
-	    tool->show_fields = showDefines;
-	    tool->print_content = printDefines;
-	} else if (strcmp(arg, "defdiff") == 0) {
-	    tool->show_fields = showDefinesDiff;
+	    tool->show_fields |= showDefines;
 	    tool->print_content = printDefines;
 	} else argp_error(state, _("Unknown print format `%s' specified."), arg);
 	break;
@@ -207,6 +207,10 @@ parse_opt(
 
     case OPT_FIELD_SIZE:
 	tool->show_fields |= showByteSize;
+	break;
+
+    case OPT_CHANGED:
+	tool->show_fields |= showFilterChanged;
 	break;
 
     case OPT_SECTION_SIZE:
