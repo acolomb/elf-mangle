@@ -120,25 +120,41 @@ parse_hex_bytes(
 
 
 
-int
-parse_overrides(char *overrides, const nvm_symbol *list, int size)
+///@brief Mirror token list from known symbols for usage with getsubopt()
+///@return Negative on error, number of filled symbol strings otherwise
+static inline int
+cache_symbols_for_getsubopt(
+    const nvm_symbol *list,	///< [in] List of symbols to apply overrides
+    const int size,		///< [in] Number of symbols in the list
+    const char* symbols[])	///< [out] Cached list of symbols, MUST have (size+1) elements!
 {
-    char *substart, *subopt, *value;
-    const char* symbols[size + 1], *errmsg;
-    int i, parsed = 0, length;
+    int i;
 
-    if (! overrides || ! list) return -1;
-    if (DEBUG) printf(_("%s: \"%s\"\n"), __func__, overrides);
-
-    // Mirror token list from known symbols
     for (i = 0; i < size; ++i) {
 	if (list[i].field) symbols[i] = list[i].field->symbol;
 	else {
-	    fprintf(stderr, _("Missing symbol name in list member %d\n"), i);
+	    fprintf(stderr, _("%s: Missing symbol name in list member %d\n"), __func__, i);
 	    return -2;
 	}
     }
     symbols[i] = NULL;	//termination
+
+    return i;
+}
+
+
+
+/// Apply override specification string to the listed symbols' data
+static int
+parse_overrides_cached(
+    char* restrict overrides,	///< [in] @sa parse_overrides()
+    const nvm_symbol* restrict list,	///< [in] @sa parse_overrides()
+    const int size,		///< [in] @sa parse_overrides()
+    const char* symbols[])	///< [in] Cached list of symbols, NULL-terminated
+{
+    char *substart, *subopt, *value;
+    const char *errmsg;
+    int i, parsed = 0, length;
 
     subopt = overrides;
     while (*subopt != '\0') {
@@ -156,6 +172,21 @@ parse_overrides(char *overrides, const nvm_symbol *list, int size)
 		(int) (subopt - substart), substart , errmsg);
     }
     return parsed;
+}
+
+
+
+int
+parse_overrides(char* restrict overrides, const nvm_symbol* restrict list, const int size)
+{
+    const char* symbols[size + 1];
+
+    if (! overrides || ! list) return -1;
+    if (DEBUG) printf(_("%s: \"%s\"\n"), __func__, overrides);
+
+    if (cache_symbols_for_getsubopt(list, size, symbols) < 0) return -2;
+
+    return parse_overrides_cached(overrides, list, size, symbols);
 }
 
 
