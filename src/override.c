@@ -176,11 +176,11 @@ main(void)
 	{ .symbol = "e" },
     };
     nvm_symbol symbols[] = {
-	{ 0, sizeof(CONVERT), buf, &fields[0] },
-	{ 0, sizeof(CONVERT), buf, &fields[1] },
-	{ 0, sizeof(CONVERT), buf, &fields[2] },
-	{ 0, sizeof(CONVERT), buf, &fields[3] },
-	{ 0, sizeof(CONVERT), buf, &fields[4] },
+	{ 0, sizeof(CONVERT), buf, 0, &fields[0] },
+	{ 0, sizeof(CONVERT), buf, 0, &fields[1] },
+	{ 0, sizeof(CONVERT), buf, 0, &fields[2] },
+	{ 0, sizeof(CONVERT), buf, 0, &fields[3] },
+	{ 0, sizeof(CONVERT), buf, 0, &fields[4] },
     };
 
 
