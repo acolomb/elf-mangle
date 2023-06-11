@@ -44,4 +44,14 @@ int parse_overrides(
     int size			///< [in] Number of symbols in the list
 );
 
+///@brief Apply override specifications from file to the listed symbols' data
+///@details Override definitions are parsed as whole lines of text, but several can
+///         be listed comma-separated within one line.
+///@return Number of overrides successfully parsed or negative number for parameter error
+int parse_override_file(
+    const char *filename,	///< [in] Override specification file name
+    const nvm_symbol *list,	///< [in] List of symbols to apply overrides
+    int size			///< [in] Number of symbols in the list
+);
+
 #endif //OVERRIDE_H_

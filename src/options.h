@@ -61,6 +61,8 @@ typedef struct tool_config {
     enum print_content	print_content;
     /// Override specification, comma-separated "field=<hexbytes>" pairs
     char*		overrides;	///<@note Must be a heap address valid for free()
+    /// Override specification file to read from
+    char*		overrides_file;
 } tool_config;
 
 

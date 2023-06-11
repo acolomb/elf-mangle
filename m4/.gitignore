@@ -11,6 +11,8 @@
 /fcntl-o.m4
 /float_h.m4
 /free.m4
+/getdelim.m4
+/getline.m4
 /getopt.m4
 /getsubopt.m4
 /gettext.m4
