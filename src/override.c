@@ -191,6 +191,62 @@ parse_overrides(char* restrict overrides, const nvm_symbol* restrict list, const
 
 
 
+///@brief Apply override specifications from file to the listed symbols' data
+///@return Number of overrides successfully parsed or negative number for parameter error
+static int
+parse_file(
+    FILE* restrict in,		///< [in] Stream opened for reading
+    const nvm_symbol* restrict list,	///< [in] @sa parse_overrides()
+    const int size)		///< [in] @sa parse_overrides()
+{
+    char *line = NULL;
+    const char* symbols[size + 1];
+    int ret = 0, parsed = 0;
+    size_t length = 0;
+    ssize_t consumed;
+
+    if (! in || ! list) return -1;
+
+    if (cache_symbols_for_getsubopt(list, size, symbols) < 0) return -2;
+
+    while ((consumed = getline(&line, &length, in)) != -1) {
+	if (DEBUG) printf("Processing line of %zu characters\n", consumed);
+	ret = parse_overrides_cached(line, list, size, symbols);
+	if (ret < 0) break;
+	parsed += ret;
+    }
+    free(line);
+
+    if (ret < 0) return ret;
+    if (DEBUG) printf(_("Found %d symbol assignments.\n"), parsed);
+
+    return parsed;
+}
+
+
+
+int
+parse_override_file(const char *filename, const nvm_symbol *list, int size)
+{
+    FILE* restrict in;
+    int parsed = 0;
+
+    if (! filename || ! list) return -1;
+    if (DEBUG) printf(_("%s: \"%s\"\n"), __func__, filename);
+
+    if (strcmp(filename, "-") == 0) in = stdin;
+    else in = fopen(filename, "r");
+    if (! in) {
+	fprintf(stderr, _("Cannot open override file \"%s\" (%s)\n"), filename, strerror(errno));
+    } else {
+	parsed = parse_file(in, list, size);
+	if (in != stdin) fclose(in);
+    }
+    return parsed;
+}
+
+
+
 #ifdef TEST_OVERRIDES
 int
 main(void)
