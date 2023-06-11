@@ -249,7 +249,7 @@ parse_override_file(const char *filename, const nvm_symbol *list, int size)
 
 #ifdef TEST_OVERRIDES
 int
-main(void)
+main(int argc, char **argv)
 {
 #define CONVERT	"BeeF"
     const char hexbytes[] = "4265 65  464F"; //BeeFO
@@ -291,6 +291,12 @@ main(void)
     printf("Parsed %d overrides.\n", parsed);
 
     free(overrides);
+
+    if (argc < 2) return 0;
+
+    parsed = parse_override_file(argv[1], symbols, sizeof(symbols) / sizeof(*symbols));
+    printf("Parsed %d overrides from file.\n", parsed);
+
     return 0;
 }
 #endif
