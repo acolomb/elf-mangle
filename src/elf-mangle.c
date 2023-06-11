@@ -79,8 +79,10 @@ process_maps(const tool_config *config)
 	    symbols_out = symbols_in;
 	    num_out = num_in;
 	}
-	// Incorporate symbol overrides
-	parse_overrides(config->overrides, symbols_out, num_out);	//FIXME
+	// Incorporate symbol overrides from file
+	parse_override_file(config->overrides_file, symbols_out, num_out);	//FIXME retval
+	// Incorporate other symbol overrides
+	parse_overrides(config->overrides, symbols_out, num_out);	//FIXME retval
 	// Let any custom post-processors scan and manipulate the blob content
 	post_process_image(symbol_map_blob_address(map_write), symbol_map_blob_size(map_write),
 			   symbols_out, num_out);
