@@ -57,7 +57,6 @@ field_list_find(const char *symbol, const nvm_field_list *list)
 	comp = strcmp(entry->field.symbol, symbol);
 	if (DEBUG) printf("%s: (%s; %s) = %d\n", __func__, entry->field.symbol, symbol, comp);
 	if (comp == 0) return &entry->field;
-	else if (comp > 0) break;
     }
     return NULL;
 }
