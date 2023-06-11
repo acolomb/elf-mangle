@@ -50,7 +50,7 @@ process_maps(const tool_config *config)
 {
     nvm_symbol_map_source *map_in = NULL, *map_out = NULL, *map_write = NULL;
     nvm_symbol *symbols_in = NULL, *symbols_out = NULL;
-    int num_in, num_out, ret_code = 0;
+    int num_in, num_out = 0, ret_code = 0;
 
     // Read input symbol layout and associated image data
     map_in = symbol_map_open_file(config->map_files[0]);
@@ -69,7 +69,8 @@ process_maps(const tool_config *config)
 
 	// Translate data from input to output layout if supplied
 	map_out = symbol_map_open_file(config->map_files[1]);
-	num_out = symbol_map_parse(map_out, config->section, &symbols_out, 0);
+	num_out = symbol_map_parse(map_out, config->section, &symbols_out,
+				   config->show_fields & showFilterChanged);
 	if (symbols_out && num_out > 0) {
 	    map_write = map_out;
 	    transfer_fields(symbols_in, num_in, symbols_out, num_out);
@@ -97,7 +98,10 @@ process_maps(const tool_config *config)
 
     symbol_list_free(symbols_in, num_in);
     free(symbols_in);
-    if (symbols_in != symbols_out) free(symbols_out);
+    if (symbols_in != symbols_out) {
+	symbol_list_free(symbols_out, num_out);
+	free(symbols_out);
+    }
 
     symbol_map_close(map_in);
     symbol_map_close(map_out);
