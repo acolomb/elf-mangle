@@ -160,6 +160,7 @@ parse_elf_symbols(
     GElf_Sym sym;
     nvm_symbol *current;
     void *copy = NULL;
+    const char *name;
 
     // Require both output arguments
     if (! symbol_list || ! blob_data) return -1;
@@ -194,14 +195,12 @@ parse_elf_symbols(
 	    if (copy) current->original_value = memcpy(
 		copy, current->blob_address, sym.st_size);
 	}
-	current->field = find_known_field(elf_strptr(elf, strings_index, sym.st_name));
+	name = elf_strptr(elf, strings_index, sym.st_name);
+	current->field = find_known_field(name);
 	// Look up field in case it was found during previous parsing
-	if (! current->field) current->field = field_list_find(
-	    elf_strptr(elf, strings_index, sym.st_name), &fields_unknown);
+	if (! current->field) current->field = field_list_find(name, &fields_unknown);
 	if (! current->field) {		//unknown symbol encountered
-	    current->field = field_list_add(
-		&fields_unknown, sym.st_size,
-		elf_strptr(elf, strings_index, sym.st_name), NULL);
+	    current->field = field_list_add(&fields_unknown, sym.st_size, name, NULL);
 	}
 	// Update symbol size based on content where applicable
 	if (current->field && current->field->expected_size != current->size
