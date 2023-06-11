@@ -44,7 +44,7 @@ nvm_symbol_map_source* symbol_map_open_file(
 ///@return
 /// - Number of symbols parsed successfully
 /// - Zero if no symbols were found
-/// - Negative value on error
+/// - Negative value on error (*symbol_list will be unaltered or NULL)
 int symbol_map_parse(
     nvm_symbol_map_source *source,	///< [in,out] Handle of the map source
     const char *section_name,		///< [in] Section within the source to parse
