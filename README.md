@@ -11,7 +11,7 @@ Author: André Colomb <src@andre.colomb.de>
 License
 -------
 
-Copyright (C) 2014, 2015, 2016  André Colomb
+Copyright (C) 2014, 2015, 2016, 2019, 2021, 2022, 2023  André Colomb
 
 elf-mangle is free software: you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License as published
