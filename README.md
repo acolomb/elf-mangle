@@ -54,11 +54,13 @@ storage layout, and written back to an image file ready for flashing.
 
 
 ### Features ###
+
 + Extract symbol content for arbitrary ELF object file sections.
 + Dump data behind an ELF symbol, possibly with pretty-print function.
 + Show symbol address offsets within the section's binary data.
 + Override data for symbols in output:
   * Specified on the command line
+  * Read from a text file with value assignments
   * Loaded from an existing binary data image (blob)
 + Modular support for different input / output image formats:
   * Intel Hex encoding (requires [libcintelhex][ihex-fork])
@@ -324,6 +326,17 @@ numbers.  Example:
 
 Extra data (more than the symbol's size) is silently ignored.  Fewer
 bytes only override the start of the symbol's content range.
+
+The same field-value pairs can be read from a text file as well, given
+with the `--define-from` option.  The definitions may be separated by
+commas and / or on separate lines.
+
+Directives read from a file are processed first, and possibly
+overridden by matching definitions on the command line.  The
+`--define` options are processed in the order given, so for repeated
+symbol names the last one wins.  Specifying the option repeatedly is
+possible, just as listing several definitions in one argument,
+comma-separated.
 
 
 ### Output Blob ###
