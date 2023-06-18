@@ -255,7 +255,13 @@ function *elf-mangle* has for known symbols (see the section
 "Application Extensions" below for how to use them).  Since by default
 no symbol has a known special meaning, only the symbol names are
 listed.  Use `--print=hex` to generate a hex dump of the data content
-for each symbol.
+for each symbol.  The `--print=defines` variant outputs a format
+suitable for later use with the `--define-from` option (see below).
+
+Optionally the displayed symbol list can be filtered using the
+`--changed` option.  Symbols whose value in the output is unchanged
+from what the ELF file contained, after applying any transformations,
+overrides and post-processing (see below), are skipped from display.
 
 The options `--addresses` and `--field-size` may be used to show
 additional information about the data offset within the section and
@@ -329,7 +335,9 @@ bytes only override the start of the symbol's content range.
 
 The same field-value pairs can be read from a text file as well, given
 with the `--define-from` option.  The definitions may be separated by
-commas and / or on separate lines.
+commas and / or on separate lines.  Files previously written by the
+`--print=defines` option are suitable as input for this, providing an
+easy way of serializing parameters.
 
 Directives read from a file are processed first, and possibly
 overridden by matching definitions on the command line.  The
