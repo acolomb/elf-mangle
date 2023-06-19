@@ -46,7 +46,8 @@ struct nvm_field_list_entry {
 
 
 const nvm_field*
-field_list_find(const char *symbol, const nvm_field_list *list)
+field_list_find(const char* restrict symbol,
+		const nvm_field_list* restrict list)
 {
     field_list_entry *entry;
     int comp;
@@ -65,7 +66,7 @@ field_list_find(const char *symbol, const nvm_field_list *list)
 
 const nvm_field*
 field_list_add(nvm_field_list *list,
-	       size_t expected_size, const char *symbol,
+	       const size_t expected_size, const char *symbol,
 	       const char *description)
 {
     nvm_field *field;

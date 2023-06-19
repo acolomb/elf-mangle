@@ -231,7 +231,7 @@ image_raw_memorize_file(const char *filename,
 
 int
 image_raw_merge_file(const char *filename,
-		     const nvm_symbol list[], int list_size,
+		     const nvm_symbol list[], const int list_size,
 		     size_t blob_size)
 {
     char *mapped = NULL;
@@ -272,8 +272,8 @@ image_raw_merge_file(const char *filename,
 
 
 void
-image_raw_write_file(const char *filename,
-		     const char* blob, size_t blob_size)
+image_raw_write_file(const char* restrict filename,
+		     const char* restrict blob, const size_t blob_size)
 {
     int fd;
     ssize_t bytes_written;

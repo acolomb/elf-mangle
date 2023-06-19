@@ -74,8 +74,8 @@ image_memorize_file(const char *filename,
 
 int
 image_merge_file(const char *filename,
-		 const nvm_symbol *list, int list_size,
-		 size_t blob_size,
+		 const nvm_symbol *list, const int list_size,
+		 const size_t blob_size,
 		 enum image_format format)
 {
     int symbols = 0;
@@ -111,9 +111,9 @@ image_merge_file(const char *filename,
 
 
 void
-image_write_file(const char *filename,
-		 const char* blob, size_t blob_size,
-		 enum image_format format)
+image_write_file(const char* restrict filename,
+		 const char* restrict blob, const size_t blob_size,
+		 const enum image_format format)
 {
     if (! filename || ! blob || ! blob_size) return;
 

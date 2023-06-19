@@ -38,8 +38,8 @@ get_custom_post_processors(void);
 
 
 int
-post_process_image(const char* blob, size_t blob_size,
-		   const nvm_symbol *list, int size)
+post_process_image(const char* blob, const size_t blob_size,
+		   const nvm_symbol *list, const int size)
 {
     const post_process_f *entry;
     int r, modified = 0;

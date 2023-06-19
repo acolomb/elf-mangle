@@ -134,7 +134,7 @@ ihex_write(
 
 void
 image_ihex_write_file(const char* restrict filename,
-		      const char* restrict blob, size_t blob_size)
+		      const char* restrict blob, const size_t blob_size)
 {
     FILE* restrict out;
 
