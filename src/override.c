@@ -110,8 +110,11 @@ parse_hex_bytes(
 	    if (DEBUG) printf("%.*s=%02hhx,\t", converted, start, value);
 	    start += converted;
 	} else {
-	    fprintf(stderr, _("Failed after parsing %d hex bytes with \"%s\" remaining (%s)\n"),
-		    parsed, start, strerror(errno));
+	    // Skip trailing whitespace
+	    while (isspace((unsigned char) *start)) ++start;
+	    if (*start) fprintf(
+		stderr, _("Failed after parsing %d hex bytes with `%s' remaining\n"),
+		parsed, start);
 	    break;
 	}
     }
