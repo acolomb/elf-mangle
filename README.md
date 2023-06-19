@@ -326,7 +326,7 @@ The `--define` option takes a comma-separated list as argument,
 consisting of field-value pairs.  The field is specified by its ELF
 symbol name, followed by an equal sign and as many bytes as should be
 overridden.  The data bytes must be encoded as two-digit hexadecimal
-numbers.  Example:
+numbers, optionally separated by whitespace.  Example:
 
 	elf-mangle --define foo=beef4a11,bar=42
 
