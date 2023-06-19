@@ -183,7 +183,7 @@ parse_elf_symbols(
 	    sym.st_shndx != elf_ndxscn(section) ||		//symbol in wrong section
 	    sym.st_size == 0) continue;				//empty symbol
 	if (symbol_count >= list_size) {	//list is full
-	    if (! symbol_list_append(symbol_list, &list_size)) continue;//FIXME
+	    if (! symbol_list_append(symbol_list, &list_size)) continue;//FIXME abort?
 	}
 	current = (*symbol_list) + symbol_count++;
 	current->offset = sym.st_value - header->sh_addr;
