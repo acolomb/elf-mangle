@@ -54,7 +54,7 @@ symbol_list_free(nvm_symbol list[], const int size)
 {
     nvm_symbol *sym;
 
-    if (! list || ! size) return;
+    if (! list || size <= 0) return;
 
     for (sym = list; sym < list + size; ++sym) {
 	free((void*) sym->original_value);
@@ -70,7 +70,7 @@ symbol_list_foreach(const nvm_symbol list[], const int size,
 {
     const nvm_symbol *sym;
 
-    if (! list || ! size) return NULL;
+    if (! list || size <= 0) return NULL;
 
     for (sym = list; sym < list + size; ++sym) {
 	if (func(sym, arg) != NULL) return sym;
@@ -87,7 +87,7 @@ symbol_list_foreach_count(const nvm_symbol list[], const int size,
     const nvm_symbol *sym;
     int count = 0;
 
-    if (! list || ! size) return 0;
+    if (! list || size <= 0) return 0;
 
     for (sym = list; sym < list + size; ++sym) {
 	if (func(sym, arg) == NULL) ++count;
@@ -111,7 +111,7 @@ find_symbol_iterator_field(
 
 
 const nvm_symbol*
-symbol_list_find_field(const nvm_symbol list[], int size,
+symbol_list_find_field(const nvm_symbol list[], const int size,
 		       const nvm_field *field)
 {
     return symbol_list_foreach(list, size, find_symbol_iterator_field, field);
@@ -133,7 +133,7 @@ find_symbol_iterator_symbol(
 
 
 const nvm_symbol*
-symbol_list_find_symbol(const nvm_symbol list[], int size,
+symbol_list_find_symbol(const nvm_symbol list[], const int size,
 			const char *symbol)
 {
     return symbol_list_foreach(list, size, find_symbol_iterator_symbol, symbol);
