@@ -85,6 +85,9 @@ print_symbol_content_iterator(
     switch (*conf) {
     case printHex:	field.print_func = print_hex_dump;	break;
     case printNone:	field.print_func = NULL;		break;
+    case printPrettyOnly:
+	break;
+
     case printPretty:
 	// Fall back to hex dump for likely unknown fields
 	if (! field.description &&

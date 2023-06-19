@@ -54,9 +54,10 @@ enum show_field {
 /// Options controlling the display of interpreted contents
 enum print_content {
     printNone		= 0,	///< No output
-    printPretty		= 1,	///< Field-specific interpretation
-    printHex		= 2,	///< Generic hex dump of byte stream
-    printDefines	= 3,	///< One-line hex dump, machine-parseable
+    printPretty		= 1,	///< Field-specific interpretation, fallback to hex dump
+    printPrettyOnly	= 2,	///< Field-specific interpretation, no fallback
+    printHex		= 3,	///< Generic hex dump of byte stream
+    printDefines	= 4,	///< One-line hex dump, machine-parseable
 };
 
 ///@brief Print out the listed symbols according to configuration flags
