@@ -43,70 +43,125 @@
 
 
 
+/// Carry out requested actions on final layout according to application arguments
+static inline int
+process_final_map(const tool_config* restrict config,
+		  const nvm_symbol_map_source* restrict map,
+		  const nvm_symbol* restrict symbols,
+		  const int num)
+{
+    int r;
+
+    // Incorporate symbol overrides from file
+    r = config->overrides_file ? parse_override_file(config->overrides_file, symbols, num) : 0;
+    if (r < 0) return r;
+
+    // Incorporate other symbol overrides
+    r = config->overrides ? parse_overrides(config->overrides, symbols, num) : 0;
+    if (r < 0) return r;
+
+    // Let any custom post-processors scan and manipulate the blob content
+    r = post_process_image(symbol_map_blob_address(map), symbol_map_blob_size(map),
+			   symbols, num);
+    if (r < 0) return r;
+
+    // Print out information if requested
+    if (config->show_size) symbol_map_print_size(map, config->show_fields & showSymbol);
+    print_symbol_list(symbols, num, config->show_fields, config->print_content);
+
+    // Store output image to file
+    if (config->image_out) r = image_write_file(
+	config->image_out, symbol_map_blob_address(map), symbol_map_blob_size(map),
+	config->format_out);
+
+    return r;
+}
+
+
+
+/// Adjust for output layout according to application arguments
+static inline int
+process_output_map(const tool_config* restrict config,
+		   const nvm_symbol_map_source* restrict map_in,
+		   const int num_in,
+		   const nvm_symbol* restrict symbols_in)
+{
+    nvm_symbol_map_source *map_out = NULL;
+    nvm_symbol *symbols_out = NULL;
+    int num_out, ret_code;
+
+    if (! config->map_files[1]) {
+	// No valid output map, use same as input
+	return process_final_map(config, map_in, symbols_in, num_in);
+    }
+
+    // Translate data from input to output layout if supplied
+    map_out = symbol_map_open_file(config->map_files[1]);
+    num_out = symbol_map_parse(map_out, config->section, &symbols_out,
+			       config->show_fields & showFilterChanged);
+    if (num_out < 0) return num_out;	//propagate error code
+
+    if (symbols_out) {
+	transfer_fields(symbols_in, num_in, symbols_out, num_out);
+	ret_code = process_final_map(config, map_out, symbols_out, num_out);
+    }
+
+    symbol_list_free(symbols_out, num_out);
+    free(symbols_out);
+
+    return ret_code;
+}
+
+
+
+/// Read and examine blob data from input image according to application arguments
+static inline int
+process_input_image(const tool_config* restrict config,
+		    const nvm_symbol_map_source* restrict map_in,
+		    const nvm_symbol* restrict symbols_in,
+		    const int num_in)
+{
+    int ret_code;
+
+    if (config->image_in) {
+	ret_code = image_merge_file(config->image_in, symbols_in, num_in,
+				    symbol_map_blob_size(map_in), config->format_in);
+	if (ret_code < 0) return ret_code;
+    }
+
+    // Scan for strings if requested (no error potential)
+    if (config->lpstring_min >= 0) nvm_string_list(
+	symbol_map_blob_address(map_in), symbol_map_blob_size(map_in),
+	config->lpstring_min, config->show_fields & showSymbol,
+	NULL);
+
+    ret_code = process_output_map(config, map_in, num_in, symbols_in);
+
+    return ret_code;
+}
+
+
+
 ///@brief Process symbol maps and binary data according to application arguments
 ///@return Zero for success or no symbols, negative on error
 static int
 process_maps(const tool_config *config)
 {
-    nvm_symbol_map_source *map_in = NULL, *map_out = NULL, *map_write = NULL;
-    nvm_symbol *symbols_in = NULL, *symbols_out = NULL;
-    int num_in, num_out = 0, ret_code = 0;
+    nvm_symbol_map_source *map_in = NULL;
+    nvm_symbol *symbols_in = NULL;
+    int num_in, ret_code;
 
     // Read input symbol layout and associated image data
     map_in = symbol_map_open_file(config->map_files[0]);
     num_in = symbol_map_parse(map_in, config->section, &symbols_in,
 			      config->show_fields & showFilterChanged);
-    if ((symbols_in && num_in > 0)		//input map loaded
-	&& (! config->image_in			//no input image
-	    || 0 < image_merge_file(		//input image loaded
-		config->image_in, symbols_in, num_in,
-		symbol_map_blob_size(map_in), config->format_in))) {
-	// Scan for strings if requested
-	if (config->lpstring_min >= 0) nvm_string_list(
-	    symbol_map_blob_address(map_in), symbol_map_blob_size(map_in),
-	    config->lpstring_min, config->show_fields & showSymbol,
-	    NULL);
-
-	// Translate data from input to output layout if supplied
-	map_out = symbol_map_open_file(config->map_files[1]);
-	num_out = symbol_map_parse(map_out, config->section, &symbols_out,
-				   config->show_fields & showFilterChanged);
-	if (symbols_out && num_out > 0) {
-	    map_write = map_out;
-	    transfer_fields(symbols_in, num_in, symbols_out, num_out);
-	} else {	//no valid output map, use same as input
-	    map_write = map_in;
-	    symbols_out = symbols_in;
-	    num_out = num_in;
-	}
-	// Incorporate symbol overrides from file
-	parse_override_file(config->overrides_file, symbols_out, num_out);	//FIXME retval
-	// Incorporate other symbol overrides
-	parse_overrides(config->overrides, symbols_out, num_out);	//FIXME retval
-	// Let any custom post-processors scan and manipulate the blob content
-	post_process_image(symbol_map_blob_address(map_write), symbol_map_blob_size(map_write),
-			   symbols_out, num_out);
-	// Print out information if requested
-	if (config->show_size) symbol_map_print_size(map_write, config->show_fields & showSymbol);
-	print_symbol_list(symbols_out, num_out,
-			  config->show_fields, config->print_content);
-	// Store output image to file
-	if (config->image_out) image_write_file(
-	    config->image_out, symbol_map_blob_address(map_write),
-	    symbol_map_blob_size(map_write), config->format_out);
-    } else {
-	ret_code = num_in;	//propagate error code or no symbols
-    }
+    if (num_in <= 0) ret_code = num_in;	//propagate error code or no symbols
+    else ret_code = process_input_image(config, map_in, symbols_in, num_in);
 
     symbol_list_free(symbols_in, num_in);
     free(symbols_in);
-    if (symbols_in != symbols_out) {
-	symbol_list_free(symbols_out, num_out);
-	free(symbols_out);
-    }
-
     symbol_map_close(map_in);
-    symbol_map_close(map_out);
+
     return ret_code;
 }
 
