@@ -337,7 +337,8 @@ The same field-value pairs can be read from a text file as well, given
 with the `--define-from` option.  The definitions may be separated by
 commas and / or on separate lines.  Files previously written by the
 `--print=defines` option are suitable as input for this, providing an
-easy way of serializing parameters.
+easy way of serializing parameters.  A single dash (`-`) as filename
+specifies reading the definitions from the standard input stream.
 
 Directives read from a file are processed first, and possibly
 overridden by matching definitions on the command line.  The
