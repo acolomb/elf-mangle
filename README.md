@@ -253,9 +253,11 @@ the symbol table and then exits.  To display the symbols found, use
 the `--print` option.  It defaults to `pretty` mode, calling any print
 function *elf-mangle* has for known symbols (see the section
 "Application Extensions" below for how to use them).  Since by default
-no symbol has a known special meaning, only the symbol names are
-listed.  Use `--print=hex` to generate a hex dump of the data content
-for each symbol.  The `--print=defines` variant outputs a format
+no symbol has a known special meaning, it falls back to generating a
+hex dump of the data content for each symbol.  Use `--print=hex` to
+force this hex dump for all symbols, or `--print=pretty-only` to
+suppress the fall-back, instead listing only the symbol names for
+unknown symbols.  The `--print=defines` variant outputs a format
 suitable for later use with the `--define-from` option (see below).
 
 Optionally the displayed symbol list can be filtered using the
