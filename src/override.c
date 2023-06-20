@@ -242,6 +242,7 @@ parse_override_file(const char *filename, const nvm_symbol *list, const int size
     else in = fopen(filename, "r");
     if (! in) {
 	fprintf(stderr, _("Cannot open override file \"%s\" (%s)\n"), filename, strerror(errno));
+	return -3;
     } else {
 	parsed = parse_file(in, list, size);
 	if (in != stdin) fclose(in);
