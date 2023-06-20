@@ -156,7 +156,7 @@ parse_overrides_cached(
     const char* symbols[])	///< [in] Cached list of symbols, NULL-terminated
 {
     char *substart, *subopt, *value;
-    const char *errmsg;
+    const char *errmsg = NULL;
     int i, parsed = 0, length;
 
     subopt = overrides;
@@ -174,7 +174,8 @@ parse_overrides_cached(
 	fprintf(stderr, _("Unable to parse override `%.*s' (%s)\n"),
 		(int) (subopt - substart), substart , errmsg);
     }
-    return parsed;
+
+    return errmsg ? -1 : parsed;
 }
 
 
@@ -243,10 +244,12 @@ parse_override_file(const char *filename, const nvm_symbol *list, const int size
     if (! in) {
 	fprintf(stderr, _("Cannot open override file \"%s\" (%s)\n"), filename, strerror(errno));
 	return -3;
-    } else {
-	parsed = parse_file(in, list, size);
-	if (in != stdin) fclose(in);
     }
+
+    parsed = parse_file(in, list, size);
+
+    if (in != stdin) fclose(in);
+
     return parsed;
 }
 
