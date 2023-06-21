@@ -262,6 +262,7 @@ symbol_map_parse(nvm_symbol_map_source *source,
     size_t string_index = 0;
     Elf_Scn *symtab, *section;
     GElf_Shdr header = { 0 };
+    int symbol_count;
 
     if (! source) return -1;
 
@@ -271,9 +272,13 @@ symbol_map_parse(nvm_symbol_map_source *source,
 
     if (! allocate_blob(source, &header)) return -3;
 
-    return parse_elf_symbols(source->elf, symtab, string_index,
-			     section, &header, save_values,
-			     symbol_list, source->blob);
+    symbol_count = parse_elf_symbols(source->elf, symtab, string_index,
+				     section, &header, save_values,
+				     symbol_list, source->blob);
+
+    if (symbol_count <= 0) fprintf(stderr, _("No symbols found in map section `%s'\n"),
+				   section_name);
+    return symbol_count;
 }
 
 
