@@ -168,6 +168,7 @@ parse_elf_symbols(
     // Get the symbol table and section data
     if (! (symtab_data = elf_getdata(symtab, NULL))) return -2;
     if (! (section_data = elf_rawdata(section, NULL))) return -2;
+    if (! section_data->d_buf) return -2;
     // Initialize blob with default data from section content
     memcpy(blob_data, section_data->d_buf, section_data->d_size);
 
