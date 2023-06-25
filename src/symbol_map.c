@@ -174,6 +174,11 @@ parse_elf_symbols(
 
     // Calculate the number of entries in the symbol table
     syms_total = symtab_data->d_size / gelf_fsize(elf, ELF_T_SYM, 1, EV_CURRENT);
+    if (! syms_total) {
+	*symbol_list = NULL;
+	return symbol_count;
+    }
+
     // Pre-allocate symbol list with number of expected entries
     list_size = known_fields_expected(); //FIXME check handling when fewer symbols are found
     if (! (*symbol_list = calloc(list_size, sizeof(nvm_symbol)))) return -3;
