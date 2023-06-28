@@ -189,6 +189,8 @@ parse_elf_symbols(
 	    sym.st_shndx != elf_ndxscn(section) ||		//symbol in wrong section
 	    sym.st_size == 0) continue;				//empty symbol
 	if (symbol_count >= list_size) {	//list is full
+	    if (DEBUG) printf("%s: count %d size %d %p\n", __func__,
+			      symbol_count, list_size, *symbol_list);
 	    if (! symbol_list_append(symbol_list, &list_size)) continue;//FIXME
 	}
 	current = (*symbol_list) + symbol_count++;
