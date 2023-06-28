@@ -49,6 +49,21 @@ symbol_list_append(nvm_symbol *(list[]), int *size)
 
 
 
+nvm_symbol*
+symbol_list_truncate(nvm_symbol *(list[]), const int new_size)
+{
+    nvm_symbol *new_list;
+
+    if (! list || ! new_size) return NULL;
+
+    new_list = realloc(*list, new_size * sizeof(nvm_symbol));
+    if (new_list) *list = new_list;
+
+    return new_list;
+}
+
+
+
 void
 symbol_list_free(nvm_symbol list[], const int size)
 {
