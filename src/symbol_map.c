@@ -89,7 +89,7 @@ find_symtab_and_section(
     // Get the section header string table index
     if (elf_getshdrstrndx(elf, &shstrndx) < 0) {
 	fprintf(stderr, _("Could not access section header string table: %s\n"),
-		elf_errmsg(elf_errno()));//FIXME
+		elf_errmsg(-1));
 	return;
     }
 
@@ -110,7 +110,7 @@ find_symtab_and_section(
 	    if (*symtab && *section) break;
 	} else {
 	    fprintf(stderr, _("Header of ELF section %zu inaccessible: %s\n"),
-		    elf_ndxscn(scn), elf_errmsg(elf_errno()));
+		    elf_ndxscn(scn), elf_errmsg(-1));
 	}
     }
     if (! *symtab) fprintf(stderr, _("No ELF symbol table found\n"));
@@ -246,7 +246,7 @@ symbol_map_open_file(const char *filename)
 		    return source;
 		} else errmsg = _("Not an ELF object");	//wrong object kind
 		elf_end(source->elf);
-	    } else errmsg = elf_errmsg(elf_errno());	//ELF object not opened
+	    } else errmsg = elf_errmsg(-1);		//ELF object not opened
 	    close(source->fd);
 	} else errmsg = strerror(errno);		//file not opened
 	free(source);
