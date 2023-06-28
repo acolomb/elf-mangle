@@ -180,7 +180,7 @@ parse_elf_symbols(
     }
 
     // Pre-allocate symbol list with number of expected entries
-    list_size = known_fields_expected(); //FIXME check handling when fewer symbols are found
+    list_size = known_fields_expected();
     if (! (*symbol_list = calloc(list_size, sizeof(nvm_symbol)))) return -3;
     current = symbol_list[0];
 
@@ -219,6 +219,20 @@ parse_elf_symbols(
 		current->size = section_data->d_size - current->offset;
 	}
     }
+
+    // Release excess memory when fewer symbols than expected are found
+    if (symbol_count < list_size) {
+	if (DEBUG) printf("%s: count %d < size %d %p\n", __func__,
+			  symbol_count, list_size, *symbol_list);
+	if (! symbol_list_truncate(symbol_list, symbol_count)) {
+	    // Shrinking should not fail, but clean up just in case
+	    symbol_list_free(*symbol_list, list_size);
+	    free(*symbol_list);
+	    *symbol_list = NULL;
+	    return -3;
+	}
+    }
+
     return symbol_count;
 }
 
