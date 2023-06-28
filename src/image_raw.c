@@ -271,33 +271,42 @@ image_raw_merge_file(const char *filename,
 
 
 
-void
+ssize_t
 image_raw_write_file(const char* restrict filename,
 		     const char* restrict blob, const size_t blob_size)
 {
     int fd;
-    ssize_t bytes_written;
+    ssize_t bytes_written, nbytes = 0;
     size_t rest = blob_size;
 
-    if (! filename || ! blob || ! blob_size) return;
+    if (! filename || ! blob || ! blob_size) return -1;
 
     fd = open(filename, O_WRONLY | O_CREAT | O_BINARY,
 	      S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR | S_IWGRP | S_IWOTH);
     if (fd == -1) {		//file not opened
 	fprintf(stderr, _("Cannot open image \"%s\" (%s)\n"), filename, strerror(errno));
-    } else {
-	if (ftruncate(fd, (off_t) blob_size) != 0) {
-	    fprintf(stderr, _("Cannot resize image file \"%s\" to %zu bytes (%s)\n"),
-		    filename, blob_size, strerror(errno));
-	} else {
-	    while (rest > 0) {
-		bytes_written = write(fd, blob + (blob_size - rest), rest);
-		if (bytes_written >= 0) rest -= bytes_written;
-		else break;	//error
-	    }
-	    if (rest != 0) fprintf(stderr, _("Cannot write image file \"%s\" (%s)\n"),
-				   filename, strerror(errno));
-	}
-	close(fd);
+	return -errno;
     }
+
+    if (ftruncate(fd, (off_t) blob_size) != 0) {
+	fprintf(stderr, _("Cannot resize image file \"%s\" to %zu bytes (%s)\n"),
+		filename, blob_size, strerror(errno));
+	nbytes = -errno;
+    } else {
+	while (rest > 0) {
+	    bytes_written = write(fd, blob + (blob_size - rest), rest);
+	    if (bytes_written < 0) {
+		nbytes = -errno;
+		break;	//abort on error
+	    } else {
+		rest -= bytes_written;
+		nbytes += bytes_written;
+	    }
+	}
+	if (rest != 0) fprintf(stderr, _("Cannot write image file \"%s\" (%s)\n"),
+			       filename, strerror(errno));
+    }
+    close(fd);
+
+    return nbytes;
 }

@@ -76,7 +76,7 @@ ihex_write_single_record(
 
 
 ///@brief Generate and output records of Intel Hex format for binary data
-///@return Number of bytes processed
+///@return Number of bytes written to file (negated on error)
 static ssize_t
 ihex_write(
     FILE* restrict out,		///< [in] Output file stream
@@ -93,7 +93,7 @@ ihex_write(
     uint16_t load_offset = 0;
     uint32_t segment_base = 0;
     char usba[2];
-    ssize_t nbytes = 0;
+    ssize_t recbytes = 0, nbytes = 0;
 
     while (blob_size) {
 	// Limit record to default length
@@ -105,8 +105,9 @@ ihex_write(
 			  __func__, reclen, blob, blob_size, segment_base);
 
 	// Write record data
-	if (reclen) ihex_write_single_record(out, reclen, load_offset, rec_data, blob);
-	nbytes += reclen;
+	if (reclen) recbytes = ihex_write_single_record(out, reclen, load_offset, rec_data, blob);
+	if (recbytes < 0) return -nbytes;
+	nbytes += recbytes;
 
 	// Check segment size limit
 	if (load_offset < segment_length - reclen) {
@@ -125,26 +126,32 @@ ihex_write(
 	blob_size -= reclen;
     }
     // Write closing end-of-file record
-    ihex_write_single_record(out, 0, 0, rec_eof, NULL);
+    recbytes = ihex_write_single_record(out, 0, 0, rec_eof, NULL);
+    if (recbytes < 0) return -nbytes;
+    else nbytes += recbytes;
 
     return nbytes;
 }
 
 
 
-void
+ssize_t
 image_ihex_write_file(const char* restrict filename,
 		      const char* restrict blob, const size_t blob_size)
 {
     FILE* restrict out;
+    ssize_t nbytes;
 
-    if (! filename || ! blob || ! blob_size) return;
+    if (! filename || ! blob || ! blob_size) return -1;
 
     out = fopen(filename, "w");
     if (! out) {		//file not opened
 	fprintf(stderr, _("Cannot open output image \"%s\" (%s)\n"), filename, strerror(errno));
-    } else {
-	ihex_write(out, blob, blob_size);
-	fclose(out);
+	return -errno;
     }
+
+    nbytes = ihex_write(out, blob, blob_size);
+    fclose(out);
+
+    return nbytes;
 }
