@@ -191,7 +191,11 @@ parse_elf_symbols(
 	if (symbol_count >= list_size) {	//list is full
 	    if (DEBUG) printf("%s: count %d size %d %p\n", __func__,
 			      symbol_count, list_size, *symbol_list);
-	    if (! symbol_list_append(symbol_list, &list_size)) continue;//FIXME
+	    if (! symbol_list_append(symbol_list, &list_size)) {
+		// Negate count found thus far to indicate error
+		symbol_count = -symbol_count;
+		break;
+	    }
 	}
 	current = (*symbol_list) + symbol_count++;
 	current->offset = sym.st_value - header->sh_addr;
@@ -224,7 +228,9 @@ parse_elf_symbols(
     if (symbol_count < list_size) {
 	if (DEBUG) printf("%s: count %d < size %d %p\n", __func__,
 			  symbol_count, list_size, *symbol_list);
-	if (! symbol_list_truncate(symbol_list, symbol_count)) {
+	// Clamp to zero in case of error indication (negative symbol_count)
+	if (! symbol_list_truncate(symbol_list, symbol_count < 0 ? 0 : symbol_count)) {
+	    if (DEBUG) printf("%s: truncation failed, freeing %p\n", __func__, *symbol_list);
 	    // Shrinking should not fail, but clean up just in case
 	    symbol_list_free(*symbol_list, list_size);
 	    free(*symbol_list);
