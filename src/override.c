@@ -166,6 +166,8 @@ parse_overrides_cached(
 	if (i >= 0 && i < size) {
 	    length = parse_hex_bytes(value, list[i].blob_address, list[i].size);
 	    if (DEBUG) printf("parsed %d bytes for field %s\n", length, symbols[i]);
+	    // Skip trailing whitespace
+	    while (isspace((unsigned char) *subopt)) ++subopt;
 	    if (length > 0) {
 		++parsed;
 		continue;
