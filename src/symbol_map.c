@@ -304,9 +304,9 @@ symbol_map_parse(nvm_symbol_map_source *source,
 				     section, &header, save_values,
 				     symbol_list, source->blob);
 
-    if (symbol_count == 0) fprintf(stderr, _("No symbols found in map section `%s'\n"),
+    if (symbol_count == 0) fprintf(stderr, _("No symbols found in ELF map section `%s'\n"),
 				   section_name);
-    if (symbol_count < 0) fprintf(stderr, _("Error reading symbols from map section `%s'"
+    if (symbol_count < 0) fprintf(stderr, _("Error reading symbols from ELF map section `%s'"
 					    " (code %d)\n"),
 				  section_name, symbol_count);
     return symbol_count;
