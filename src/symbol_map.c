@@ -89,7 +89,7 @@ find_symtab_and_section(
     // Get the section header string table index
     if (elf_getshdrstrndx(elf, &shstrndx) < 0) {
 	fprintf(stderr, _("Could not access section header string table: %s\n"),
-		elf_errmsg(elf_errno()));//FIXME
+		elf_errmsg(-1));
 	return;
     }
 
@@ -110,7 +110,7 @@ find_symtab_and_section(
 	    if (*symtab && *section) break;
 	} else {
 	    fprintf(stderr, _("Header of ELF section %zu inaccessible: %s\n"),
-		    elf_ndxscn(scn), elf_errmsg(elf_errno()));
+		    elf_ndxscn(scn), elf_errmsg(-1));
 	}
     }
     if (! *symtab) fprintf(stderr, _("No ELF symbol table found\n"));
@@ -168,13 +168,19 @@ parse_elf_symbols(
     // Get the symbol table and section data
     if (! (symtab_data = elf_getdata(symtab, NULL))) return -2;
     if (! (section_data = elf_rawdata(section, NULL))) return -2;
+    if (! section_data->d_buf) return -2;
     // Initialize blob with default data from section content
     memcpy(blob_data, section_data->d_buf, section_data->d_size);
 
     // Calculate the number of entries in the symbol table
     syms_total = symtab_data->d_size / gelf_fsize(elf, ELF_T_SYM, 1, EV_CURRENT);
+    if (! syms_total) {
+	*symbol_list = NULL;
+	return symbol_count;
+    }
+
     // Pre-allocate symbol list with number of expected entries
-    list_size = known_fields_expected(); //FIXME check handling when fewer symbols are found
+    list_size = known_fields_expected();
     if (! (*symbol_list = calloc(list_size, sizeof(nvm_symbol)))) return -3;
     current = symbol_list[0];
 
@@ -183,7 +189,13 @@ parse_elf_symbols(
 	    sym.st_shndx != elf_ndxscn(section) ||		//symbol in wrong section
 	    sym.st_size == 0) continue;				//empty symbol
 	if (symbol_count >= list_size) {	//list is full
-	    if (! symbol_list_append(symbol_list, &list_size)) continue;//FIXME abort?
+	    if (DEBUG) printf("%s: count %d size %d %p\n", __func__,
+			      symbol_count, list_size, *symbol_list);
+	    if (! symbol_list_append(symbol_list, &list_size)) {
+		// Negate count found thus far to indicate error
+		symbol_count = -symbol_count;
+		break;
+	    }
 	}
 	current = (*symbol_list) + symbol_count++;
 	current->offset = sym.st_value - header->sh_addr;
@@ -211,6 +223,22 @@ parse_elf_symbols(
 		current->size = section_data->d_size - current->offset;
 	}
     }
+
+    // Release excess memory when fewer symbols than expected are found
+    if (symbol_count < list_size) {
+	if (DEBUG) printf("%s: count %d < size %d %p\n", __func__,
+			  symbol_count, list_size, *symbol_list);
+	// Clamp to zero in case of error indication (negative symbol_count)
+	if (! symbol_list_truncate(symbol_list, symbol_count < 0 ? 0 : symbol_count)) {
+	    if (DEBUG) printf("%s: truncation failed, freeing %p\n", __func__, *symbol_list);
+	    // Shrinking should not fail, but clean up just in case
+	    symbol_list_free(*symbol_list, list_size);
+	    free(*symbol_list);
+	    *symbol_list = NULL;
+	    return -3;
+	}
+    }
+
     return symbol_count;
 }
 
@@ -240,7 +268,7 @@ symbol_map_open_file(const char *filename)
 		    return source;
 		} else errmsg = _("Not an ELF object");	//wrong object kind
 		elf_end(source->elf);
-	    } else errmsg = elf_errmsg(elf_errno());	//ELF object not opened
+	    } else errmsg = elf_errmsg(-1);		//ELF object not opened
 	    close(source->fd);
 	} else errmsg = strerror(errno);		//file not opened
 	free(source);
@@ -262,6 +290,7 @@ symbol_map_parse(nvm_symbol_map_source *source,
     size_t string_index = 0;
     Elf_Scn *symtab, *section;
     GElf_Shdr header = { 0 };
+    int symbol_count;
 
     if (! source) return -1;
 
@@ -271,9 +300,16 @@ symbol_map_parse(nvm_symbol_map_source *source,
 
     if (! allocate_blob(source, &header)) return -3;
 
-    return parse_elf_symbols(source->elf, symtab, string_index,
-			     section, &header, save_values,
-			     symbol_list, source->blob);
+    symbol_count = parse_elf_symbols(source->elf, symtab, string_index,
+				     section, &header, save_values,
+				     symbol_list, source->blob);
+
+    if (symbol_count == 0) fprintf(stderr, _("No symbols found in map section `%s'\n"),
+				   section_name);
+    if (symbol_count < 0) fprintf(stderr, _("Error reading symbols from map section `%s'"
+					    " (code %d)\n"),
+				  section_name, symbol_count);
+    return symbol_count;
 }
 
 

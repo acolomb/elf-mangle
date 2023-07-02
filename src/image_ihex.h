@@ -24,6 +24,7 @@
 #ifndef IMAGE_IHEX_H_
 #define IMAGE_IHEX_H_
 
+#include <sys/types.h>
 #include <stddef.h>
 
 
@@ -49,7 +50,8 @@ int image_ihex_merge_file(
 );
 
 ///@brief Write blob data to Intel Hex image file
-void image_ihex_write_file(
+///@return Number of bytes written to file or negative error code
+ssize_t image_ihex_write_file(
     const char *filename,	///< [in] Output file path to open
     const char* blob,		///< [in] Binary data to write
     size_t blob_size		///< [in] Data size in bytes

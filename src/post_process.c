@@ -28,6 +28,9 @@
 
 #include <stdio.h>
 
+/// Compile diagnostic output messages?
+#define DEBUG 0
+
 
 
 ///@brief Access list of additional post processors
@@ -38,8 +41,8 @@ get_custom_post_processors(void);
 
 
 int
-post_process_image(const char* blob, size_t blob_size,
-		   const nvm_symbol *list, int size)
+post_process_image(const char* blob, const size_t blob_size,
+		   const nvm_symbol *list, const int size)
 {
     const post_process_f *entry;
     int r, modified = 0;
@@ -55,6 +58,6 @@ post_process_image(const char* blob, size_t blob_size,
 	if (r > 0) modified += r;
     }
 
-    if (0 && modified) fprintf(stderr, _("Post-processors modified %d fields.\n"), modified);
+    if (DEBUG && modified) printf("%s: modified %d symbols\n", __func__, modified);
     return modified;
 }

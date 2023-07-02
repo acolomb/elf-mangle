@@ -135,7 +135,7 @@ image_ihex_memorize_file(const char *filename,
 
 int
 image_ihex_merge_file(const char *filename,
-		      const nvm_symbol *list, int list_size,
+		      const nvm_symbol *list, const int list_size,
 		      size_t blob_size)
 {
     ihex_recordset_t *rs;
