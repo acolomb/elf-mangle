@@ -1,3 +1,52 @@
+2023-07-03  André Colomb  <src@andre.colomb.de>
+
+	* Extend the --print option to accept a "defines" format
+	specification which causes the contents to be printed as key-value
+	pairs with a hexadecimal byte dump.  These assignments are
+	suitable for feeding back into the --define option, to port
+	override definitions to another map file independently.
+	* Add an option --defines-from to accept override specifications
+	from a text file.  They can still be overridden from the command
+	line.  Standard input can be read from by supplying a single dash
+	as file name.  The key-value pairs can be delimited by newlines
+	and / or commas in the file, and white-space between hex byte
+	values is ignored.
+	* Add an option --changed to skip unchanged fields while printing.
+	Unchanged means they have the same value as specified in the
+	output ELF map file, thus not affected by the input image file,
+	the copy transformation or any overrides.  This implies some
+	memory usage overhead, as the original value of all processed
+	symbols needs to be cached (only when the option is in use).
+	* Fall back to hex-dump when pretty-printing unknown fields.
+	Fields without a designated print function never had their
+	contents printed at all, only a description or symbol name.
+	Unless there is a valid description string, assume it's an unknown
+	field and dump the raw byte contents.  This should be more useful
+	than skipping the value altogether.  The previous behavior can be
+	restored with the --print=pretty-only option.
+	* Rework elf-mangle's error reporting behavior and bail out if
+	processing fails.  Previously only command line parsing errors
+	were fatal, but many other errors during operation were silently
+	skipped over.  These now exit the program with an appropriate
+	non-zero exit code after consistently printing a message to the
+	standard error stream.
+
+	* Fix a bug where unknown fields were not transferred from the
+	input to the output map.  This happened only in the presence of
+	unknown symbol names, i.e. without a custom_known_fields
+	implementation, because the list of unknown symbols was unsorted
+	while the transformation expected a sorted list.
+	* Fix an unlikely crash when printing a field without a known
+	description string.
+	* Reduce memory usage when finding fewer symbols than expected
+	from the known field definitions.
+	* Update submodule reference to forked libcintelhex snapshot, to
+	incorporate a segfault fix while auto-detecing the format of an
+	invalid ihex file (without colons and therefore no records at
+	all).
+
+	* Release version 1.1
+
 2022-07-08  André Colomb  <src@andre.colomb.de>
 
 	* Add facility to implement custom post-processors on the output
