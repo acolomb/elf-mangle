@@ -44,6 +44,7 @@
 	incorporate a segfault fix while auto-detecing the format of an
 	invalid ihex file (without colons and therefore no records at
 	all).
+	* Update German translation.
 
 	* Release version 1.1
 
