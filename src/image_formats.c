@@ -74,8 +74,8 @@ image_memorize_file(const char *filename,
 
 int
 image_merge_file(const char *filename,
-		 const nvm_symbol *list, int list_size,
-		 size_t blob_size,
+		 const nvm_symbol *list, const int list_size,
+		 const size_t blob_size,
 		 enum image_format format)
 {
     int symbols = 0;
@@ -110,26 +110,24 @@ image_merge_file(const char *filename,
 
 
 
-void
-image_write_file(const char *filename,
-		 const char* blob, size_t blob_size,
-		 enum image_format format)
+ssize_t
+image_write_file(const char* restrict filename,
+		 const char* restrict blob, const size_t blob_size,
+		 const enum image_format format)
 {
-    if (! filename || ! blob || ! blob_size) return;
+    if (! filename || ! blob || ! blob_size) return -1;
 
     if (DEBUG) printf(_("%s: Output file \"%s\" format %d\n"), __func__, filename, format);
     switch (format) {
     case formatRawBinary:
-	image_raw_write_file(filename, blob, blob_size);
-	break;
+	return image_raw_write_file(filename, blob, blob_size);
 
     case formatIntelHex:
-	image_ihex_write_file(filename, blob, blob_size);
-	break;
+	return image_ihex_write_file(filename, blob, blob_size);
 
     case formatNone:
     default:
 	fprintf(stderr, _("Invalid output image file format specified.\n"));
-	break;
+	return -2;
     }
 }

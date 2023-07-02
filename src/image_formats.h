@@ -24,6 +24,7 @@
 #ifndef IMAGE_FORMATS_H_
 #define IMAGE_FORMATS_H_
 
+#include <sys/types.h>
 #include <stddef.h>
 
 
@@ -59,7 +60,8 @@ int image_merge_file(
 );
 
 ///@brief Write blob data to raw binary image file
-void image_write_file(
+///@return Number of bytes written to file or negative error code
+ssize_t image_write_file(
     const char *filename,	///< [in] Output file path to open
     const char* blob,		///< [in] Binary data to write
     size_t blob_size,		///< [in] Data size in bytes

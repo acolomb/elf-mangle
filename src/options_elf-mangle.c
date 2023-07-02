@@ -42,11 +42,13 @@
 #define OPT_IN_FORMAT		'I'
 #define OPT_OUT_FORMAT		'O'
 #define OPT_DEFINE		'D'
+#define OPT_DEFS_FROM		'f'
 #define OPT_STRINGS		'l'
 #define OPT_PRINT		'p'
 #define OPT_ADDRESSES		'a'
 #define OPT_SYMBOLS		'S'
 #define OPT_FIELD_SIZE		'F'
+#define OPT_CHANGED		'c'
 #define OPT_SECTION_SIZE	's'
 ///@}
 
@@ -86,18 +88,25 @@ static const struct argp_option options[] = {
 	 "Each FIELD symbol name must be followed by an equal sign and the data"
 	 " BYTES encoded in hexadecimal.  Missing bytes are left unchanged,"
 	 " extra data generates an error."),			0 },
+    { "define-from",	OPT_DEFS_FROM,	N_("FILE"),		0,
+      N_("Read override field=value pairs from FILE.\n"
+	 "Like the --define option, but accepts pairs separated"
+	 " by comma or newlines.  If FILE is -, the list will be read"
+	 " from standard input."),				0 },
 
     { NULL,		0,		NULL,			0,
       N_("Display information from parsed files:"),		0 },
     { "print",		OPT_PRINT,	N_("FORMAT"),		OPTION_ARG_OPTIONAL,
-      N_("Print field values.  FORMAT can be either"
-	 " \"pretty\" (default) or \"hex\""),			0 },
+      N_("Print field values.  FORMAT can be either  \"pretty\" (default),"
+	 " \"pretty-only\", \"hex\", or \"defines\""),		0 },
     { "addresses",	OPT_ADDRESSES,	NULL,			0,
       N_("Print symbol address for each field"),		0 },
     { "symbols",	OPT_SYMBOLS,	NULL,			0,
       N_("Show object symbol names instead of field decriptions"), 0 },
     { "field-size",	OPT_FIELD_SIZE,	NULL,			0,
       N_("Print size in bytes for each field"),			0 },
+    { "changed",	OPT_CHANGED,	NULL,			0,
+      N_("Print only symbols differing from input map"),	0 },
     { "section-size",	OPT_SECTION_SIZE,	NULL,		0,
       N_("Print size in bytes for the whole image"),		0 },
     { "strings",	OPT_STRINGS,	N_("MIN-LEN"),		OPTION_ARG_OPTIONAL,
@@ -175,6 +184,10 @@ parse_opt(
 	tool->overrides = override_append(tool->overrides, "%s", arg);
 	break;
 
+    case OPT_DEFS_FROM:
+	tool->overrides_file = arg;
+	break;
+
     case OPT_STRINGS:
 	if (arg == NULL) tool->lpstring_min = 0;
 	else tool->lpstring_min = atoi(arg);
@@ -187,8 +200,13 @@ parse_opt(
 
     case OPT_PRINT:
 	if (arg == NULL || strcmp(arg, "pretty") == 0) tool->print_content = printPretty;
-	else if (strcmp(arg, "hex") == 0) tool->print_content = printHex;
-	else argp_error(state, _("Unknown print format `%s' specified."), arg);
+	else if (arg == NULL || strcmp(arg, "pretty-only") == 0) {
+	    tool->print_content = printPrettyOnly;
+	} else if (strcmp(arg, "hex") == 0) tool->print_content = printHex;
+	else if (strcmp(arg, "defines") == 0) {
+	    tool->show_fields |= showDefines;
+	    tool->print_content = printDefines;
+	} else argp_error(state, _("Unknown print format `%s' specified."), arg);
 	break;
 
     case OPT_ADDRESSES:
@@ -201,6 +219,10 @@ parse_opt(
 
     case OPT_FIELD_SIZE:
 	tool->show_fields |= showByteSize;
+	break;
+
+    case OPT_CHANGED:
+	tool->show_fields |= showFilterChanged;
 	break;
 
     case OPT_SECTION_SIZE:

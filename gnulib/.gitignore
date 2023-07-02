@@ -28,6 +28,8 @@
 /float.in.h
 /float+.h
 /free.c
+/getdelim.c
+/getline.c
 /getopt.c
 /getopt.h
 /getopt.in.h

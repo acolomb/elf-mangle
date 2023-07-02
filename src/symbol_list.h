@@ -39,6 +39,8 @@ typedef struct nvm_symbol {
     size_t		size;
     /// Storage address of the current value in memory
     char*		blob_address;
+    /// A copy of the original map value, must be free()d
+    const void*		original_value;
     /// Reference to a field descriptor to identify the type of data
     const nvm_field*	field;
 } nvm_symbol;
@@ -59,6 +61,21 @@ typedef const nvm_symbol* (*symbol_list_iterator_f)(
 nvm_symbol* symbol_list_append(
     nvm_symbol *(list[]),		///< [in,out] Start location of the list
     int *size				///< [out] New list size
+);
+
+///@brief Truncate the list to the specified number of elements, releasing excess memory
+///@note All references to symbols in the list become invalid on success
+///@return New location of the first symbol in the list or NULL on error
+nvm_symbol* symbol_list_truncate(
+    nvm_symbol *(list[]),		///< [in,out] Start location of the list
+    int new_size			///< [in] New list size
+);
+
+///@brief Release memory allocated for list members
+///@note This applies to the original value member
+void symbol_list_free(
+    nvm_symbol list[],			///< [in,out] Start location of the list
+    int size				///< [out] New list size
 );
 
 ///@brief Iterate through a list of symbols and call the given function
