@@ -73,8 +73,9 @@ process_final_map(const tool_config* restrict config,
     if (config->image_out) r = image_write_file(
 	config->image_out, symbol_map_blob_address(map), symbol_map_blob_size(map),
 	config->format_out);
+    if (r < 0) return r;
 
-    return r;
+    return 0;
 }
 
 
