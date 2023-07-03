@@ -1,4 +1,4 @@
-# Copyright (C) 2014  Andre Colomb
+# Copyright (C) 2014, 2015  Andre Colomb
 #
 # This file is part of elf-mangle.
 #

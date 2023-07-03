@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Command line parsing
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2016, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -61,6 +61,8 @@ typedef struct tool_config {
     enum print_content	print_content;
     /// Override specification, comma-separated "field=<hexbytes>" pairs
     char*		overrides;	///<@note Must be a heap address valid for free()
+    /// Override specification file to read from
+    char*		overrides_file;
 } tool_config;
 
 

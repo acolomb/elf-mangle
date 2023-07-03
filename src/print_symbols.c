@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Pretty-print a dump of symbols that were parsed
-///@copyright	Copyright (C) 2014, 2015  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -58,10 +58,13 @@ print_symbol_description_iterator(
     const enum show_field *conf = arg;
 
     if (*conf & showAddress) printf("[%04zx]\t", symbol->offset);
-    if ((*conf & showSymbol) ||
-	(! symbol->field->print_func)) printf("%s:", symbol->field->symbol);
-    else printf("%s:", _(symbol->field->description));
-    if (*conf & showByteSize) printf(_(" %zu bytes"), symbol->size);
+    if (*conf & showSymbolDefine) printf("%s=", symbol->field->symbol);
+    else {
+	if ((*conf & showSymbol) ||
+	    (! symbol->field->description)) printf("%s:", symbol->field->symbol);
+	else printf("%s:", _(symbol->field->description));
+	if (*conf & showByteSize) printf(_(" %zu bytes"), symbol->size);
+    }
     if (DEBUG) printf(" %p", symbol->blob_address);
 
     return NULL;	//continue iterating
@@ -82,7 +85,19 @@ print_symbol_content_iterator(
     switch (*conf) {
     case printHex:	field.print_func = print_hex_dump;	break;
     case printNone:	field.print_func = NULL;		break;
-    case printPretty:	break;
+    case printPrettyOnly:
+	break;
+
+    case printPretty:
+	// Fall back to hex dump for likely unknown fields
+	if (! field.description &&
+	    ! field.print_func) field.print_func = print_hex_dump;
+	break;
+
+    case printDefines:
+	print_hex_string(symbol->blob_address, symbol->size);
+	return NULL;	//continue iterating
+
     default:		break;
     }
     print_field(&field, symbol->blob_address, symbol->size);
@@ -100,6 +115,13 @@ print_symbol_iterator(
     const void *arg)		///< [in] Display configuration flags
 {
     const struct print_symbols_config *conf = arg;
+    int r;
+
+    if (conf->field & showFilterChanged && symbol->original_value) {
+	r = memcmp(symbol->blob_address, symbol->original_value, symbol->size);
+	// Skip output if unchanged from original value
+	if (! r) return NULL;	//continue iterating
+    }
 
     print_symbol_description_iterator(symbol, &conf->field);
     print_symbol_content_iterator(symbol, &conf->content);

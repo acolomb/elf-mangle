@@ -53,7 +53,14 @@
 ///@name Option keys
 ///@{
 #define OPT_SET_SERIAL		(DUMMY_OPT_BASE + 1)
+#define OPT_SKIP_CHECKSUM	(DUMMY_OPT_BASE + 2)
 ///@}
+
+
+
+// Forward declaration
+void post_process_disable_checksum_update(void);
+
 
 
 /// Supported command-line arguments definition
@@ -61,6 +68,8 @@ static const struct argp_option dummy_options[] =
 {
     { "set-serial",	OPT_SET_SERIAL,		N_("NUMBER"),	0,
       N_("Override system serial number in output"),		0 },
+    { "skip-checksum",	OPT_SKIP_CHECKSUM,	0,		0,
+      N_("Skip CRC update post-processor"),			0 },
     { 0 }
 };
 
@@ -103,6 +112,10 @@ dummy_parse_opt(
 	if (0 != parse_serial(&tool->overrides, arg)) {
 	    argp_error(state, _("Invalid serial number `%s' specified."), arg);
 	}
+	break;
+
+    case OPT_SKIP_CHECKSUM:
+	post_process_disable_checksum_update();
 	break;
 
     default:

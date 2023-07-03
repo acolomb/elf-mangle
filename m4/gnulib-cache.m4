@@ -39,12 +39,14 @@
 #  --libtool \
 #  --macro-prefix=gl \
 #  argp \
+#  getline \
 #  getsubopt
 
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
 gl_LOCAL_DIR([])
 gl_MODULES([
   argp
+  getline
   getsubopt
 ])
 gl_AVOID([])

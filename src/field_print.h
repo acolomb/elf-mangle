@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Pretty-print data based on field descriptions
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -35,6 +35,12 @@ typedef struct nvm_field nvm_field;
 void print_hex_dump(
     const char *data,		///< [in] Start address of data block
     size_t size			///< [in] Size of data block in bytes
+);
+
+///@brief Output data block as a string of hexadecimal byte values
+void print_hex_string(
+    const char *data,		///< [in] Start address of data block
+    size_t size			///< [in] Actual size of data block in bytes
 );
 
 ///@brief Pretty-print data block according to field description

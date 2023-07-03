@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Parsing of symbol maps with binary data
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -44,28 +44,29 @@ nvm_symbol_map_source* symbol_map_open_file(
 ///@return
 /// - Number of symbols parsed successfully
 /// - Zero if no symbols were found
-/// - Negative value on error
+/// - Negative value on error (*symbol_list will be unaltered or NULL)
 int symbol_map_parse(
     nvm_symbol_map_source *source,	///< [in,out] Handle of the map source
     const char *section_name,		///< [in] Section within the source to parse
-    nvm_symbol **symbol_list		///< [out] List of symbols found
+    nvm_symbol **symbol_list,		///< [out] List of symbols found
+    int save_values			///< [in] Need separate copies of the original values?
 );
 
 ///@brief Access the source's binary data
 ///@return Address of the binary data or NULL on error
 char* symbol_map_blob_address(
-    nvm_symbol_map_source *source	///< [in,out] Handle of the map source
+    const nvm_symbol_map_source *source	///< [in,out] Handle of the map source
 );
 
 ///@brief Check the size of the source's binary data
 ///@return Size of binary data or zero on error
 size_t symbol_map_blob_size(
-    nvm_symbol_map_source *source	///< [in,out] Handle of the map source
+    const nvm_symbol_map_source *source	///< [in,out] Handle of the map source
 );
 
 ///@brief Print out the size of the source's binary data
 void symbol_map_print_size(
-    nvm_symbol_map_source *source,	///< [in] Handle of the map source
+    const nvm_symbol_map_source *source,///< [in] Handle of the map source
     int parseable			///< [in] Avoid localized output
 );
 

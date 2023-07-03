@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Override symbol data from key-value string specification
-///@copyright	Copyright (C) 2014, 2015  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -110,8 +110,11 @@ parse_hex_bytes(
 	    if (DEBUG) printf("%.*s=%02hhx,\t", converted, start, value);
 	    start += converted;
 	} else {
-	    fprintf(stderr, _("Failed after parsing %d hex bytes with \"%s\" remaining (%s)\n"),
-		    parsed, start, strerror(errno));
+	    // Skip trailing whitespace
+	    while (isspace((unsigned char) *start)) ++start;
+	    if (*start) fprintf(
+		stderr, _("Failed after parsing %d hex bytes with `%s' remaining\n"),
+		parsed, start);
 	    break;
 	}
     }
@@ -120,25 +123,41 @@ parse_hex_bytes(
 
 
 
-int
-parse_overrides(char *overrides, const nvm_symbol *list, int size)
+///@brief Mirror token list from known symbols for usage with getsubopt()
+///@return Negative on error, number of filled symbol strings otherwise
+static inline int
+cache_symbols_for_getsubopt(
+    const nvm_symbol *list,	///< [in] List of symbols to apply overrides
+    const int size,		///< [in] Number of symbols in the list
+    const char* symbols[])	///< [out] Cached list of symbols, MUST have (size+1) elements!
 {
-    char *substart, *subopt, *value;
-    const char* symbols[size + 1], *errmsg;
-    int i, parsed = 0, length;
+    int i;
 
-    if (! overrides || ! list) return -1;
-    if (DEBUG) printf(_("%s: \"%s\"\n"), __func__, overrides);
-
-    // Mirror token list from known symbols
     for (i = 0; i < size; ++i) {
 	if (list[i].field) symbols[i] = list[i].field->symbol;
 	else {
-	    fprintf(stderr, _("Missing symbol name in list member %d\n"), i);
+	    fprintf(stderr, _("%s: Missing symbol name in list member %d\n"), __func__, i);
 	    return -2;
 	}
     }
     symbols[i] = NULL;	//termination
+
+    return i;
+}
+
+
+
+/// Apply override specification string to the listed symbols' data
+static int
+parse_overrides_cached(
+    char* restrict overrides,	///< [in] @sa parse_overrides()
+    const nvm_symbol* restrict list,	///< [in] @sa parse_overrides()
+    const int size,		///< [in] @sa parse_overrides()
+    const char* symbols[])	///< [in] Cached list of symbols, NULL-terminated
+{
+    char *substart, *subopt, *value;
+    const char *errmsg = NULL;
+    int i, parsed = 0, length;
 
     subopt = overrides;
     while (*subopt != '\0') {
@@ -146,7 +165,9 @@ parse_overrides(char *overrides, const nvm_symbol *list, int size)
 	i = getsubopt(&subopt, (char**) symbols, &value);
 	if (i >= 0 && i < size) {
 	    length = parse_hex_bytes(value, list[i].blob_address, list[i].size);
-	    if (DEBUG) printf(_("Parsed %d bytes for field %s\n"), length, symbols[i]);
+	    if (DEBUG) printf("parsed %d bytes for field %s\n", length, symbols[i]);
+	    // Skip trailing whitespace
+	    while (isspace((unsigned char) *subopt)) ++subopt;
 	    if (length > 0) {
 		++parsed;
 		continue;
@@ -155,6 +176,84 @@ parse_overrides(char *overrides, const nvm_symbol *list, int size)
 	fprintf(stderr, _("Unable to parse override `%.*s' (%s)\n"),
 		(int) (subopt - substart), substart , errmsg);
     }
+
+    if (DEBUG && parsed) printf("%s: parsed %d overrides\n", __func__, parsed);
+
+    return errmsg ? -1 : parsed;
+}
+
+
+
+int
+parse_overrides(char* restrict overrides, const nvm_symbol* restrict list, const int size)
+{
+    if (! overrides || ! list || size <= 0) return -1;
+
+    const char* symbols[size + 1];
+
+    if (DEBUG) printf("%s: \"%s\"\n", __func__, overrides);
+
+    if (cache_symbols_for_getsubopt(list, size, symbols) < 0) return -2;
+
+    return parse_overrides_cached(overrides, list, size, symbols);
+}
+
+
+
+///@brief Apply override specifications from file to the listed symbols' data
+///@return Number of overrides successfully parsed or negative number for parameter error
+static int
+parse_file(
+    FILE* restrict in,		///< [in] Stream opened for reading
+    const nvm_symbol* restrict list,	///< [in] @sa parse_overrides()
+    const int size)		///< [in] @sa parse_overrides()
+{
+    if (! in || ! list || size <= 0) return -1;
+
+    char *line = NULL;
+    const char* symbols[size + 1];
+    int ret = 0, parsed = 0;
+    size_t length = 0;
+    ssize_t consumed;
+
+    if (cache_symbols_for_getsubopt(list, size, symbols) < 0) return -2;
+
+    while ((consumed = getline(&line, &length, in)) != -1) {
+	if (DEBUG) printf("processing line of %zu characters\n", consumed);
+	ret = parse_overrides_cached(line, list, size, symbols);
+	if (ret < 0) break;
+	parsed += ret;
+    }
+    free(line);
+
+    if (ret < 0) return ret;
+
+    return parsed;
+}
+
+
+
+int
+parse_override_file(const char *filename, const nvm_symbol *list, const int size)
+{
+    FILE* restrict in;
+    int parsed = 0;
+
+    if (! filename || ! list || size <= 0) return -1;
+    if (DEBUG) printf("%s: \"%s\"\n", __func__, filename);
+
+    if (strcmp(filename, "-") == 0) in = stdin;
+    else in = fopen(filename, "r");
+    if (! in) {
+	fprintf(stderr, _("Cannot open override file \"%s\" (%s)\n"), filename, strerror(errno));
+	return -3;
+    }
+
+    parsed = parse_file(in, list, size);
+
+    if (in != stdin) fclose(in);
+
+    if (DEBUG) printf("%s: returns %d\n", __func__, parsed);
     return parsed;
 }
 
@@ -162,7 +261,7 @@ parse_overrides(char *overrides, const nvm_symbol *list, int size)
 
 #ifdef TEST_OVERRIDES
 int
-main(void)
+main(int argc, char **argv)
 {
 #define CONVERT	"BeeF"
     const char hexbytes[] = "4265 65  464F"; //BeeFO
@@ -176,11 +275,11 @@ main(void)
 	{ .symbol = "e" },
     };
     nvm_symbol symbols[] = {
-	{ 0, sizeof(CONVERT), buf, &fields[0] },
-	{ 0, sizeof(CONVERT), buf, &fields[1] },
-	{ 0, sizeof(CONVERT), buf, &fields[2] },
-	{ 0, sizeof(CONVERT), buf, &fields[3] },
-	{ 0, sizeof(CONVERT), buf, &fields[4] },
+	{ 0, sizeof(CONVERT), buf, 0, &fields[0] },
+	{ 0, sizeof(CONVERT), buf, 0, &fields[1] },
+	{ 0, sizeof(CONVERT), buf, 0, &fields[2] },
+	{ 0, sizeof(CONVERT), buf, 0, &fields[3] },
+	{ 0, sizeof(CONVERT), buf, 0, &fields[4] },
     };
 
 
@@ -204,6 +303,12 @@ main(void)
     printf("Parsed %d overrides.\n", parsed);
 
     free(overrides);
+
+    if (argc < 2) return 0;
+
+    parsed = parse_override_file(argv[1], symbols, sizeof(symbols) / sizeof(*symbols));
+    printf("Parsed %d overrides from file.\n", parsed);
+
     return 0;
 }
 #endif

@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Description of data fields associated with symbols
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///

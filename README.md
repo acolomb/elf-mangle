@@ -11,7 +11,7 @@ Author: André Colomb <src@andre.colomb.de>
 License
 -------
 
-Copyright (C) 2014, 2015, 2016  André Colomb
+Copyright (C) 2014, 2015, 2016, 2019, 2021, 2022, 2023  André Colomb
 
 elf-mangle is free software: you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License as published
@@ -54,11 +54,13 @@ storage layout, and written back to an image file ready for flashing.
 
 
 ### Features ###
+
 + Extract symbol content for arbitrary ELF object file sections.
 + Dump data behind an ELF symbol, possibly with pretty-print function.
 + Show symbol address offsets within the section's binary data.
 + Override data for symbols in output:
   * Specified on the command line
+  * Read from a text file with value assignments
   * Loaded from an existing binary data image (blob)
 + Modular support for different input / output image formats:
   * Intel Hex encoding (requires [libcintelhex][ihex-fork])
@@ -251,9 +253,17 @@ the symbol table and then exits.  To display the symbols found, use
 the `--print` option.  It defaults to `pretty` mode, calling any print
 function *elf-mangle* has for known symbols (see the section
 "Application Extensions" below for how to use them).  Since by default
-no symbol has a known special meaning, only the symbol names are
-listed.  Use `--print=hex` to generate a hex dump of the data content
-for each symbol.
+no symbol has a known special meaning, it falls back to generating a
+hex dump of the data content for each symbol.  Use `--print=hex` to
+force this hex dump for all symbols, or `--print=pretty-only` to
+suppress the fall-back, instead listing only the symbol names for
+unknown symbols.  The `--print=defines` variant outputs a format
+suitable for later use with the `--define-from` option (see below).
+
+Optionally the displayed symbol list can be filtered using the
+`--changed` option.  Symbols whose value in the output is unchanged
+from what the ELF file contained, after applying any transformations,
+overrides and post-processing (see below), are skipped from display.
 
 The options `--addresses` and `--field-size` may be used to show
 additional information about the data offset within the section and
@@ -318,12 +328,26 @@ The `--define` option takes a comma-separated list as argument,
 consisting of field-value pairs.  The field is specified by its ELF
 symbol name, followed by an equal sign and as many bytes as should be
 overridden.  The data bytes must be encoded as two-digit hexadecimal
-numbers.  Example:
+numbers, optionally separated by whitespace.  Example:
 
 	elf-mangle --define foo=beef4a11,bar=42
 
 Extra data (more than the symbol's size) is silently ignored.  Fewer
 bytes only override the start of the symbol's content range.
+
+The same field-value pairs can be read from a text file as well, given
+with the `--define-from` option.  The definitions may be separated by
+commas and / or on separate lines.  Files previously written by the
+`--print=defines` option are suitable as input for this, providing an
+easy way of serializing parameters.  A single dash (`-`) as filename
+specifies reading the definitions from the standard input stream.
+
+Directives read from a file are processed first, and possibly
+overridden by matching definitions on the command line.  The
+`--define` options are processed in the order given, so for repeated
+symbol names the last one wins.  Specifying the option repeatedly is
+possible, just as listing several definitions in one argument,
+comma-separated.
 
 
 ### Output Blob ###

@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Pretty-print data based on field descriptions
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -49,7 +49,22 @@ print_hex_dump(const char *data, size_t size)
 	if (offset % row_length == 0) printf("\n\t0x%02zx:\t", offset);
 	printf(" %02hhX", (unsigned char) data[offset]);
     }
+}
 
+
+
+/// Bytes are always two-digit uppercase hexadecimal, separated by blanks.
+void
+print_hex_string(const char *data, size_t size)
+{
+    const char sep = ' ', end = '\n';
+    size_t offset = 0;
+
+    while (offset < size) {
+	printf("%02hhX", (unsigned char) data[offset]);
+	if (++offset < size) putchar(sep);
+	else putchar(end);
+    }
 }
 
 

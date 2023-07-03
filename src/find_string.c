@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Locate special strings in binary images
-///@copyright	Copyright (C) 2014, 2015  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015, 2016  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
