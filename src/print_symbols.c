@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Pretty-print a dump of symbols that were parsed
-///@copyright	Copyright (C) 2014, 2015  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///

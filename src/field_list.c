@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Linked list of field descriptors
-///@copyright	Copyright (C) 2014, 2015  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015, 2022, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///

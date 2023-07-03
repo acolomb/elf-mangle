@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Command line parsing
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2016, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///

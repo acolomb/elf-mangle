@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Override symbol data from key-value string specification
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
