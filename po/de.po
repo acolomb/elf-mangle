@@ -1,14 +1,14 @@
 # German translations for elf-mangle package.
-# Copyright (C) 2014, 2016  Andre Colomb
+# Copyright (C) 2014, 2015, 2016, 2022, 2023  Andre Colomb
 # This file is distributed under the same license as the elf-mangle package.
-# André Colomb <src@andre.colomb.de>, 2014, 2016.
+# André Colomb <src@andre.colomb.de>, 2014, 2016, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: elf-mangle 0.7\n"
 "Report-Msgid-Bugs-To: src@andre.colomb.de\n"
-"POT-Creation-Date: 2022-07-03 00:50+0200\n"
-"PO-Revision-Date: 2022-07-03 01:41+0200\n"
+"POT-Creation-Date: 2023-07-03 01:23+0200\n"
+"PO-Revision-Date: 2023-07-03 01:25+0200\n"
 "Last-Translator: André Colomb <src@andre.colomb.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -80,20 +80,24 @@ msgstr "Eindeutige Systemkennung"
 msgid "System firmware version"
 msgstr "Firmwareversion des Systems"
 
-#: src/custom_options.c:62
+#: src/custom_options.c:69
 msgid "NUMBER"
 msgstr "NUMMER"
 
-#: src/custom_options.c:63
+#: src/custom_options.c:70
 msgid "Override system serial number in output"
 msgstr "System-Seriennummer in Ausgabe überschreiben"
 
-#: src/custom_options.c:104
+#: src/custom_options.c:72
+msgid "Skip CRC update post-processor"
+msgstr "Anpassung der Prüfsumme in Post-Prozessor überspringen"
+
+#: src/custom_options.c:113
 #, c-format
 msgid "Invalid serial number `%s' specified."
 msgstr "Ungültige Seriennummer '%s' angegeben."
 
-#: src/custom_options.c:125
+#: src/custom_options.c:138
 msgid "Example-specific options:"
 msgstr "Optionen spezifisch für Beispiel:"
 
@@ -127,7 +131,7 @@ msgstr "Fehler beim Aktualisieren des Prüfsummenfelds %s auf %08<PRIX32>.\n"
 msgid "Updated checksum field %s to %08<PRIX32>.\n"
 msgstr "Prüfsummenfeld %s auf %08<PRIX32> aktualisiert.\n"
 
-#: src/field_print.c:62
+#: src/field_print.c:77
 #, c-format
 msgid "\tMissing %zu of %zu data bytes!"
 msgstr "\t%zu von %zu Datenbytes fehlen!"
@@ -157,7 +161,7 @@ msgstr "Ungültiges Format für Binärabbild.\n"
 msgid "%s: Output file \"%s\" format %d\n"
 msgstr "%s: Ausgabedatei \"%s\" im Format %d\n"
 
-#: src/image_formats.c:132
+#: src/image_formats.c:130
 #, c-format
 msgid "Invalid output image file format specified.\n"
 msgstr "Ungültiges Ausgabeformat für Binärabbild.\n"
@@ -203,7 +207,7 @@ msgstr "Abbilddatei \"%s\" ist zu klein, %zu von %zu Byte fehlen\n"
 msgid "%s: Record len=%zu source=%p rest=%zu USBA=%<PRIu32>\n"
 msgstr "%s: Eintrag len=%zu source=%p rest=%zu USBA=%<PRIu32>\n"
 
-#: src/image_ihex_output.c:145
+#: src/image_ihex_output.c:149
 #, c-format
 msgid "Cannot open output image \"%s\" (%s)\n"
 msgstr "Abbilddatei \"%s\" für Ausgabe kann nicht geöffnet werden (%s)\n"
@@ -230,43 +234,43 @@ msgstr ""
 msgid "%s: mmap() failed (%s)\n"
 msgstr "%s: mmap() fehlgeschlagen (%s)\n"
 
-#: src/image_raw.c:290
+#: src/image_raw.c:292
 #, c-format
 msgid "Cannot resize image file \"%s\" to %zu bytes (%s)\n"
 msgstr "Abbilddatei \"%s\" kann nicht auf %zu Bytes vergrößert werden (%s)\n"
 
-#: src/image_raw.c:298
+#: src/image_raw.c:306
 #, c-format
 msgid "Cannot write image file \"%s\" (%s)\n"
 msgstr "Abbilddatei \"%s\" kann nicht geschrieben werden (%s)\n"
 
-#: src/options_elf-mangle.c:62 src/options_lpstrings.c:54
+#: src/options_elf-mangle.c:64 src/options_lpstrings.c:54
 msgid "Input / output options:"
 msgstr "Ein- / Ausgabeoptionen:"
 
-#: src/options_elf-mangle.c:63
+#: src/options_elf-mangle.c:65
 msgid "SECTION"
 msgstr "SEKTION"
 
-#: src/options_elf-mangle.c:64
+#: src/options_elf-mangle.c:66
 msgid "Use SECTION from ELF file instead of the default ("
 msgstr "Benutze SEKTION aus der ELF-Datei anstatt der Standardsektion ("
 
-#: src/options_elf-mangle.c:66 src/options_elf-mangle.c:77
-#: src/options_lpstrings.c:82
+#: src/options_elf-mangle.c:68 src/options_elf-mangle.c:79
+#: src/options_elf-mangle.c:91 src/options_lpstrings.c:82
 msgid "FILE"
 msgstr "DATEI"
 
-#: src/options_elf-mangle.c:67
+#: src/options_elf-mangle.c:69
 msgid "Read binary input data from image FILE"
 msgstr "Lese Eingabe-Binärdaten aus der Abbild-DATEI"
 
-#: src/options_elf-mangle.c:70 src/options_elf-mangle.c:81
-#: src/options_elf-mangle.c:92 src/options_lpstrings.c:55
+#: src/options_elf-mangle.c:72 src/options_elf-mangle.c:83
+#: src/options_elf-mangle.c:99 src/options_lpstrings.c:55
 msgid "FORMAT"
 msgstr "FORMAT"
 
-#: src/options_elf-mangle.c:71 src/options_lpstrings.c:56
+#: src/options_elf-mangle.c:73 src/options_lpstrings.c:56
 msgid ""
 "Format of input image file.  FORMAT can be either \"raw\", \"ihex\" or \"auto"
 "\" (default)"
@@ -274,11 +278,11 @@ msgstr ""
 "Format der Eingabe-Abbilddatei.  Unterstützte FORMATe: \"raw\", \"ihex\" "
 "oder \"auto\" (standard)"
 
-#: src/options_elf-mangle.c:78
+#: src/options_elf-mangle.c:80
 msgid "Write binary data to output image FILE"
 msgstr "Binärdaten in Ausgabe-Abbilddatei DATEI schreiben"
 
-#: src/options_elf-mangle.c:82
+#: src/options_elf-mangle.c:84
 msgid ""
 "Format of output image file.  FORMAT can be either \"raw\" or \"ihex"
 "\" (default)"
@@ -286,11 +290,11 @@ msgstr ""
 "Format der Ausgabe-Abbilddatei.  Unterstützte FORMATe: \"raw\" oder \"ihex"
 "\" (standard)"
 
-#: src/options_elf-mangle.c:84
+#: src/options_elf-mangle.c:86
 msgid "FIELD=BYTES,..."
 msgstr "FELD=BYTES,..."
 
-#: src/options_elf-mangle.c:85
+#: src/options_elf-mangle.c:87
 msgid ""
 "Override the given fields' values (comma-separated pairs).\n"
 "Each FIELD symbol name must be followed by an equal sign and the data BYTES "
@@ -302,38 +306,55 @@ msgstr ""
 "Hexadezimal-Kodierung stehen.  Nicht spezifizierte Bytes bleiben "
 "unverändert, zu viele führen zum Fehler."
 
-#: src/options_elf-mangle.c:91 src/options_lpstrings.c:68
+#: src/options_elf-mangle.c:92
+msgid ""
+"Read override field=value pairs from FILE.\n"
+"Like the --define option, but accepts pairs separated by comma or newlines.  "
+"If FILE is -, the list will be read from standard input."
+msgstr ""
+"Werte überschreiben mittels Feld=Wert-Paaren aus DATEI.\n"
+"Wie die Option --define, aber Paare können durch Komma oder Zeilenumbruch "
+"getrennt sein. Wenn DATEI ein - (Bindestrich) ist, wird die Liste von der "
+"Standardeingabe gelesen."
+
+#: src/options_elf-mangle.c:98 src/options_lpstrings.c:68
 msgid "Display information from parsed files:"
 msgstr "Information aus analysierten Dateien auflisten:"
 
-#: src/options_elf-mangle.c:93
+#: src/options_elf-mangle.c:100
 msgid ""
-"Print field values.  FORMAT can be either \"pretty\" (default) or \"hex\""
+"Print field values.  FORMAT can be either  \"pretty\" (default), \"pretty-"
+"only\", \"hex\", or \"defines\""
 msgstr ""
-"Werte der Felder ausgeben.  Unterstützte FORMATe: \"pretty\" (standard) oder "
-"\"hex\""
+"Werte der Felder ausgeben.  Unterstützte FORMATe: \"pretty\" (standard), "
+"\"pretty-only\", \"hex\", oder \"defines\""
 
-#: src/options_elf-mangle.c:96
+#: src/options_elf-mangle.c:103
 msgid "Print symbol address for each field"
 msgstr "Symboladresse für jedes Feld ausgeben"
 
-#: src/options_elf-mangle.c:98
+#: src/options_elf-mangle.c:105
 msgid "Show object symbol names instead of field decriptions"
 msgstr "Symbolnamen anstatt Feldbeschreibungen anzeigen"
 
-#: src/options_elf-mangle.c:100
+#: src/options_elf-mangle.c:107
 msgid "Print size in bytes for each field"
 msgstr "Größe in Byte für jedes Feld ausgeben"
 
-#: src/options_elf-mangle.c:102
+#: src/options_elf-mangle.c:109
+msgid "Print only symbols differing from output map"
+msgstr ""
+"Nur Symbole mit geändertem Inhalt gegenüber der Ausgabezuordnung auflisten"
+
+#: src/options_elf-mangle.c:111
 msgid "Print size in bytes for the whole image"
 msgstr "Größe in Byte für das gesamte Abbild ausgeben"
 
-#: src/options_elf-mangle.c:103 src/options_lpstrings.c:62
+#: src/options_elf-mangle.c:112 src/options_lpstrings.c:62
 msgid "MIN-LEN"
 msgstr "ANZAHL"
 
-#: src/options_elf-mangle.c:104 src/options_lpstrings.c:63
+#: src/options_elf-mangle.c:113 src/options_lpstrings.c:63
 #, fuzzy
 msgid ""
 "Locate strings of at least MIN-LEN bytes in input (argument defaults to "
@@ -341,39 +362,39 @@ msgstr ""
 "Zeichenketten mit mindestens ANZAHL Byte in Eingabe suchen (falls nicht "
 "angegeben "
 
-#: src/options_elf-mangle.c:113
+#: src/options_elf-mangle.c:122
 msgid "IN_MAP [OUT_MAP]"
 msgstr "EINGABE_ELF [AUSGABE_ELF]"
 
-#: src/options_elf-mangle.c:117
+#: src/options_elf-mangle.c:126
 msgid ""
 "Analyze, transform and manipulate binary data based on ELF symbol tables."
 msgstr ""
 "Analyse, Umwandlung und Manipulation von Binärdaten anhand von ELF-"
 "Symboltabellen."
 
-#: src/options_elf-mangle.c:164 src/options_elf-mangle.c:171
+#: src/options_elf-mangle.c:173 src/options_elf-mangle.c:180
 #: src/options_lpstrings.c:121
 #, c-format
 msgid "Invalid binary image format `%s' specified."
 msgstr "Ungültiges Format '%s' für Binärabbild angegeben."
 
-#: src/options_elf-mangle.c:182 src/options_lpstrings.c:128
+#: src/options_elf-mangle.c:195 src/options_lpstrings.c:128
 #, c-format
 msgid "Minimum string length %d out of range."
 msgstr "Minimale Zeichenkettenlänge %d außerhalb des gültigen Bereichs."
 
-#: src/options_elf-mangle.c:191
+#: src/options_elf-mangle.c:209
 #, c-format
 msgid "Unknown print format `%s' specified."
 msgstr "Unbekanntes Ausgabeformat '%s' angegeben."
 
-#: src/options_elf-mangle.c:213
+#: src/options_elf-mangle.c:235
 #, c-format
 msgid "Too many map file arguments."
 msgstr "Zu viele Dateien für Symbolzuordnung."
 
-#: src/options_elf-mangle.c:218 src/options_lpstrings.c:159
+#: src/options_elf-mangle.c:240 src/options_lpstrings.c:159
 #, c-format
 msgid "Missing file name."
 msgstr "Dateiname fehlt."
@@ -427,45 +448,35 @@ msgstr "Konnte Zuweisungsliste \""
 msgid "\".\n"
 msgstr "\" nicht anhängen.\n"
 
-#: src/override.c:113
+#: src/override.c:116
 #, c-format
-msgid "Failed after parsing %d hex bytes with \"%s\" remaining (%s)\n"
-msgstr "Fehler nach %d verarbeiteten Hex-Byte, Restdaten: \"%s\" (%s)\n"
+msgid "Failed after parsing %d hex bytes with `%s' remaining\n"
+msgstr "Fehler nach %d verarbeiteten Hex-Byte, Restdaten: `%s'\n"
 
-#: src/override.c:131
+#: src/override.c:139
 #, c-format
-msgid "%s: \"%s\"\n"
-msgstr "%s: \"%s\"\n"
+msgid "%s: Missing symbol name in list member %d\n"
+msgstr "%s: Symbolname fehlt im Listeneintrag %d\n"
 
-#: src/override.c:137
-#, c-format
-msgid "Missing symbol name in list member %d\n"
-msgstr "Symbolname fehlt im Listeneintrag %d\n"
-
-#: src/override.c:149
-#, c-format
-msgid "Parsed %d bytes for field %s\n"
-msgstr "%d Byte für Feld %s geparsed\n"
-
-#: src/override.c:153
+#: src/override.c:174
 msgid "Could not parse byte data"
 msgstr "Konnte Byte-Inhalte nicht parsen"
 
-#: src/override.c:154
+#: src/override.c:175
 msgid "Field not found"
 msgstr "Feld nicht gefunden"
 
-#: src/override.c:155
+#: src/override.c:176
 #, c-format
 msgid "Unable to parse override `%.*s' (%s)\n"
 msgstr "Kann Zuweisung '%.*s' nicht parsen (%s)\n"
 
-#: src/post_process.c:58
+#: src/override.c:248
 #, c-format
-msgid "Post-processors modified %d fields.\n"
-msgstr "Post-Prozessoren haben %d Felder geändert.\n"
+msgid "Cannot open override file \"%s\" (%s)\n"
+msgstr "Datei \"%s\" mit Überschreibungen kann nicht geöffnet werden (%s)\n"
 
-#: src/print_symbols.c:64
+#: src/print_symbols.c:66
 #, c-format
 msgid " %zu bytes"
 msgstr " %zu Byte"
@@ -500,16 +511,26 @@ msgstr "Keine ELF-Sektion namens '%s' gefunden\n"
 msgid "Could not allocate image data: %s\n"
 msgstr "Konnte keinen Speicher für Abbilddaten zuweisen: %s\n"
 
-#: src/symbol_map.c:234
+#: src/symbol_map.c:269
 msgid "Not an ELF object"
 msgstr "Kein ELF-Objekt"
 
-#: src/symbol_map.c:243
+#: src/symbol_map.c:278
 #, c-format
 msgid "Cannot open symbol map \"%s\" (%s)\n"
 msgstr "Symbolzuordnung \"%s\" kann nicht geöffnet werden (%s)\n"
 
-#: src/symbol_map.c:294
+#: src/symbol_map.c:307
+#, c-format
+msgid "No symbols found in ELF map section `%s'\n"
+msgstr "Keine Symbole in ELF-Sektion `%s' gefunden\n"
+
+#: src/symbol_map.c:309
+#, c-format
+msgid "Error reading symbols from ELF map section `%s' (code %d)\n"
+msgstr "Fehler beim Lesen der Symbole aus ELF-Sektion `%s' (Code %d)\n"
+
+#: src/symbol_map.c:339
 #, c-format
 msgid "Section image size: %zu bytes\n"
 msgstr "Größe der Sektion: %zu Byte\n"
@@ -533,3 +554,9 @@ msgstr "Feld %s der Zielzuordnung nicht in der Quelle gefunden.\n"
 #, c-format
 msgid "%s: Copy %d symbols in to %d out\n"
 msgstr "%s: Kopiere %d Quellsymbole auf %d Ziele\n"
+
+#~ msgid "Parsed %d bytes for field %s\n"
+#~ msgstr "%d Byte für Feld %s geparsed\n"
+
+#~ msgid "Post-processors modified %d fields.\n"
+#~ msgstr "Post-Prozessoren haben %d Felder geändert.\n"

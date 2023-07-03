@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Command line parsing for elf-mangle utility
-///@copyright	Copyright (C) 2014, 2015  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015, 2016, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///
@@ -106,7 +106,7 @@ static const struct argp_option options[] = {
     { "field-size",	OPT_FIELD_SIZE,	NULL,			0,
       N_("Print size in bytes for each field"),			0 },
     { "changed",	OPT_CHANGED,	NULL,			0,
-      N_("Print only symbols differing from input map"),	0 },
+      N_("Print only symbols differing from output map"),	0 },
     { "section-size",	OPT_SECTION_SIZE,	NULL,		0,
       N_("Print size in bytes for the whole image"),		0 },
     { "strings",	OPT_STRINGS,	N_("MIN-LEN"),		OPTION_ARG_OPTIONAL,

@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Apply custom post-processing functions to an image
-///@copyright	Copyright (C) 2022  Andre Colomb
+///@copyright	Copyright (C) 2022, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///

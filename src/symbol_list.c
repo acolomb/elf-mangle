@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Track lists of processed symbols
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///

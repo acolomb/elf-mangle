@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Pretty-print data based on field descriptions
-///@copyright	Copyright (C) 2014  Andre Colomb
+///@copyright	Copyright (C) 2014, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///

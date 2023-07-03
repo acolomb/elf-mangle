@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Handle input of blob data from Intel Hex files
-///@copyright	Copyright (C) 2014, 2015, 2016  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015, 2016, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///

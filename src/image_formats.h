@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Handling of different binary image formats
-///@copyright	Copyright (C) 2014, 2016  Andre Colomb
+///@copyright	Copyright (C) 2014, 2016, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle.
 ///

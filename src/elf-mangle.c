@@ -1,6 +1,6 @@
 ///@file
 ///@brief	Main program logic
-///@copyright	Copyright (C) 2014, 2015  Andre Colomb
+///@copyright	Copyright (C) 2014, 2015, 2016, 2022, 2023  Andre Colomb
 ///
 /// This file is part of elf-mangle, a tool to analyze, transform and
 /// manipulate binary data based on ELF symbol tables.
