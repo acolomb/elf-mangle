@@ -1,4 +1,4 @@
-# Copyright (C) 2014, 2015, 2016, 2019, 2022  Andre Colomb
+# Copyright (C) 2014, 2015, 2016, 2019, 2022, 2023  Andre Colomb
 #
 # This file is part of elf-mangle.
 #
@@ -17,7 +17,7 @@
 # <http://www.gnu.org/licenses/>.
 
 
-AC_INIT([elf-mangle],[1.1],[src@andre.colomb.de])
+AC_INIT([elf-mangle],[1.2],[src@andre.colomb.de])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src/elf-mangle.c])
 AC_CONFIG_AUX_DIR([.])
