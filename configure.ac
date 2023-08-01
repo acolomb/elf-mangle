@@ -1,4 +1,4 @@
-# Copyright (C) 2014, 2015, 2016, 2019, 2022  Andre Colomb
+# Copyright (C) 2014, 2015, 2016, 2019, 2022, 2023  Andre Colomb
 #
 # This file is part of elf-mangle.
 #
@@ -17,7 +17,7 @@
 # <http://www.gnu.org/licenses/>.
 
 
-AC_INIT([elf-mangle],[1.1],[src@andre.colomb.de])
+AC_INIT([elf-mangle],[1.2],[src@andre.colomb.de])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src/elf-mangle.c])
 AC_CONFIG_AUX_DIR([.])
@@ -147,7 +147,9 @@ AC_ARG_ENABLE([custom-options],
    [AS_HELP_STRING([--enable-custom-options],
        [Build extension module with custom options])],
    [AS_CASE([$enableval],
-       [yes], [custom_options=yes],
+       [yes], [custom_options=yes
+               AC_DEFINE([WITH_CUSTOM_OPTIONS], [1],
+                         [Building extension module with custom options])],
        [no],  [custom_options=no],
        [AC_MSG_ERROR([bad value ${enableval} for --enable-custom-options])])
    ],
@@ -161,7 +163,9 @@ AC_ARG_ENABLE([custom-fields],
    [AS_HELP_STRING([--enable-custom-fields],
        [Build extension module with custom known fields])],
    [AS_CASE([$enableval],
-       [yes], [custom_fields=yes],
+       [yes], [custom_fields=yes
+               AC_DEFINE([WITH_CUSTOM_FIELDS], [1],
+                         [Building extension module with custom known fields])],
        [no],  [custom_fields=no],
        [AC_MSG_ERROR([bad value ${enableval} for --enable-custom-fields])])
    ],
@@ -175,7 +179,9 @@ AC_ARG_ENABLE([custom-post-process],
    [AS_HELP_STRING([--enable-custom-post-process],
        [Build extension module with custom post-processors])],
    [AS_CASE([$enableval],
-       [yes], [custom_post_process=yes],
+       [yes], [custom_post_process=yes
+               AC_DEFINE([WITH_CUSTOM_POST_PROCESS], [1],
+                         [Building extension module with custom post-processors])],
        [no],  [custom_post_process=no],
        [AC_MSG_ERROR([bad value ${enableval} for --enable-custom-post-process])])
    ],

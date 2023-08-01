@@ -68,8 +68,10 @@ static const struct argp_option dummy_options[] =
 {
     { "set-serial",	OPT_SET_SERIAL,		N_("NUMBER"),	0,
       N_("Override system serial number in output"),		0 },
+#if WITH_CUSTOM_POST_PROCESS
     { "skip-checksum",	OPT_SKIP_CHECKSUM,	0,		0,
       N_("Skip CRC update post-processor"),			0 },
+#endif
     { 0 }
 };
 
@@ -114,9 +116,11 @@ dummy_parse_opt(
 	}
 	break;
 
+#if WITH_CUSTOM_POST_PROCESS
     case OPT_SKIP_CHECKSUM:
 	post_process_disable_checksum_update();
 	break;
+#endif
 
     default:
 	return ARGP_ERR_UNKNOWN;

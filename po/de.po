@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: elf-mangle 0.7\n"
 "Report-Msgid-Bugs-To: src@andre.colomb.de\n"
-"POT-Creation-Date: 2023-07-03 01:23+0200\n"
+"POT-Creation-Date: 2023-08-01 11:24+0200\n"
 "PO-Revision-Date: 2023-07-03 01:25+0200\n"
 "Last-Translator: André Colomb <src@andre.colomb.de>\n"
 "Language-Team: German\n"
@@ -88,16 +88,16 @@ msgstr "NUMMER"
 msgid "Override system serial number in output"
 msgstr "System-Seriennummer in Ausgabe überschreiben"
 
-#: src/custom_options.c:72
+#: src/custom_options.c:73
 msgid "Skip CRC update post-processor"
 msgstr "Anpassung der Prüfsumme in Post-Prozessor überspringen"
 
-#: src/custom_options.c:113
+#: src/custom_options.c:115
 #, c-format
 msgid "Invalid serial number `%s' specified."
 msgstr "Ungültige Seriennummer '%s' angegeben."
 
-#: src/custom_options.c:138
+#: src/custom_options.c:142
 msgid "Example-specific options:"
 msgstr "Optionen spezifisch für Beispiel:"
 

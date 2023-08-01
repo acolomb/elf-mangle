@@ -1,3 +1,15 @@
+2023-08-01  André Colomb  <src@andre.colomb.de>
+
+	* Fix exit code when writing to the output image file was
+	successful.  The number of bytes written was returned and used as
+	exit code, when it should be zero on success and non-zero only on
+	error.
+	* Fix building without the custom post-processor module.  An
+	undefined reference regarding the demo --skip-checksum error would
+	otherwise fail the build.
+
+	* Release version 1.2
+
 2023-07-03  André Colomb  <src@andre.colomb.de>
 
 	* Extend the --print option to accept a "defines" format
